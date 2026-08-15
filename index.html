@@ -2,47 +2,40 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>800 hub</title>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/wB0C1LxP/logo-800.png">
     
-    <!-- External CDNs: Tailwind CSS, Lucide Icons, Chart.js, Marked.js -->
+    <!-- External CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
-    <!-- Google Fonts: Heebo -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Heebo', 'system-ui', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Heebo', 'system-ui', 'sans-serif'] },
                     colors: {
                         apple: {
-                            bg: '#fbfbfd',
-                            card: '#ffffff',
-                            textPrimary: '#1d1d1f',
-                            textSecondary: '#86868b',
-                            accent: '#0071e3',
-                            accentHover: '#0077ed',
-                            border: '#e5e5ea',
-                            grayBg: '#f2f2f7',
-                            success: '#34c759',
-                            danger: '#ff3b30',
-                            warning: '#ff9500'
+                            bg: '#fbfbfd', card: '#ffffff',
+                            textPrimary: '#1d1d1f', textSecondary: '#86868b',
+                            accent: '#0071e3', accentHover: '#0077ed',
+                            border: '#e5e5ea', grayBg: '#f2f2f7',
+                            success: '#34c759', danger: '#ff3b30', warning: '#ff9500'
                         }
                     },
                     boxShadow: {
                         'apple-sm': '0 2px 8px rgba(0,0,0,0.04)',
-                        'apple-md': '0 4px 16px rgba(0,0,0,0.08)',
-                        'apple-lg': '0 8px 30px rgba(0,0,0,0.12)',
+                        'apple-md': '0 4px 16px rgba(0,0,0,0.06)',
+                        'apple-lg': '0 12px 36px rgba(0,0,0,0.1)',
                     }
                 }
             }
@@ -50,23 +43,15 @@
     </script>
 
     <style>
-        body {
-            background-color: #fbfbfd;
-            color: #1d1d1f;
-            font-family: 'Heebo', system-ui, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* AI Markdown Report Styling */
+        body { background-color: #fbfbfd; color: #1d1d1f; -webkit-font-smoothing: antialiased; }
+        
+        /* Smooth View Transitions */
+        .fade-enter { opacity: 0; transform: translateY(4px); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); }
+        .fade-exit { opacity: 1; transform: translateY(0); transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-exit-active { opacity: 0; transform: translateY(4px); pointer-events: none; }
+        
+        /* AI Report Apple Markdown Styling */
         .prose-apple h1 { font-size: 1.25rem; font-weight: 800; color: #1d1d1f; margin-bottom: 0.75rem; }
         .prose-apple h2 { font-size: 1.1rem; font-weight: 700; color: #1d1d1f; border-bottom: 1px solid #e5e5ea; padding-bottom: 0.3rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
         .prose-apple h3 { font-size: 0.95rem; font-weight: 700; color: #0071e3; margin-top: 1rem; margin-bottom: 0.25rem; }
@@ -80,260 +65,240 @@
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d1d1d6; border-radius: 999px; }
-        ::-webkit-scrollbar-thumb:hover { background: #aeae2; }
-
+        ::-webkit-scrollbar-thumb:hover { background: #aeaeb2; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Hide Number Input Spinners */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between selection:bg-apple-accent/20">
 
-    <header class="sticky top-0 z-30 bg-apple-bg/80 backdrop-blur-md border-b border-apple-border/60">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-30 bg-apple-bg/85 backdrop-blur-md border-b border-apple-border/60">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <img src="https://i.postimg.cc/wB0C1LxP/logo-800.png" alt="800 Logo" class="h-8 w-auto object-contain">
                 <span id="user-greeting" class="text-xs font-medium text-apple-textSecondary border-r border-apple-border pr-3">
-                    שלום, עידו
+                    בוקר טוב, עידו
                 </span>
             </div>
 
             <div class="flex items-center gap-2">
-                <button onclick="openReportsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm">
+                <button onclick="openModalWithAnim('reports-modal'); renderReportsList();" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm active:scale-95">
                     <i data-lucide="bar-chart-2" class="w-4 h-4 text-apple-accent"></i>
                     <span>הדו"חות שלי</span>
                 </button>
-                <button onclick="openSettingsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm">
+                <button onclick="openSettingsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm active:scale-95">
                     <i data-lucide="settings" class="w-4 h-4 text-apple-accent"></i>
-                    <span>הגדרות וגיבוי</span>
+                    <span class="hidden sm:inline">הגדרות וגיבוי</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <nav class="max-w-6xl mx-auto px-4 sm:px-6 mt-6 w-full">
-        <div class="bg-apple-grayBg/80 p-1.5 rounded-2xl border border-apple-border flex items-center gap-1 overflow-x-auto no-scrollbar">
+    <!-- NAVIGATION TABS -->
+    <nav class="max-w-4xl mx-auto px-4 sm:px-6 mt-6 w-full">
+        <div class="bg-apple-grayBg/80 p-1.5 rounded-2xl border border-apple-border flex items-center gap-1 overflow-x-auto no-scrollbar shadow-apple-sm">
             <button onclick="switchTab('add')" id="tab-add" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap bg-white text-apple-textPrimary shadow-apple-sm">
-                <i data-lucide="plus-circle" class="w-4 h-4 text-apple-accent"></i>
-                הוספת טעות
+                <i data-lucide="plus-circle" class="w-4 h-4 text-apple-accent"></i> הוספת טעות
             </button>
             <button onclick="switchTab('scan')" id="tab-scan" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
-                <i data-lucide="scan-line" class="w-4 h-4 text-apple-accent"></i>
-                סורק תשובות
+                <i data-lucide="scan-line" class="w-4 h-4 text-apple-accent"></i> סורק תשובות
             </button>
             <button onclick="switchTab('grade')" id="tab-grade" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
-                <i data-lucide="check-square" class="w-4 h-4 text-apple-success"></i>
-                בדיקת פרק / סימולציה
+                <i data-lucide="check-square" class="w-4 h-4 text-apple-success"></i> בדיקת פרק / סימולציה
             </button>
             <button onclick="switchTab('review')" id="tab-review" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary relative">
-                <i data-lucide="rotate-ccw" class="w-4 h-4 text-apple-accent"></i>
-                רשימת חזרה
+                <i data-lucide="rotate-ccw" class="w-4 h-4 text-apple-accent"></i> רשימת חזרה
                 <span id="review-badge" class="hidden bg-apple-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
             </button>
             <button onclick="switchTab('log')" id="tab-log" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
-                <i data-lucide="list" class="w-4 h-4 text-apple-accent"></i>
-                מאגר הטעויות
+                <i data-lucide="list" class="w-4 h-4 text-apple-accent"></i> מאגר הטעויות
             </button>
             <button onclick="switchTab('ai')" id="tab-ai" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
-                <i data-lucide="sparkles" class="w-4 h-4 text-apple-accent"></i>
-                ניתוח AI
+                <i data-lucide="sparkles" class="w-4 h-4 text-apple-accent"></i> ניתוח AI
             </button>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 my-6 flex-1 w-full">
+    <!-- MAIN VIEWS -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 my-6 flex-1 w-full relative pb-16">
         
-        <!-- VIEW: Add Mistake -->
-        <section id="view-add" class="animate-fade-in w-full max-w-2xl mx-auto">
+        <!-- VIEW 1: Add Mistake -->
+        <section id="view-add" class="fade-enter fade-enter-active absolute top-0 left-0 right-0 w-full max-w-2xl mx-auto">
             <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
                 <div class="flex items-center justify-between mb-6 pb-4 border-b border-apple-border/60">
                     <div>
                         <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                            <i data-lucide="file-plus" class="w-5 h-5 text-apple-accent"></i>
-                            תיעוד טעות חדשה
+                            <i data-lucide="file-plus" class="w-5 h-5 text-apple-accent"></i> תיעוד טעות חדשה
                         </h2>
-                        <p class="text-xs text-apple-textSecondary mt-1">הזן את פרטי השאלה. הפירוט יישמר באופן מוגן ויופיע בלחיצה במאגר.</p>
+                        <p class="text-xs text-apple-textSecondary mt-1">הזן את פרטי השאלה. הפירוט יישמר באופן מוגן.</p>
                     </div>
-                    <span class="text-[11px] font-medium bg-apple-grayBg text-apple-textSecondary px-2.5 py-1 rounded-lg border border-apple-border/80">
-                        Ctrl+Enter לשמירה
-                    </span>
+                    <span class="text-[11px] font-medium bg-apple-grayBg text-apple-textSecondary px-2.5 py-1 rounded-lg border border-apple-border/80">Ctrl+Enter לשמירה</span>
                 </div>
 
                 <form onsubmit="event.preventDefault(); handleAddMistake();" class="space-y-5">
                     <div>
                         <label class="block text-xs font-bold text-apple-textPrimary mb-1.5">שם הפרק בספר</label>
-                        <input type="text" id="add-chapter" list="chapters-datalist" placeholder="למשל: אלגברה - שאלות קצה פרק 3" required
-                            class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition">
+                        <input type="text" id="add-chapter" list="chapters-datalist" placeholder="למשל: אלגברה - שאלות קצה פרק 3" required class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition-all">
                         <datalist id="chapters-datalist"></datalist>
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-apple-textPrimary mb-1.5">מספר השאלה</label>
-                            <input type="number" min="1" max="200" id="add-qnum" placeholder="למשל: 14" required
-                                class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition">
+                            <input type="number" min="1" max="200" id="add-qnum" placeholder="למשל: 14" required class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition-all">
                         </div>
-
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
                                 <label class="block text-xs font-bold text-apple-textPrimary">סיווג הטעות</label>
                                 <button type="button" onclick="openAddCategoryModal()" class="text-[11px] text-apple-accent hover:underline font-medium">+ חדש</button>
                             </div>
-                            <select id="add-category" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition">
-                                <!-- Dynamic Options -->
-                            </select>
+                            <select id="add-category" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition-all"></select>
                         </div>
                     </div>
-
                     <div>
-                        <label class="block text-xs font-bold text-apple-textPrimary mb-1.5">סיבת הטעות והערה לסיבוב הבא (מוסתר במאגר)</label>
-                        <textarea id="add-reason" rows="3" placeholder="מה בדיוק גרם לטעות? מה הטריק או הרעיון שלמדת ממנה?" required
-                            class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition resize-none"></textarea>
+                        <label class="block text-xs font-bold text-apple-textPrimary mb-1.5">סיבת הטעות והערה לסיבוב הבא</label>
+                        <textarea id="add-reason" rows="3" placeholder="מה בדיוק גרם לטעות? מה למדת ממנה?" required class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 focus:bg-white transition-all resize-none"></textarea>
                     </div>
-
-                    <button type="submit" class="w-full bg-apple-accent hover:bg-apple-accentHover text-white font-semibold text-xs py-3.5 px-6 rounded-xl transition shadow-apple-sm flex items-center justify-center gap-2">
-                        <i data-lucide="check" class="w-4 h-4"></i>
-                        שמור טעות לרשימת החזרה
+                    <button type="submit" class="w-full bg-apple-accent hover:bg-apple-accentHover text-white font-semibold text-xs py-3.5 px-6 rounded-xl transition shadow-apple-sm flex items-center justify-center gap-2 active:scale-[0.98]">
+                        <i data-lucide="check" class="w-4 h-4"></i> שמור טעות לרשימת החזרה
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- VIEW: Answer Scanner -->
-        <section id="view-scan" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-6">
-            <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md">
-                <div class="mb-4 pb-3 border-b border-apple-border/60 flex items-center justify-between">
-                    <div>
-                        <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                            <i data-lucide="scan-line" class="w-5 h-5 text-apple-accent"></i>
-                            סורק תשובות מהיר ומקלדת בדיקה
-                        </h2>
-                        <p class="text-xs text-apple-textSecondary mt-1">צלם תמונה של תשובות הספר, הקש את תשובותיך במקלדת (1-4), והמערכת תבדוק אותן מיד.</p>
-                    </div>
+        <!-- VIEW 2: Answer Scanner -->
+        <section id="view-scan" class="hidden absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
+                <div class="mb-4 pb-3 border-b border-apple-border/60">
+                    <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
+                        <i data-lucide="scan-line" class="w-5 h-5 text-apple-accent"></i> סורק תשובות מהיר ומקלדת בדיקה
+                    </h2>
+                    <p class="text-xs text-apple-textSecondary mt-1">צלם תמונה של תשובות הספר, והקש את תשובותיך במקלדת (1-4). טעויות יבודדו מיד ויועברו לתחקור!</p>
                 </div>
 
                 <div class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-apple-textPrimary mb-1">שם הפרק הנבדק</label>
-                        <input type="text" id="scan-chapter-name" placeholder="למשל: אלגברה - בוחן 4" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
+                        <input type="text" id="scan-chapter-name" placeholder="למשל: בוחן כמותי פרק 4" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 transition-all">
                     </div>
-
                     <div class="flex flex-col sm:flex-row gap-3">
-                        <label class="flex-1 bg-apple-bg border border-dashed border-apple-border hover:border-apple-accent/60 rounded-xl p-3 text-center cursor-pointer transition flex items-center justify-center gap-2">
+                        <label class="flex-1 bg-apple-grayBg/40 border border-dashed border-apple-border hover:border-apple-accent/60 rounded-xl p-3.5 text-center cursor-pointer transition-colors flex items-center justify-center gap-2">
                             <i data-lucide="image" class="w-4 h-4 text-apple-accent"></i>
                             <span class="text-xs font-medium text-apple-textPrimary" id="scan-file-label">בחר תמונה / העלה צילום ספר</span>
                             <input type="file" id="scan-file-input" accept="image/*" onchange="handleScanImageSelected(event)" class="hidden">
                         </label>
-                        <button onclick="processScanImage()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-2.5 px-5 rounded-xl transition shadow-apple-sm flex items-center justify-center gap-1.5 shrink-0">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            פלח תשובות מהתמונה
+                        <button onclick="processScanImage()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-3 px-6 rounded-xl transition shadow-apple-sm flex items-center justify-center gap-2 shrink-0 active:scale-95">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i> פלח תשובות מהתמונה
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div id="scan-loading" class="hidden py-10 text-center bg-white rounded-2xl border border-apple-border">
+            <div id="scan-loading" class="hidden py-10 text-center bg-white rounded-2xl border border-apple-border shadow-sm">
                 <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
                 <p class="text-xs font-bold text-apple-textPrimary">מפענח את תשובות הספר ב-AI...</p>
             </div>
 
-            <div id="scan-grader-container" class="hidden bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md space-y-4">
-                <div class="flex items-center justify-between bg-apple-grayBg p-3 rounded-xl border border-apple-border/80">
+            <!-- Unified Fast Keyboard Grid for Scanner -->
+            <div id="scan-grader-container" class="hidden bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md space-y-5">
+                <div class="flex flex-col sm:flex-row items-center justify-between bg-apple-grayBg p-3.5 rounded-xl border border-apple-border/80 gap-3">
                     <span class="text-xs font-bold text-apple-textPrimary flex items-center gap-2">
-                        <i data-lucide="keyboard" class="w-4 h-4 text-apple-accent"></i>
-                        הקש תשובות במקלדת (1-4)
+                        <i data-lucide="keyboard" class="w-4 h-4 text-apple-accent"></i> הקש תשובות במקלדת (1-4)
                     </span>
-                    <div class="flex items-center gap-3 text-xs font-bold">
-                        <span class="text-apple-success" id="scan-stat-correct">V: 0</span>
-                        <span class="text-apple-danger" id="scan-stat-wrong">X: 0</span>
+                    <div class="flex items-center gap-4 text-xs font-bold">
+                        <span class="text-apple-success px-2 py-1 rounded bg-apple-success/10" id="scan-stat-correct">V: 0</span>
+                        <span class="text-apple-danger px-2 py-1 rounded bg-apple-danger/10" id="scan-stat-wrong">X: 0</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5" id="scan-grid"></div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2.5" id="scan-grid"></div>
 
-                <div class="flex items-center justify-between pt-3 border-t border-apple-border/60">
-                    <button onclick="resetScan()" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger transition">אפס סורק</button>
-                    <button onclick="startScanWizard()" id="btn-proceed-scan-wizard" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm disabled:opacity-50">
-                        המשך לתחקור טעויות &larr;
+                <div class="flex items-center justify-between pt-4 border-t border-apple-border/60">
+                    <button onclick="resetScan()" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger transition">אפס סורק לבדיקה חדשה</button>
+                    <button onclick="startScanWizard()" id="btn-proceed-scan-wizard" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm disabled:opacity-50 active:scale-95">
+                        המשך לתחקור הטעויות &larr;
                     </button>
                 </div>
             </div>
 
-            <div id="scan-wizard-container" class="hidden bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md space-y-5">
+            <!-- Scan Wizard -->
+            <div id="scan-wizard-container" class="hidden bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md space-y-5">
                 <div class="flex items-center justify-between pb-3 border-b border-apple-border/60">
-                    <span class="text-xs font-bold text-apple-accent" id="scan-wizard-progress">שאלה 1 מתוך 3</span>
-                    <button onclick="resetScan()" class="text-xs text-apple-textSecondary hover:text-apple-danger">יציאה/ביטול</button>
+                    <span class="text-xs font-bold text-apple-accent" id="scan-wizard-progress">שאלה 1 מתוך X</span>
+                    <button onclick="resetScan()" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger transition">יציאה / ביטול</button>
                 </div>
-
                 <div class="space-y-4">
                     <div class="bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border/80 flex items-center justify-between">
                         <div>
-                            <div class="text-xs font-bold text-apple-textPrimary" id="scan-wizard-qtitle">שאלה #5</div>
+                            <div class="text-sm font-bold text-apple-textPrimary" id="scan-wizard-qtitle">שאלה #5</div>
                             <div class="text-[11px] text-apple-textSecondary mt-0.5" id="scan-wizard-chapter">פרק: אלגברה</div>
                         </div>
                         <div class="flex flex-col items-end gap-1">
-                            <div class="text-xs font-bold px-3 py-1 rounded-lg bg-apple-danger/10 text-apple-danger flex items-center gap-2" id="scan-wizard-comparison">
-                                <span>ענית: 2 | תשובה נכונה: 4</span>
+                            <div class="text-xs font-bold px-3 py-1.5 rounded-lg bg-apple-danger/10 text-apple-danger border border-apple-danger/20" id="scan-wizard-comparison">
+                                ענית: 2 | תשובה נכונה: 4
                             </div>
-                            <button type="button" onclick="correctCurrentWizardMistake()" class="text-[10px] text-apple-accent hover:underline font-bold">
-                                ✏️ הקלדתי בטעות? צדקתי בשאלה הזו / סמן כנכונה
+                            <button type="button" onclick="correctCurrentWizardMistake()" class="text-[10px] text-apple-accent hover:underline font-bold mt-1">
+                                ✏️ הקלדתי בטעות? תקן תשובה
                             </button>
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold text-apple-textPrimary mb-1">סיווג הטעות</label>
-                        <select id="scan-wizard-category" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50"></select>
+                        <select id="scan-wizard-category" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50"></select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold text-apple-textPrimary mb-1">סיבת הטעות והערה לסיבוב הבא</label>
-                        <textarea id="scan-wizard-reason" rows="3" placeholder="מה בדיוק גרם לטעות?" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 resize-none"></textarea>
+                        <textarea id="scan-wizard-reason" rows="3" placeholder="מה בדיוק גרם לטעות?" class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-4 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 resize-none"></textarea>
                     </div>
                 </div>
-
-                <div class="flex items-center justify-between pt-2">
-                    <button onclick="prevScanWizardStep()" id="btn-scan-wizard-prev" class="text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary disabled:opacity-40">הקודם</button>
-                    <button onclick="nextScanWizardStep()" id="btn-scan-wizard-next" class="bg-apple-accent text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm">לשאלה הבאה &larr;</button>
+                <div class="flex items-center justify-between pt-3 border-t border-apple-border/60">
+                    <button onclick="prevScanWizardStep()" id="btn-scan-wizard-prev" class="text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary disabled:opacity-40 px-3 py-2">הקודם</button>
+                    <button onclick="nextScanWizardStep()" id="btn-scan-wizard-next" class="bg-apple-accent text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition shadow-apple-sm active:scale-95">לשאלה הבאה &larr;</button>
                 </div>
             </div>
         </section>
 
-        <!-- VIEW: Grade Chapter & Simulation -->
-        <section id="view-grade" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-6">
+        <!-- VIEW 3: Grade Chapter & Simulation -->
+        <section id="view-grade" class="hidden absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto space-y-6 pb-20">
             <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
+                
                 <div class="mb-6 pb-4 border-b border-apple-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                            <i data-lucide="check-square" class="w-5 h-5 text-apple-success"></i>
-                            בדיקת פרק / סימולציה (כמותי)
+                            <i data-lucide="check-square" class="w-5 h-5 text-apple-success"></i> בדיקת פרק / סימולציה (כמותי)
                         </h2>
-                        <p class="text-xs text-apple-textSecondary mt-1">
-                            סרוק את תשובות הספר מתמונה לכל פרק או עדכן אותן ידנית, והקש את תשובותיך במקלדת (1-4).
-                        </p>
+                        <p class="text-xs text-apple-textSecondary mt-1">סרוק את מפתח תשובות הספר לכל פרק בנפרד, ולאחר מכן הקש את תשובותיך (1-4) לחישוב ציון.</p>
                     </div>
-
-                    <button onclick="addGradeSection()" class="bg-apple-accent/10 hover:bg-apple-accent/20 text-apple-accent border border-apple-accent/30 text-xs font-semibold py-2 px-4 rounded-xl transition flex items-center gap-1.5 shrink-0">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        הוסף פרק נוסף לבדיקה (+)
-                    </button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="resetGradeSimulation()" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger transition px-3 py-2 rounded-xl bg-apple-grayBg border border-apple-border active:scale-95">
+                            אפס סימולציה
+                        </button>
+                        <button onclick="addGradeSection()" class="bg-apple-accent/10 hover:bg-apple-accent/20 text-apple-accent border border-apple-accent/30 text-xs font-semibold py-2.5 px-4 rounded-full transition flex items-center gap-1.5 active:scale-95">
+                            <i data-lucide="plus" class="w-4 h-4"></i> הוסף פרק נוסף לבדיקה
+                        </button>
+                    </div>
                 </div>
 
-                <div class="bg-apple-grayBg/80 p-4 rounded-2xl border border-apple-border flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div class="flex items-center gap-4">
+                <div class="bg-apple-grayBg/80 p-4 rounded-2xl border border-apple-border flex flex-wrap items-center justify-between gap-4 mb-6 shadow-sm">
+                    <div class="flex items-center gap-5">
                         <div>
-                            <span class="text-[11px] font-bold text-apple-textSecondary block">תשובות נכונות (ציון גלם)</span>
+                            <span class="text-[11px] font-bold text-apple-textSecondary block mb-0.5">תשובות נכונות (ציון גלם)</span>
                             <span class="text-xl font-extrabold text-apple-success" id="grade-multi-raw">0 / 0</span>
                         </div>
-                        <div class="border-r border-apple-border pr-4">
-                            <span class="text-[11px] font-bold text-apple-textSecondary block">אחוז הצלחה</span>
+                        <div class="border-r border-apple-border pr-5">
+                            <span class="text-[11px] font-bold text-apple-textSecondary block mb-0.5">אחוז הצלחה</span>
                             <span class="text-xl font-extrabold text-apple-textPrimary" id="grade-multi-pct">0%</span>
                         </div>
                     </div>
-
-                    <div class="bg-white px-4 py-2 rounded-xl border border-apple-border shadow-apple-sm flex items-center gap-3">
+                    <div class="bg-white px-4 py-2.5 rounded-xl border border-apple-border shadow-apple-sm flex items-center gap-3">
                         <i data-lucide="award" class="w-6 h-6 text-apple-accent"></i>
                         <div>
-                            <span class="text-[10px] font-bold text-apple-textSecondary block">ציון פסיכומטרי כמותי משוער</span>
+                            <span class="text-[10px] font-bold text-apple-textSecondary block mb-0.5">ציון פסיכומטרי כמותי משוער</span>
                             <span class="text-lg font-extrabold text-apple-accent" id="grade-multi-psychometric">נדרשים 2 פרקים</span>
                         </div>
                     </div>
@@ -341,125 +306,76 @@
 
                 <div id="grade-sections-container" class="space-y-6"></div>
 
-                <div class="pt-4 border-t border-apple-border/60 flex justify-end">
-                    <button onclick="saveGradeReport()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition shadow-apple-sm flex items-center gap-2">
-                        <i data-lucide="save" class="w-4 h-4"></i>
-                        שמור דוח לבדיקות שלי
+                <div class="pt-5 mt-5 border-t border-apple-border/60 flex justify-end">
+                    <button onclick="saveGradeReport()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition shadow-apple-sm flex items-center gap-2 active:scale-95">
+                        <i data-lucide="save" class="w-4 h-4"></i> שמור דו"ח ציונים
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- VIEW: Review List (Active Recall) -->
-        <section id="view-review" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-4">
-            <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <!-- VIEW 4: Review List (Active Recall) -->
+        <section id="view-review" class="hidden absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto space-y-5">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                        <i data-lucide="rotate-ccw" class="w-5 h-5 text-apple-accent"></i>
-                        רשימת חזרה (Active Recall)
+                        <i data-lucide="rotate-ccw" class="w-5 h-5 text-apple-accent"></i> רשימת חזרה (Active Recall)
                     </h2>
-                    <p class="text-xs text-apple-textSecondary mt-1">מציג רק פרק ומספר שאלה לפתרון נקי בספר. ענה מחדש וסמן V או X.</p>
+                    <p class="text-xs text-apple-textSecondary mt-1">מציג פרק ומספר שאלה לפתרון נקי בספר. לחץ "סיים והעבר להושלם" כשהשלמת את התחקור בהצלחה.</p>
                 </div>
-
-                <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <select id="review-filter-chapter" onchange="renderReviewList()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary focus:outline-none">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <select id="review-filter-chapter" onchange="renderReviewList()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none transition-all">
                         <option value="">כל הפרקים</option>
                     </select>
-                    <button onclick="startReviewWizard()" id="btn-start-review-wizard" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2 px-4 rounded-xl transition shadow-apple-sm flex items-center gap-1.5 shrink-0">
-                        <i data-lucide="play" class="w-3.5 h-3.5"></i>
-                        התחל אשף חזרה
+                    <button onclick="startReviewWizard()" id="btn-start-review-wizard" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm flex items-center gap-2 shrink-0 active:scale-95">
+                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> התחל אשף חזרה
                     </button>
                 </div>
             </div>
-
-            <div id="review-items-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
-
-            <div id="review-wizard-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-                <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-lg w-full max-w-md space-y-5 animate-fade-in">
-                    <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
-                        <span class="text-xs font-bold text-apple-accent" id="review-wizard-step">שאלה 1 מתוך 5</span>
-                        <button onclick="closeReviewWizard()" class="text-xs text-apple-textSecondary hover:text-apple-danger">יציאה</button>
-                    </div>
-
-                    <div class="text-center space-y-2 py-3 bg-apple-grayBg/60 rounded-xl border border-apple-border/80">
-                        <div class="text-xs font-bold text-apple-textSecondary" id="review-wizard-chapter-name">פרק: אלגברה - שאלות קצה</div>
-                        <div class="text-2xl font-extrabold text-apple-textPrimary" id="review-wizard-qnum">שאלה #14</div>
-                        <div class="text-[11px] text-apple-textSecondary">פתח את הספר ופתור מאפס</div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="block text-xs font-bold text-apple-textPrimary text-center">בדיקת תשובה אופציונלית (1-4)</label>
-                        <div class="flex items-center justify-center gap-2">
-                            <input type="number" min="1" max="4" id="review-wizard-ans-input" placeholder="1-4" oninput="submitReviewAnswerCheck()" class="w-20 text-center bg-apple-grayBg border border-apple-border rounded-xl py-2 text-sm font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
-                        </div>
-                        <div id="review-wizard-ans-feedback" class="text-[11px] text-center font-bold min-h-[18px]"></div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2 pt-2">
-                        <button onclick="handleReviewWizardChoice('master')" id="btn-review-choice-master" class="bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-success/30 flex flex-col items-center gap-1">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                            <span>צדקתי (V)</span>
-                        </button>
-                        <button onclick="handleReviewWizardChoice('keep')" id="btn-review-choice-keep" class="bg-apple-accent/10 hover:bg-apple-accent/20 text-apple-accent font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-accent/30 flex flex-col items-center gap-1">
-                            <i data-lucide="rotate-cw" class="w-4 h-4"></i>
-                            <span>צדקתי (השאר)</span>
-                        </button>
-                        <button onclick="handleReviewWizardChoice('fail')" id="btn-review-choice-fail" class="bg-apple-danger/10 hover:bg-apple-danger/20 text-apple-danger font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-danger/30 flex flex-col items-center gap-1">
-                            <i data-lucide="x" class="w-4 h-4"></i>
-                            <span>טעיתי (X)</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div id="review-items-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- VIEW: Mistakes Database (Log) -->
-        <section id="view-log" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-4">
-            <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-sm space-y-4">
+        <!-- VIEW 5: Mistakes Database (Log) -->
+        <section id="view-log" class="hidden absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto space-y-5">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md space-y-4">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                            <i data-lucide="list" class="w-5 h-5 text-apple-accent"></i>
-                            מאגר הטעויות המלא
+                            <i data-lucide="list" class="w-5 h-5 text-apple-accent"></i> מאגר הטעויות וההיסטוריה
                         </h2>
-                        <p class="text-xs text-apple-textSecondary mt-1">כל הטעויות שתועדו. לחץ על כרטיסייה כדי להציג/להסתיר את סיבת הטעות.</p>
+                        <p class="text-xs text-apple-textSecondary mt-1">צפה בכל הטעויות שנוהלו ותועדו. לחץ להרחבת פרטים או עריכה.</p>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-apple-border/60">
-                    <input type="text" id="log-search" oninput="renderMistakesLog()" placeholder="חיפוש חופשי..." class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none">
-                    <select id="log-filter-chapter" onchange="renderMistakesLog()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary focus:outline-none">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-apple-border/60">
+                    <input type="text" id="log-search" oninput="renderMistakesLog()" placeholder="חיפוש חופשי בסיבות ובפרקים..." class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none transition-all">
+                    <select id="log-filter-chapter" onchange="renderMistakesLog()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none transition-all">
                         <option value="">כל הפרקים</option>
                     </select>
-                    <select id="log-filter-status" onchange="renderMistakesLog()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary focus:outline-none">
-                        <option value="all">כל הסטטוסים</option>
-                        <option value="pending" selected>ממתין לחזרה</option>
-                        <option value="mastered">הושלם (Mastered)</option>
+                    <select id="log-filter-status" onchange="renderMistakesLog()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none transition-all">
+                        <option value="all" selected>כל הסטטוסים (פעיל והושלם)</option>
+                        <option value="pending">ממתין לחזרה</option>
+                        <option value="mastered">הושלם בהצלחה (Mastered)</option>
                     </select>
                 </div>
             </div>
-
-            <div id="log-items-container" class="space-y-3"></div>
+            <div id="log-items-container" class="space-y-3.5"></div>
         </section>
 
-        <!-- VIEW: AI Analytics Dashboard -->
-        <section id="view-ai" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-6">
-            <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <!-- VIEW 6: AI Analytics Dashboard -->
+        <section id="view-ai" class="hidden absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto space-y-6">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                        <i data-lucide="sparkles" class="w-5 h-5 text-apple-accent"></i>
-                        דו"ח ניתוח AI ומגמות למידה לאורך זמן
+                        <i data-lucide="sparkles" class="w-5 h-5 text-apple-accent"></i> דו"ח ניתוח AI ומגמות למידה לאורך זמן
                     </h2>
-                    <p class="text-xs text-apple-textSecondary mt-1">אבחון חכם של כל הנתונים, כולל שאלות שפתרת, דוחות סימולציות וציונים.</p>
+                    <p class="text-xs text-apple-textSecondary mt-1">אבחון חכם של הנתונים, מגמות שיפור והפקת לקחים אישית.</p>
                 </div>
-
-                <button onclick="generateAiReport()" id="btn-generate-ai" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm flex items-center gap-2 shrink-0">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    חולל דו"ח AI ממוקד
+                <button onclick="generateAiReport()" id="btn-generate-ai" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition shadow-apple-sm flex items-center gap-2 shrink-0 active:scale-95">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> חולל דו"ח AI ממוקד
                 </button>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
                 <div class="bg-white p-4 rounded-2xl border border-apple-border shadow-apple-sm text-center">
                     <div class="text-[11px] font-bold text-apple-textSecondary">סה"כ טעויות תועדו</div>
                     <div class="text-2xl font-extrabold text-apple-textPrimary mt-1" id="kpi-total">0</div>
@@ -481,31 +397,24 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-white p-5 rounded-2xl border border-apple-border shadow-apple-sm">
                     <h3 class="text-xs font-bold text-apple-textPrimary mb-3 flex items-center gap-1.5">
-                        <i data-lucide="pie-chart" class="w-4 h-4 text-apple-accent"></i>
-                        התפלגות טעויות לפי סיווגים
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-apple-accent"></i> התפלגות טעויות לפי סיווגים
                     </h3>
-                    <div class="h-48 relative">
-                        <canvas id="chart-categories"></canvas>
-                    </div>
+                    <div class="h-56 relative"><canvas id="chart-categories"></canvas></div>
                 </div>
-
                 <div class="bg-white p-5 rounded-2xl border border-apple-border shadow-apple-sm">
                     <h3 class="text-xs font-bold text-apple-textPrimary mb-3 flex items-center gap-1.5">
-                        <i data-lucide="trending-up" class="w-4 h-4 text-apple-success"></i>
-                        מדד שליטה והתקדמות
+                        <i data-lucide="trending-up" class="w-4 h-4 text-apple-success"></i> מדד שליטה והתקדמות
                     </h3>
-                    <div class="h-48 relative">
-                        <canvas id="chart-mastery"></canvas>
-                    </div>
+                    <div class="h-56 relative"><canvas id="chart-mastery"></canvas></div>
                 </div>
             </div>
 
             <div id="ai-report-container" class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
                 <div id="ai-report-content" class="prose-apple text-xs text-apple-textPrimary leading-relaxed">
-                    <div class="text-center py-8 text-apple-textSecondary">
-                        <i data-lucide="bot" class="w-10 h-10 mx-auto mb-2 text-apple-textSecondary/40"></i>
-                        <p class="font-bold">מוכן לניתוח AI</p>
-                        <p class="text-[11px] mt-1">לחץ על "חולל דו"ח AI ממוקד" לקבלת אבחון מהיר וקולע מבוסס כל ההערות, הסיבות והדוחות שלך.</p>
+                    <div class="text-center py-10 text-apple-textSecondary">
+                        <i data-lucide="bot" class="w-10 h-10 mx-auto mb-3 text-apple-textSecondary/40"></i>
+                        <p class="font-bold text-sm">מוכן לניתוח AI</p>
+                        <p class="text-[11px] mt-1 max-w-sm mx-auto">לחץ על הכפתור מעלה להפקת דו"ח תובנות מקצועי המבוסס על היסטוריית הטעויות והסימולציות שלך.</p>
                     </div>
                 </div>
             </div>
@@ -513,156 +422,185 @@
 
     </main>
 
-    <!-- MODAL: My Reports -->
-    <div id="reports-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-2xl max-h-[85vh] overflow-y-auto animate-fade-in p-6 space-y-4">
+    <!-- MODALS OVERLAYS -->
+    
+    <!-- Active Recall Wizard Modal -->
+    <div id="review-wizard-modal" onclick="closeModalWithAnim('review-wizard-modal')" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-md space-y-5 p-6 transform transition-all duration-200 scale-95 opacity-0">
             <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
-                <h3 class="text-sm font-bold text-apple-textPrimary flex items-center gap-2">
-                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-apple-accent"></i>
-                    מרכז הדו"חות והסימולציות שלי
-                </h3>
-                <button onclick="closeReportsModal()" class="text-apple-textSecondary hover:text-apple-textPrimary"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <span class="text-xs font-bold text-apple-accent" id="review-wizard-step">שאלה 1 מתוך X</span>
+                <button onclick="closeModalWithAnim('review-wizard-modal')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger transition">יציאה</button>
             </div>
-
-            <div id="reports-list-container" class="space-y-3"></div>
+            <div class="text-center space-y-2 py-4 bg-apple-grayBg/50 rounded-xl border border-apple-border/80">
+                <div class="text-xs font-bold text-apple-textSecondary" id="review-wizard-chapter-name">פרק: -</div>
+                <div class="text-3xl font-extrabold text-apple-textPrimary tracking-tight" id="review-wizard-qnum">שאלה #-</div>
+                <div class="text-[11px] text-apple-textSecondary mt-1">פתור מאפס בספר, ולאחר מכן בדוק את התשובה.</div>
+            </div>
+            <div class="space-y-2 bg-white p-3 rounded-xl border border-apple-border shadow-sm">
+                <label class="block text-xs font-bold text-apple-textPrimary text-center mb-2">בדיקת תשובה (אופציונלי, 1-4)</label>
+                <div class="flex items-center justify-center">
+                    <input type="number" min="1" max="4" id="review-wizard-ans-input" oninput="submitReviewAnswerCheck()" placeholder="?" class="w-16 h-12 text-center bg-apple-grayBg border border-apple-border rounded-xl text-lg font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 transition-all">
+                </div>
+                <div id="review-wizard-ans-feedback" class="text-[11px] text-center font-bold min-h-[18px] mt-2 transition-colors duration-200"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-2 border-t border-apple-border/60">
+                <button onclick="handleReviewWizardChoice('master')" id="btn-review-choice-master" class="bg-apple-success/10 text-apple-success font-bold text-xs py-3 px-1 rounded-xl transition border border-apple-success/30 flex flex-col items-center justify-center gap-1.5 active:scale-95">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i><span class="text-[10px] sm:text-xs">צדקתי (100%)</span>
+                </button>
+                <button onclick="handleReviewWizardChoice('keep')" id="btn-review-choice-keep" class="bg-apple-accent/10 text-apple-accent font-bold text-xs py-3 px-1 rounded-xl transition border border-apple-accent/30 flex flex-col items-center justify-center gap-1.5 active:scale-95">
+                    <i data-lucide="rotate-cw" class="w-4 h-4"></i><span class="text-[10px] sm:text-xs">צדקתי (לעוד סיבוב)</span>
+                </button>
+                <button onclick="handleReviewWizardChoice('fail')" id="btn-review-choice-fail" class="bg-apple-danger/10 text-apple-danger font-bold text-xs py-3 px-1 rounded-xl transition border border-apple-danger/30 flex flex-col items-center justify-center gap-1.5 active:scale-95">
+                    <i data-lucide="x-circle" class="w-4 h-4"></i><span class="text-[10px] sm:text-xs">טעיתי שוב (X)</span>
+                </button>
+            </div>
+            <div class="text-center pt-1">
+                <button type="button" onclick="correctReviewWizardBookKey()" class="text-[10px] text-apple-textSecondary hover:text-apple-textPrimary underline">✏️ הקלדתי בטעות? תקן תשובת ספר נכונה</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL: Settings & Backup -->
-    <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-lg max-h-[90vh] overflow-y-auto animate-fade-in">
-            <div class="sticky top-0 bg-white/90 backdrop-blur-md px-6 py-4 border-b border-apple-border flex items-center justify-between">
+    <!-- Edit Mistake Modal -->
+    <div id="edit-modal" onclick="closeModalWithAnim('edit-modal')" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-md p-6 sm:p-8 space-y-5 transform transition-all duration-200 scale-95 opacity-0">
+            <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
+                <h3 class="text-sm font-bold text-apple-textPrimary">עריכת טעות</h3>
+                <button onclick="closeModalWithAnim('edit-modal')" class="text-apple-textSecondary hover:text-apple-textPrimary transition"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <input type="hidden" id="edit-id">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[11px] font-bold text-apple-textSecondary mb-1 uppercase tracking-wide">שם הפרק</label>
+                    <input type="text" id="edit-chapter" class="w-full bg-apple-bg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-apple-textSecondary mb-1 uppercase tracking-wide">מספר שאלה</label>
+                        <input type="number" id="edit-qnum" class="w-full bg-apple-bg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-apple-textSecondary mb-1 uppercase tracking-wide">סיווג הטעות</label>
+                        <select id="edit-category" class="w-full bg-apple-bg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all"></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-apple-textSecondary mb-1 uppercase tracking-wide">סיבת הטעות והערה</label>
+                    <textarea id="edit-reason" rows="3" class="w-full bg-apple-bg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all resize-none"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 pt-4 border-t border-apple-border/60">
+                <button onclick="closeModalWithAnim('edit-modal')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary px-4 py-2.5 transition">ביטול</button>
+                <button onclick="saveEditMistake()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold px-6 py-2.5 rounded-xl shadow-apple-sm transition active:scale-95">עדכן טעות</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-cat-modal" onclick="closeModalWithAnim('add-cat-modal')" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-sm p-6 space-y-4 transform transition-all duration-200 scale-95 opacity-0">
+            <h3 class="text-sm font-bold text-apple-textPrimary border-b border-apple-border/60 pb-3">הוספת קטגוריה אישית</h3>
+            <input type="text" id="new-cat-name" placeholder="שם הקטגוריה החדשה..." class="w-full bg-apple-bg border border-apple-border rounded-xl px-3.5 py-2.5 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all">
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeModalWithAnim('add-cat-modal')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary px-3 py-2 transition">ביטול</button>
+                <button onclick="saveNewCategory()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold px-5 py-2 rounded-xl shadow-apple-sm transition active:scale-95">הוסף למאגר</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Modal -->
+    <div id="reports-modal" onclick="closeModalWithAnim('reports-modal')" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-2xl max-h-[85vh] flex flex-col transform transition-all duration-200 scale-95 opacity-0">
+            <div class="flex items-center justify-between border-b border-apple-border px-6 py-4 bg-white/90 backdrop-blur-md rounded-t-2xl z-10 sticky top-0">
                 <h3 class="text-sm font-bold text-apple-textPrimary flex items-center gap-2">
-                    <i data-lucide="settings" class="w-4 h-4 text-apple-accent"></i>
-                    הגדרות וגיבוי נתונים
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-apple-accent"></i> מרכז הדו"חות והסימולציות שלי
                 </h3>
-                <button onclick="closeSettingsModal()" class="text-apple-textSecondary hover:text-apple-textPrimary"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <button onclick="closeModalWithAnim('reports-modal')" class="text-apple-textSecondary hover:text-apple-textPrimary transition"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <div id="reports-list-container" class="p-6 space-y-3.5 overflow-y-auto no-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" onclick="closeModalWithAnim('settings-modal')" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-apple-bg rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-lg max-h-[90vh] flex flex-col transform transition-all duration-200 scale-95 opacity-0">
+            <div class="flex items-center justify-between border-b border-apple-border px-6 py-4 bg-white/90 backdrop-blur-md rounded-t-2xl z-10 sticky top-0">
+                <h3 class="text-sm font-bold text-apple-textPrimary flex items-center gap-2">
+                    <i data-lucide="settings" class="w-4 h-4 text-apple-accent"></i> הגדרות וניהול נתונים
+                </h3>
+                <button onclick="closeModalWithAnim('settings-modal')" class="text-apple-textSecondary hover:text-apple-textPrimary transition"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
 
-            <div class="p-6 space-y-6">
-                <div class="space-y-3 bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border/80">
-                    <h4 class="text-xs font-bold text-apple-textPrimary">מפתח Google Gemini API</h4>
-                    <p class="text-[11px] text-apple-textSecondary">נדרש לניתוחי AI ולפענוח תמונות בסורק התשובות.</p>
-                    <input type="password" id="setting-api-key" placeholder="הדבק API Key כאן..." class="w-full bg-white border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none">
-                    
-                    <div class="flex items-center justify-between pt-1">
-                        <label class="text-xs text-apple-textPrimary">מודל AI</label>
-                        <select id="setting-ai-model" class="bg-white border border-apple-border rounded-lg px-2.5 py-1 text-xs text-apple-textPrimary focus:outline-none">
-                            <option value="gemini-3-flash-preview" selected>Gemini 3 Flash (מהיר וחסכוני)</option>
-                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                        </select>
+            <div class="p-6 space-y-8 overflow-y-auto no-scrollbar">
+                <!-- API Settings -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wide flex items-center gap-1.5"><i data-lucide="key" class="w-3.5 h-3.5 text-apple-textSecondary"></i> חיבור למנוע AI</h4>
+                    <div class="bg-white p-4 rounded-xl border border-apple-border shadow-sm space-y-3">
+                        <div>
+                            <label class="block text-[11px] font-medium text-apple-textSecondary mb-1">מפתח Google Gemini API</label>
+                            <input type="password" id="setting-api-key" placeholder="הדבק API Key כאן..." class="w-full bg-apple-bg border border-apple-border rounded-lg px-3 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all">
+                        </div>
+                        <div class="flex items-center justify-between pt-1">
+                            <label class="text-[11px] font-medium text-apple-textSecondary">מודל AI לעיבוד</label>
+                            <select id="setting-ai-model" class="bg-apple-bg border border-apple-border rounded-lg px-2.5 py-1 text-xs text-apple-textPrimary focus:outline-none transition-all">
+                                <option value="gemini-3-flash-preview" selected>Gemini 3 Flash (מומלץ)</option>
+                                <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-apple-textSecondary mb-1 mt-1">הנחיות אישיות ל-AI (Custom Directives)</label>
+                            <textarea id="setting-custom-prompt" rows="2" placeholder="למשל: התמקד בטעויות אלגבריות ומתן טיפים לניהול זמן..." class="w-full bg-apple-bg border border-apple-border rounded-lg px-3 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent/50 transition-all resize-none"></textarea>
+                        </div>
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <h4 class="text-xs font-bold text-apple-textPrimary">הנחיות אישיות ל-AI (Custom Directives)</h4>
-                    <textarea id="setting-custom-prompt" rows="2" placeholder="למשל: התמקד בטעויות אלגבריות ומתן טיפים לניהול זמן..." class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none resize-none"></textarea>
-                </div>
-
-                <div class="space-y-3">
+                <!-- Categories -->
+                <div class="space-y-4">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-bold text-apple-textPrimary">ניהול קטגוריות טעויות</h4>
-                        <button onclick="restoreDefaultCategories()" class="text-[11px] text-apple-accent hover:underline">שחזר ברירת מחדל</button>
+                        <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wide flex items-center gap-1.5"><i data-lucide="tags" class="w-3.5 h-3.5 text-apple-textSecondary"></i> ניהול סיווגים</h4>
+                        <button onclick="restoreDefaultCategories()" class="text-[10px] text-apple-accent hover:underline font-medium">שחזר ברירת מחדל</button>
                     </div>
-                    <div id="settings-categories-list" class="flex flex-wrap gap-1.5"></div>
+                    <div id="settings-categories-list" class="flex flex-wrap gap-2 bg-white p-4 rounded-xl border border-apple-border shadow-sm"></div>
                 </div>
 
-                <div class="space-y-3 pt-3 border-t border-apple-border/60">
-                    <h4 class="text-xs font-bold text-apple-textPrimary">ניהול נתונים, גיבוי ושחזור</h4>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="exportData()" class="bg-apple-grayBg hover:bg-apple-border/60 text-apple-textPrimary font-semibold text-xs py-2.5 px-3 rounded-xl border border-apple-border transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                            גיבוי נתונים (JSON)
+                <!-- Data Management & Backups -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-apple-textPrimary uppercase tracking-wide flex items-center gap-1.5"><i data-lucide="database" class="w-3.5 h-3.5 text-apple-textSecondary"></i> גיבוי ושחזור</h4>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="exportData()" class="bg-white hover:bg-apple-grayBg text-apple-textPrimary font-semibold text-xs py-3 px-3 rounded-xl border border-apple-border transition shadow-sm flex flex-col items-center justify-center gap-1.5 active:scale-95">
+                            <i data-lucide="download" class="w-4 h-4 text-apple-textSecondary"></i> גיבוי נתונים (JSON)
                         </button>
-                        <button onclick="triggerImport()" class="bg-apple-grayBg hover:bg-apple-border/60 text-apple-textPrimary font-semibold text-xs py-2.5 px-3 rounded-xl border border-apple-border transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-                            שחזור מגיבוי
+                        <button onclick="triggerImport()" class="bg-white hover:bg-apple-grayBg text-apple-textPrimary font-semibold text-xs py-3 px-3 rounded-xl border border-apple-border transition shadow-sm flex flex-col items-center justify-center gap-1.5 active:scale-95">
+                            <i data-lucide="upload" class="w-4 h-4 text-apple-textSecondary"></i> שחזור מגיבוי
                         </button>
                         <input type="file" id="import-file-input" accept=".json" onchange="handleFileImport(event)" class="hidden">
                     </div>
+                    <!-- Factory Reset -->
+                    <div class="pt-2">
+                        <button onclick="factoryResetData()" class="w-full bg-apple-danger/10 hover:bg-apple-danger/20 text-apple-danger border border-apple-danger/30 text-xs font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 active:scale-95">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i> אפס את כל נתוני המערכת (מחיקת הכל)
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="px-6 py-3 bg-apple-grayBg/60 border-t border-apple-border flex justify-end">
-                <button onclick="saveSettings()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2 px-5 rounded-xl shadow-apple-sm">שמור הגדרות</button>
+            <div class="px-6 py-4 bg-white/90 backdrop-blur-md border-t border-apple-border rounded-b-2xl flex justify-end gap-3 z-10">
+                <button onclick="closeModalWithAnim('settings-modal')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary px-4 py-2.5 transition">ביטול</button>
+                <button onclick="saveSettings()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-6 rounded-xl shadow-apple-sm transition active:scale-95">שמור והחל</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Edit Mistake -->
-    <div id="edit-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-lg p-6 space-y-4 animate-fade-in">
-            <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
-                <h3 class="text-sm font-bold text-apple-textPrimary">עריכת טעות</h3>
-                <button onclick="closeEditModal()" class="text-apple-textSecondary"><i data-lucide="x" class="w-4 h-4"></i></button>
-            </div>
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 sm:left-6 sm:translate-x-0 z-[60] flex flex-col gap-2 pointer-events-none"></div>
 
-            <input type="hidden" id="edit-id">
-            <div>
-                <label class="block text-xs font-bold text-apple-textPrimary mb-1">שם הפרק</label>
-                <input type="text" id="edit-chapter" class="w-full bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-bold text-apple-textPrimary mb-1">מספר שאלה</label>
-                    <input type="number" id="edit-qnum" class="w-full bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-apple-textPrimary mb-1">סיווג הטעות</label>
-                    <select id="edit-category" class="w-full bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary"></select>
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-bold text-apple-textPrimary mb-1">סיבת הטעות והערה</label>
-                <textarea id="edit-reason" rows="3" class="w-full bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary resize-none"></textarea>
-            </div>
-
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeEditModal()" class="text-xs text-apple-textSecondary px-4 py-2">ביטול</button>
-                <button onclick="saveEditMistake()" class="bg-apple-accent text-white text-xs font-semibold px-5 py-2 rounded-xl">עדכן טעות</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: Add Custom Category -->
-    <div id="add-cat-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-sm p-5 space-y-4 animate-fade-in">
-            <h3 class="text-xs font-bold text-apple-textPrimary">הוספת קטגוריה חדשה</h3>
-            <input type="text" id="new-cat-name" placeholder="שם הקטגוריה..." class="w-full bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none">
-            <div class="flex justify-end gap-2">
-                <button onclick="closeAddCategoryModal()" class="text-xs text-apple-textSecondary px-3 py-1.5">ביטול</button>
-                <button onclick="saveNewCategory()" class="bg-apple-accent text-white text-xs font-semibold px-4 py-1.5 rounded-xl">אישור</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications Container -->
-    <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <footer class="py-6 border-t border-apple-border/40 text-center text-[11px] text-apple-textSecondary">
-        800 hub &bull; מערכת תחקור וניהול למידה לפסיכומטרי
-    </footer>
-
+    <!-- JASVASCRIPT APPLICATION ENGINE -->
     <script>
-        // Default Constants & NITE Conversion Table
+        // Constants & NITE Conversion Table
         const DEFAULT_CATEGORIES = [
-            "חישוב אלגברי",
-            "טעות טכנית",
-            "חוסר הבנה של השאלה",
-            "אסטרטגיה שגויה",
-            "דרך ארוכה מדי",
-            "חוסר תשומת לב",
-            "חוסר ידע תיאורטי",
-            "עייפות וחוסר הבנה",
-            "מלכודת",
-            "התקדמות מהירה",
-            "קריאה שגויה",
-            "הסתבכות בהצבה"
+            "חישוב אלגברי", "טעות טכנית", "חוסר הבנה של השאלה", "אסטרטגיה שגויה",
+            "דרך ארוכה מדי", "חוסר תשומת לב", "חוסר ידע תיאורטי", "עייפות וחוסר הבנה",
+            "מלכודת", "התקדמות מהירה", "קריאה שגויה", "הסתבכות בהצבה", "ניהול זמן/לחץ"
         ];
-
-        // Official NITE Psychometric Conversion Table for Quantitative Reasoning (Raw Score 0-40 -> 50-150)
         const NITE_PSYCHOMETRIC_TABLE = {
             0: 50, 1: 52, 2: 54, 3: 56, 4: 58, 5: 60, 6: 63, 7: 66, 8: 68, 9: 70,
             10: 73, 11: 76, 12: 78, 13: 80, 14: 83, 15: 86, 16: 88, 17: 90, 18: 93, 19: 96,
@@ -670,121 +608,158 @@
             30: 123, 31: 126, 32: 128, 33: 130, 34: 133, 35: 136, 36: 138, 37: 141, 38: 144, 39: 147, 40: 150
         };
 
-        // Application State
+        // App State
         let mistakesData = [];
         let categoriesData = [];
         let reportsData = [];
-        let gradeSections = [];
-        let scanAnswersData = [];
-        
         let activeTab = 'add';
-        let scanWizardIndex = 0;
-        let reviewWizardIndex = 0;
-        let reviewWizardItems = [];
-        let scanBase64 = null;
-        let scanMime = null;
-
         let chartCategoriesInstance = null;
         let chartMasteryInstance = null;
 
-        window.onload = function() {
-            initApp();
-        };
+        // Scanner State
+        let scanAnswersData = [];
+        let scanBase64 = null;
+        let scanMime = null;
+        let scanWizardIndex = 0;
 
-        function initApp() {
+        // Grade/Simulation State
+        let gradeSections = [];
+
+        // Review Wizard State
+        let reviewWizardItems = [];
+        let reviewWizardIndex = 0;
+
+        // Initialization
+        window.onload = function() {
             updateGreeting();
             loadData();
+            if (gradeSections.length === 0) addGradeSection();
             
-            if (gradeSections.length === 0) {
-                addGradeSection();
-            } else {
-                renderGradeSections();
-                updateGradeMultiStats();
-            }
-
             renderCategoryDropdowns();
             updateChaptersDatalist();
             renderReviewList();
             renderMistakesLog();
-            renderAiCharts();
-            setupKeyboardShortcuts();
-            setupModalBackdrops();
-
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
+            
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            setupGlobalListeners();
+        };
 
         function updateGreeting() {
-            const hour = new Date().getHours();
-            let greeting = 'שלום, עידו';
-            if (hour >= 5 && hour < 12) greeting = 'בוקר טוב, עידו';
-            else if (hour >= 12 && hour < 18) greeting = 'צהריים טובים, עידו';
-            else if (hour >= 18 && hour < 22) greeting = 'ערב טוב, עידו';
-            else greeting = 'לילה טוב, עידו';
-
+            const h = new Date().getHours();
+            let g = 'שלום, עידו';
+            if (h >= 5 && h < 12) g = 'בוקר טוב, עידו';
+            else if (h >= 12 && h < 18) g = 'צהריים טובים, עידו';
+            else if (h >= 18 && h < 22) g = 'ערב טוב, עידו';
+            else g = 'לילה טוב, עידו';
             const el = document.getElementById('user-greeting');
-            if (el) el.textContent = greeting;
+            if (el) el.textContent = g;
         }
 
+        // Universal Robust Data Load & Backup Normalization
         function loadData() {
             try {
-                const storedData = localStorage.getItem('my800_data');
-                if (storedData) {
-                    const parsed = JSON.parse(storedData);
-                    mistakesData = parsed.mistakes || [];
-                    categoriesData = parsed.categories || [...DEFAULT_CATEGORIES];
+                const stored = localStorage.getItem('my800_data');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    mistakesData = normalizeMistakes(parsed.mistakes || parsed);
+                    categoriesData = parsed.categories || parsed.customCategories || [...DEFAULT_CATEGORIES];
                     reportsData = parsed.reports || [];
                 } else {
                     categoriesData = [...DEFAULT_CATEGORIES];
                 }
             } catch (e) {
-                console.error('Error loading data:', e);
                 categoriesData = [...DEFAULT_CATEGORIES];
             }
         }
 
+        function normalizeMistakes(rawArr) {
+            if (!Array.isArray(rawArr)) return [];
+            return rawArr.map((item, idx) => {
+                let st = item.status;
+                if (!st) {
+                    if (item.needsReview === false) st = 'mastered';
+                    else st = 'pending';
+                }
+                return {
+                    id: item.id || ('m_' + Date.now() + '_' + idx),
+                    chapter: item.chapter || 'כלליות',
+                    qNum: parseInt(item.qNum || item.question || 1),
+                    category: item.category || 'טעות טכנית',
+                    reason: item.reason || '',
+                    status: st,
+                    correct: item.correct !== undefined && item.correct !== null ? parseInt(item.correct) : null,
+                    userAns: item.userAns !== undefined && item.userAns !== null ? parseInt(item.userAns) : null,
+                    date: item.date || item.createdAt || new Date().toISOString()
+                };
+            });
+        }
+
         function saveData() {
-            try {
-                localStorage.setItem('my800_data', JSON.stringify({
-                    mistakes: mistakesData,
-                    categories: categoriesData,
-                    reports: reportsData
-                }));
-            } catch (e) {
-                console.error('Error saving data:', e);
+            localStorage.setItem('my800_data', JSON.stringify({
+                mistakes: mistakesData, categories: categoriesData, reports: reportsData
+            }));
+            renderReviewList();
+            renderMistakesLog();
+            updateReviewBadge();
+        }
+
+        function updateReviewBadge() {
+            const pendingCount = mistakesData.filter(m => m.status === 'pending').length;
+            const badge = document.getElementById('review-badge');
+            if (!badge) return;
+            if (pendingCount > 0) {
+                badge.textContent = pendingCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
             }
         }
 
+        // UX: Tab Switching with Transitions
         function switchTab(tabId) {
+            if (activeTab === tabId) return;
+            const oldTabId = activeTab;
             activeTab = tabId;
             const tabs = ['add', 'scan', 'grade', 'review', 'log', 'ai'];
-            
+
             tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
-                const view = document.getElementById(`view-${t}`);
                 if (btn) {
-                    if (t === tabId) {
-                        btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap bg-white text-apple-textPrimary shadow-apple-sm";
-                    } else {
-                        btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary";
-                    }
-                }
-                if (view) {
-                    if (t === tabId) {
-                        view.classList.remove('hidden');
-                    } else {
-                        view.classList.add('hidden');
-                    }
+                    if (t === tabId) btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap bg-white text-apple-textPrimary shadow-apple-sm";
+                    else btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary";
                 }
             });
 
-            if (tabId === 'review') renderReviewList();
-            if (tabId === 'log') renderMistakesLog();
-            if (tabId === 'ai') renderAiCharts();
-            if (tabId === 'grade') renderGradeSections();
+            const oldView = document.getElementById(`view-${oldTabId}`);
+            if (oldView) {
+                oldView.classList.remove('fade-enter', 'fade-enter-active');
+                oldView.classList.add('fade-exit', 'fade-exit-active');
+                setTimeout(() => {
+                    oldView.classList.add('hidden');
+                    oldView.classList.remove('fade-exit', 'fade-exit-active');
+                    showNewTab(tabId);
+                }, 150);
+            } else {
+                showNewTab(tabId);
+            }
         }
 
+        function showNewTab(tabId) {
+            const newView = document.getElementById(`view-${tabId}`);
+            if (newView) {
+                newView.classList.remove('hidden');
+                newView.classList.add('fade-enter');
+                void newView.offsetWidth;
+                newView.classList.add('fade-enter-active');
+                
+                if (tabId === 'review') renderReviewList();
+                if (tabId === 'log') renderMistakesLog();
+                if (tabId === 'grade') { renderGradeSections(); updateGradeMultiStats(); }
+                if (tabId === 'ai') renderAiCharts();
+            }
+        }
+
+        // Add Mistake Logic
         function handleAddMistake() {
             const chapter = document.getElementById('add-chapter').value.trim();
             const qNum = parseInt(document.getElementById('add-qnum').value);
@@ -792,55 +767,44 @@
             const reason = document.getElementById('add-reason').value.trim();
 
             if (!chapter || !qNum || !reason) {
-                showToast('אנא מלא את כל שדות החובה', 'warning');
-                return;
+                showToast('אנא מלא את כל שדות החובה', 'warning'); return;
             }
 
-            const newMistake = {
+            mistakesData.unshift({
                 id: 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                chapter: chapter,
-                qNum: qNum,
-                category: category,
-                reason: reason,
-                status: 'pending',
-                correct: null,
-                userAns: null,
-                createdAt: new Date().toISOString()
-            };
-
-            mistakesData.unshift(newMistake);
+                chapter: chapter, qNum: qNum, category: category, reason: reason,
+                status: 'pending', correct: null, userAns: null, date: new Date().toISOString()
+            });
             saveData();
-
+            
             document.getElementById('add-qnum').value = '';
             document.getElementById('add-reason').value = '';
             updateChaptersDatalist();
-            showToast('הטעות נשמרה בהצלחה לרשימת החזרה!', 'success');
+            showToast('הטעות נשמרה בהצלחה!', 'success');
         }
 
         function renderCategoryDropdowns() {
+            const options = categoriesData.map(c => `<option value="${c}">${c}</option>`).join('');
             const addCat = document.getElementById('add-category');
             const editCat = document.getElementById('edit-category');
-
-            const optionsHtml = categoriesData.map(c => `<option value="${c}">${c}</option>`).join('');
-            if (addCat) addCat.innerHTML = optionsHtml;
-            if (editCat) editCat.innerHTML = optionsHtml;
+            if (addCat) addCat.innerHTML = options;
+            if (editCat) editCat.innerHTML = options;
         }
 
         function updateChaptersDatalist() {
-            const datalist = document.getElementById('chapters-datalist');
-            if (!datalist) return;
-
+            const dl = document.getElementById('chapters-datalist');
+            if (!dl) return;
             const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
-            datalist.innerHTML = chapters.map(c => `<option value="${c}">`).join('');
+            dl.innerHTML = chapters.map(c => `<option value="${c}">`).join('');
         }
 
+        // Scanner Functions
         function handleScanImageSelected(event) {
             const file = event.target.files[0];
             if (!file) return;
-
             document.getElementById('scan-file-label').textContent = file.name;
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = e => {
                 scanBase64 = e.target.result.split(',')[1];
                 scanMime = file.type || 'image/jpeg';
             };
@@ -848,206 +812,203 @@
         }
 
         async function processScanImage() {
-            const chapterName = document.getElementById('scan-chapter-name').value.trim() || 'פרק נבדק בסורק';
+            const chapterName = document.getElementById('scan-chapter-name').value.trim() || 'פרק נבדק';
             const apiKey = localStorage.getItem('my800_api_key') || '';
             const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
-
-            if (!scanBase64 && !apiKey) {
-                generateMockScanData(chapterName);
-                return;
-            }
 
             document.getElementById('scan-loading').classList.remove('hidden');
             document.getElementById('scan-grader-container').classList.add('hidden');
 
+            if (!scanBase64 || !apiKey) {
+                scanAnswersData = [];
+                for(let i=1; i<=20; i++) scanAnswersData.push({ q: i, correct: (i%4)+1, userAns: null, chapter: chapterName });
+                setTimeout(() => {
+                    renderFastGrid('scan-grid', scanAnswersData, 'scan');
+                    document.getElementById('scan-loading').classList.add('hidden');
+                    document.getElementById('scan-grader-container').classList.remove('hidden');
+                    if(typeof lucide !== 'undefined') lucide.createIcons();
+                }, 600);
+                return;
+            }
+
             try {
-                const prompt = `החזר אך ורק טקסט בפורמט JSON תקני ללא שום מילים נלוות. פלח מתוך התמונה את מספר השאלה והתשובה הנכונה בספר. הדוגמה לפורמט: [{"q": 1, "ans": 3}, {"q": 2, "ans": 1}]`;
+                const prompt = `החזר אך ורק טקסט בפורמט JSON תקני ללא שום מילים נלוות. פלח מתוך התמונה את מספר השאלה והתשובה הנכונה בספר. הפורמט חייב להיות מערך של אובייקטים: [{"q": 1, "ans": 3}, {"q": 2, "ans": 1}]`;
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [
-                                { text: prompt },
-                                { inline_data: { mime_type: scanMime, data: scanBase64 } }
-                            ]
-                        }]
-                    })
+                const res = await fetch(apiUrl, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: scanMime, data: scanBase64 } }] }] })
                 });
-
-                const data = await response.json();
+                const data = await res.json();
                 const rawText = data.candidates[0].content.parts[0].text;
                 const cleanJson = rawText.replace(/```json|```/g, '').trim();
                 const parsed = JSON.parse(cleanJson);
-
-                scanAnswersData = parsed.map(item => ({
-                    q: item.q,
-                    correct: item.ans,
-                    userAns: null,
-                    chapter: chapterName
-                }));
-
-                renderScanGrid();
+                scanAnswersData = parsed.map(item => ({ q: item.q, correct: item.ans, userAns: null, chapter: chapterName }));
                 showToast('תשובות הספר פוענחו בהצלחה!', 'success');
             } catch (err) {
-                console.warn('Scan AI failed or no key, generating template grid:', err);
-                generateMockScanData(chapterName);
+                showToast('שגיאה בפענוח תמונה. בדוק API Key או נסה שוב.', 'danger');
+                scanAnswersData = [];
             } finally {
+                renderFastGrid('scan-grid', scanAnswersData, 'scan');
                 document.getElementById('scan-loading').classList.add('hidden');
-                document.getElementById('scan-grader-container').classList.remove('hidden');
+                if (scanAnswersData.length > 0) document.getElementById('scan-grader-container').classList.remove('hidden');
+                if(typeof lucide !== 'undefined') lucide.createIcons();
             }
         }
 
-        function generateMockScanData(chapterName) {
-            scanAnswersData = [];
-            for (let i = 1; i <= 20; i++) {
-                scanAnswersData.push({
-                    q: i,
-                    correct: 1,
-                    userAns: null,
-                    chapter: chapterName
-                });
-            }
-            renderScanGrid();
-            document.getElementById('scan-loading').classList.add('hidden');
-            document.getElementById('scan-grader-container').classList.remove('hidden');
-        }
-
-        function renderScanGrid() {
-            const grid = document.getElementById('scan-grid');
+        // Unified Fast Grid Renderer
+        function renderFastGrid(containerId, dataArray, contextPrefix, secIndex = -1) {
+            const grid = document.getElementById(containerId);
             if (!grid) return;
-            grid.innerHTML = '';
-
-            scanAnswersData.forEach((item, idx) => {
+            
+            grid.innerHTML = dataArray.map((item, qIdx) => {
                 const isAnswered = item.userAns !== null;
                 const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
                 const isWrong = isAnswered && !isCorrect;
+                
+                let bgClass = "bg-white border-apple-border";
+                let textClass = "text-apple-textPrimary";
+                
+                if (isCorrect) { bgClass = "bg-apple-success/10 border-apple-success/40"; textClass = "text-apple-success"; }
+                if (isWrong) { bgClass = "bg-apple-danger/10 border-apple-danger/40"; textClass = "text-apple-danger"; }
 
-                let statusClass = "border-apple-border bg-white";
-                if (isCorrect) statusClass = "border-apple-success bg-apple-success/10";
-                if (isWrong) statusClass = "border-apple-danger bg-apple-danger/10";
+                const inputId = contextPrefix === 'scan' ? `scan-input-${qIdx}` : `grade-input-${secIndex}-${qIdx}`;
+                const cardId = contextPrefix === 'scan' ? `scan-card-${qIdx}` : `grade-card-${secIndex}-${qIdx}`;
 
-                const card = document.createElement('div');
-                card.id = `scan-card-${idx}`;
-                card.className = `p-2.5 rounded-xl border ${statusClass} flex flex-col items-center gap-1.5 transition shadow-sm`;
-                card.innerHTML = `
-                    <div class="flex items-center justify-between w-full text-[11px] font-bold text-apple-textSecondary">
-                        <span>#${item.q}</span>
-                        <button type="button" onclick="correctScanBookKey(${idx})" title="לחץ לעריכת תשובת הספר" class="text-[10px] bg-apple-grayBg px-1.5 py-0.5 rounded text-apple-accent hover:underline">ספר: ${item.correct}</button>
+                return `
+                    <div id="${cardId}" class="p-2.5 rounded-xl border ${bgClass} flex flex-col items-center justify-center gap-1.5 transition-colors duration-150 shadow-sm relative overflow-hidden">
+                        <div class="flex items-center justify-between w-full text-[10px] font-bold text-apple-textSecondary z-10">
+                            <span>#${item.q}</span>
+                            <button type="button" onclick="${contextPrefix === 'scan' ? `correctScanBookKey(${qIdx})` : `correctGradeBookKey(${secIndex}, ${qIdx})`}" title="ערוך תשובת ספר" class="hover:text-apple-accent hover:underline px-1 transition-colors">ספר: ${item.correct}</button>
+                        </div>
+                        <input type="text" inputmode="numeric" pattern="[1-4]*" maxlength="1" id="${inputId}" value="${item.userAns || ''}" 
+                            onkeydown="handleFastKeydown(event, '${contextPrefix}', ${qIdx}, ${secIndex})" placeholder="?" 
+                            class="w-full text-center bg-transparent border-none py-1 text-lg font-extrabold ${textClass} focus:outline-none focus:ring-0 z-10 placeholder-apple-textSecondary/30">
                     </div>
-                    <input type="text" inputmode="numeric" pattern="[1-4]*" maxlength="1" id="scan-input-${idx}" value="${item.userAns || ''}" 
-                        onkeydown="handleScanKeydown(event, ${idx})" placeholder="1-4" 
-                        class="w-full text-center bg-white border border-apple-border rounded-lg py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
                 `;
-                grid.appendChild(card);
-            });
-
-            updateScanLiveStats();
+            }).join('');
         }
 
-        function handleScanKeydown(e, idx) {
+        // Unified Fast Keydown Handler
+        function handleFastKeydown(e, contextPrefix, qIdx, secIndex) {
             const key = e.key;
+            const dataArray = contextPrefix === 'scan' ? scanAnswersData : gradeSections[secIndex].answers;
+
             if (['1', '2', '3', '4'].includes(key)) {
                 e.preventDefault();
                 const val = parseInt(key);
-                scanAnswersData[idx].userAns = val;
-
-                const card = document.getElementById(`scan-card-${idx}`);
-                const input = document.getElementById(`scan-input-${idx}`);
-                const item = scanAnswersData[idx];
-
-                if (input) input.value = val;
-                if (card) {
-                    const isCorrect = val === item.correct;
-                    card.className = `p-2.5 rounded-xl border ${isCorrect ? 'border-apple-success bg-apple-success/10' : 'border-apple-danger bg-apple-danger/10'} flex flex-col items-center gap-1.5 transition shadow-sm`;
+                dataArray[qIdx].userAns = val;
+                updateFastGridCard(contextPrefix, qIdx, secIndex, val, dataArray[qIdx].correct);
+                
+                if (contextPrefix === 'scan') {
+                    updateScanStats();
+                    setTimeout(() => focusNextInput('scan', qIdx, -1), 10);
+                } else {
+                    updateGradeMultiStats();
+                    setTimeout(() => focusNextInput('grade', qIdx, secIndex), 10);
                 }
-
-                updateScanLiveStats();
-                setTimeout(() => focusScanInput(idx + 1), 10);
             } else if (key === 'Backspace') {
                 e.preventDefault();
-                const input = document.getElementById(`scan-input-${idx}`);
-                const card = document.getElementById(`scan-card-${idx}`);
-
-                if (scanAnswersData[idx].userAns !== null) {
-                    scanAnswersData[idx].userAns = null;
-                    if (input) input.value = '';
-                    if (card) {
-                        card.className = 'p-2.5 rounded-xl border border-apple-border bg-white flex flex-col items-center gap-1.5 transition shadow-sm';
-                    }
-                    updateScanLiveStats();
+                if (dataArray[qIdx].userAns !== null) {
+                    dataArray[qIdx].userAns = null;
+                    updateFastGridCard(contextPrefix, qIdx, secIndex, null, dataArray[qIdx].correct);
+                    if (contextPrefix === 'scan') updateScanStats(); else updateGradeMultiStats();
                 } else {
-                    focusScanInput(idx - 1);
+                    focusPrevInput(contextPrefix, qIdx, secIndex);
                 }
-            } else if (key === 'ArrowLeft' || key === 'ArrowDown') {
-                e.preventDefault();
-                focusScanInput(idx + 1);
-            } else if (key === 'ArrowRight' || key === 'ArrowUp') {
-                e.preventDefault();
-                focusScanInput(idx - 1);
+            } else if (key === 'ArrowRight' || key === 'ArrowDown') {
+                e.preventDefault(); focusNextInput(contextPrefix, qIdx, secIndex);
+            } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
+                e.preventDefault(); focusPrevInput(contextPrefix, qIdx, secIndex);
             }
         }
 
-        function focusScanInput(idx) {
-            if (idx < 0 || idx >= scanAnswersData.length) return;
-            const input = document.getElementById(`scan-input-${idx}`);
-            if (input) {
-                input.focus();
-                if (typeof input.select === 'function') input.select();
-            }
-        }
-
-        function correctScanBookKey(idx) {
-            const cur = scanAnswersData[idx];
-            const newKey = prompt(`עדכן תשובת ספר לשאלה #${cur.q}:`, cur.correct);
-            if (newKey !== null) {
-                const parsed = parseInt(newKey);
-                if (parsed >= 1 && parsed <= 4) {
-                    cur.correct = parsed;
-                    renderScanGrid();
-                    showToast(`תשובת ספר לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
-                }
-            }
-        }
-
-        function updateScanLiveStats() {
-            let correct = 0;
-            let wrong = 0;
-
-            scanAnswersData.forEach(item => {
-                if (item.userAns !== null) {
-                    if (parseInt(item.userAns) === item.correct) correct++;
-                    else wrong++;
-                }
-            });
-
-            const elCorrect = document.getElementById('scan-stat-correct');
-            const elWrong = document.getElementById('scan-stat-wrong');
-            if (elCorrect) elCorrect.textContent = `V: ${correct}`;
-            if (elWrong) elWrong.textContent = `X: ${wrong}`;
+        function updateFastGridCard(context, qIdx, sIdx, userAns, correctAns) {
+            const cardId = context === 'scan' ? `scan-card-${qIdx}` : `grade-card-${sIdx}-${qIdx}`;
+            const inputId = context === 'scan' ? `scan-input-${qIdx}` : `grade-input-${sIdx}-${qIdx}`;
+            const card = document.getElementById(cardId);
+            const input = document.getElementById(inputId);
             
-            const proceedBtn = document.getElementById('btn-proceed-scan-wizard');
-            if (proceedBtn) proceedBtn.disabled = wrong === 0;
+            if (!card || !input) return;
+            input.value = userAns || '';
+            
+            card.className = "p-2.5 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-colors duration-150 shadow-sm relative overflow-hidden";
+            input.className = "w-full text-center bg-transparent border-none py-1 text-lg font-extrabold focus:outline-none focus:ring-0 z-10 placeholder-apple-textSecondary/30";
+
+            if (userAns !== null) {
+                if (userAns === correctAns) {
+                    card.classList.add('bg-apple-success/10', 'border-apple-success/40');
+                    input.classList.add('text-apple-success');
+                } else {
+                    card.classList.add('bg-apple-danger/10', 'border-apple-danger/40');
+                    input.classList.add('text-apple-danger');
+                }
+            } else {
+                card.classList.add('bg-white', 'border-apple-border');
+                input.classList.add('text-apple-textPrimary');
+            }
+        }
+
+        function focusNextInput(context, qIdx, sIdx) {
+            if (context === 'scan') {
+                if (qIdx + 1 < scanAnswersData.length) document.getElementById(`scan-input-${qIdx + 1}`)?.focus();
+            } else {
+                if (qIdx + 1 < gradeSections[sIdx].answers.length) {
+                    document.getElementById(`grade-input-${sIdx}-${qIdx + 1}`)?.focus();
+                } else if (sIdx + 1 < gradeSections.length && gradeSections[sIdx + 1].ready) {
+                    document.getElementById(`grade-input-${sIdx + 1}-0`)?.focus();
+                }
+            }
+        }
+
+        function focusPrevInput(context, qIdx, sIdx) {
+            if (context === 'scan') {
+                if (qIdx - 1 >= 0) document.getElementById(`scan-input-${qIdx - 1}`)?.focus();
+            } else {
+                if (qIdx - 1 >= 0) {
+                    document.getElementById(`grade-input-${sIdx}-${qIdx - 1}`)?.focus();
+                } else if (sIdx - 1 >= 0 && gradeSections[sIdx - 1].ready) {
+                    const lastQ = gradeSections[sIdx - 1].answers.length - 1;
+                    document.getElementById(`grade-input-${sIdx - 1}-${lastQ}`)?.focus();
+                }
+            }
+        }
+
+        function updateScanStats() {
+            let c = 0, w = 0;
+            scanAnswersData.forEach(i => {
+                if (i.userAns !== null) { if(i.userAns === i.correct) c++; else w++; }
+            });
+            const elC = document.getElementById('scan-stat-correct');
+            const elW = document.getElementById('scan-stat-wrong');
+            const btn = document.getElementById('btn-proceed-scan-wizard');
+            if (elC) elC.textContent = `V: ${c}`;
+            if (elW) elW.textContent = `X: ${w}`;
+            if (btn) btn.disabled = w === 0;
         }
 
         function resetScan() {
-            scanAnswersData = [];
-            scanBase64 = null;
-            scanMime = null;
-            document.getElementById('scan-file-label').textContent = 'בחר תמונה / העלה צילום ספר';
+            scanAnswersData = []; scanBase64 = null; scanMime = null;
+            const lbl = document.getElementById('scan-file-label');
+            if (lbl) lbl.textContent = 'בחר תמונה / העלה צילום ספר';
+            document.getElementById('scan-chapter-name').value = '';
             document.getElementById('scan-grader-container').classList.add('hidden');
             document.getElementById('scan-wizard-container').classList.add('hidden');
         }
 
-        function startScanWizard() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            if (mistakes.length === 0) {
-                showToast('אין טעויות לתחקור!', 'info');
-                return;
+        function correctScanBookKey(idx) {
+            const cur = scanAnswersData[idx];
+            const nk = prompt(`עדכן תשובת ספר לשאלה #${cur.q}:`, cur.correct);
+            if (nk && ['1','2','3','4'].includes(nk.trim())) {
+                cur.correct = parseInt(nk.trim());
+                updateFastGridCard('scan', idx, -1, cur.userAns, cur.correct);
+                updateScanStats();
             }
+        }
 
+        // Scan Interrogation Wizard
+        function startScanWizard() {
+            const wrongList = scanAnswersData.filter(i => i.userAns !== null && parseInt(i.userAns) !== i.correct);
+            if (wrongList.length === 0) { showToast('אין טעויות לתחקור!', 'info'); return; }
             scanWizardIndex = 0;
             document.getElementById('scan-grader-container').classList.add('hidden');
             document.getElementById('scan-wizard-container').classList.remove('hidden');
@@ -1055,60 +1016,55 @@
         }
 
         function renderScanWizardStep() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            if (mistakes.length === 0) {
+            const wrongList = scanAnswersData.filter(i => i.userAns !== null && parseInt(i.userAns) !== i.correct);
+            if (scanWizardIndex >= wrongList.length) {
+                // Done with all mistakes, save to database and reset scan!
+                wrongList.forEach(item => {
+                    mistakesData.unshift({
+                        id: 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                        chapter: item.chapter || 'פרק סרוק',
+                        qNum: item.q,
+                        category: item.wizardCategory || categoriesData[0] || 'טעות טכנית',
+                        reason: item.wizardReason || 'שגיאה בסורק',
+                        status: 'pending',
+                        correct: item.correct,
+                        userAns: item.userAns,
+                        date: new Date().toISOString()
+                    });
+                });
+                saveData();
                 resetScan();
-                showToast('כל הטעויות תוקנו והסתיימו!', 'success');
+                showToast('כל הטעויות תועדו בהצלחה והועברו לרשימת החזרה!', 'success');
+                switchTab('review');
                 return;
             }
 
-            const cur = mistakes[scanWizardIndex];
-            document.getElementById('scan-wizard-progress').textContent = `שאלה ${scanWizardIndex + 1} מתוך ${mistakes.length}`;
+            const cur = wrongList[scanWizardIndex];
+            document.getElementById('scan-wizard-progress').textContent = `שאלה ${scanWizardIndex + 1} מתוך ${wrongList.length}`;
             document.getElementById('scan-wizard-qtitle').textContent = `שאלה #${cur.q}`;
             document.getElementById('scan-wizard-chapter').textContent = `פרק: ${cur.chapter}`;
-            document.getElementById('scan-wizard-comparison').innerHTML = `<span>ענית: ${cur.userAns} | תשובה נכונה: ${cur.correct}</span>`;
+            document.getElementById('scan-wizard-comparison').textContent = `ענית: ${cur.userAns} | תשובה נכונה: ${cur.correct}`;
 
             const catSelect = document.getElementById('scan-wizard-category');
             catSelect.innerHTML = categoriesData.map(c => `<option value="${c}">${c}</option>`).join('');
+            if (cur.wizardCategory) catSelect.value = cur.wizardCategory;
 
-            document.getElementById('scan-wizard-reason').value = '';
+            const reasonTxt = document.getElementById('scan-wizard-reason');
+            reasonTxt.value = cur.wizardReason || '';
+
             document.getElementById('btn-scan-wizard-prev').disabled = scanWizardIndex === 0;
-            
-            const nextBtn = document.getElementById('btn-scan-wizard-next');
-            if (scanWizardIndex === mistakes.length - 1) {
-                nextBtn.textContent = 'שמור והשלם תחקור V';
-            } else {
-                nextBtn.textContent = 'לשאלה הבאה ←';
-            }
+            document.getElementById('btn-scan-wizard-next').textContent = scanWizardIndex === wrongList.length - 1 ? 'שמור וסיים תחקור V' : 'לשאלה הבאה \u2190';
         }
 
-        function correctCurrentWizardMistake() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            if (mistakes.length === 0 || scanWizardIndex >= mistakes.length) return;
-
-            const cur = mistakes[scanWizardIndex];
-            const newAns = prompt(`תיקון תשובה לשאלה #${cur.q} (הזן 1-4, או הקלד ${cur.correct} אם צדקת בשאלה זו):`, cur.userAns);
-            
-            if (newAns !== null) {
-                const parsed = parseInt(newAns);
-                if (parsed >= 1 && parsed <= 4) {
-                    cur.userAns = parsed;
-                    if (parsed === cur.correct) {
-                        showToast(`שאלה #${cur.q} עודכנה כפתורה והוסרה מהתחקור!`, 'success');
-                    } else {
-                        showToast(`תשובה לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
-                    }
-                    renderScanGrid();
-                    const newMistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-                    if (newMistakes.length === 0) {
-                        resetScan();
-                        showToast('כל הטעויות תוקנו! אין טעויות לתחקור.', 'success');
-                    } else {
-                        if (scanWizardIndex >= newMistakes.length) scanWizardIndex = Math.max(0, newMistakes.length - 1);
-                        renderScanWizardStep();
-                    }
-                }
+        function nextScanWizardStep() {
+            const wrongList = scanAnswersData.filter(i => i.userAns !== null && parseInt(i.userAns) !== i.correct);
+            const cur = wrongList[scanWizardIndex];
+            if (cur) {
+                cur.wizardCategory = document.getElementById('scan-wizard-category').value;
+                cur.wizardReason = document.getElementById('scan-wizard-reason').value.trim() || 'טעות בסורק';
             }
+            scanWizardIndex++;
+            renderScanWizardStep();
         }
 
         function prevScanWizardStep() {
@@ -1118,981 +1074,633 @@
             }
         }
 
-        function nextScanWizardStep() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            const cur = mistakes[scanWizardIndex];
-
-            const category = document.getElementById('scan-wizard-category').value;
-            const reason = document.getElementById('scan-wizard-reason').value.trim() || 'תחקור מהיר בסורק';
-
-            const newMistake = {
-                id: 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                chapter: cur.chapter,
-                qNum: cur.q,
-                category: category,
-                reason: reason,
-                status: 'pending',
-                correct: cur.correct,
-                userAns: cur.userAns,
-                createdAt: new Date().toISOString()
-            };
-
-            mistakesData.unshift(newMistake);
-
-            if (scanWizardIndex < mistakes.length - 1) {
-                scanWizardIndex++;
+        function correctCurrentWizardMistake() {
+            const wrongList = scanAnswersData.filter(i => i.userAns !== null && parseInt(i.userAns) !== i.correct);
+            const cur = wrongList[scanWizardIndex];
+            if (!cur) return;
+            const nk = prompt(`עדכן תשובת ספר נכונה לשאלה #${cur.q}:`, cur.correct);
+            if (nk && ['1','2','3','4'].includes(nk.trim())) {
+                cur.correct = parseInt(nk.trim());
                 renderScanWizardStep();
-            } else {
-                saveData();
-                resetScan();
-                showToast('כל הטעויות תועדו בהצלחה במאגר!', 'success');
-                switchTab('log');
+                showToast('תשובת הספר עודכנה!', 'success');
             }
         }
 
+        // Grade/Simulation Logic
         function addGradeSection() {
-            const secIndex = gradeSections.length;
-            const secName = `פרק ${secIndex + 1} - כמותי`;
-
-            const section = {
-                id: 'sec_' + Date.now(),
-                name: secName,
-                questionsCount: 20,
-                ready: false,
-                answers: []
+            const sec = {
+                id: 'sec_' + Date.now(), name: `פרק ${gradeSections.length + 1} - כמותי`,
+                ready: false, answers: Array.from({length: 20}, (_, i) => ({ q: i+1, correct: 1, userAns: null }))
             };
-
-            for (let i = 1; i <= 20; i++) {
-                section.answers.push({
-                    q: i,
-                    correct: 1,
-                    userAns: null
-                });
-            }
-
-            gradeSections.push(section);
-            renderGradeSections();
-            updateGradeMultiStats();
+            gradeSections.push(sec);
+            renderGradeSections(); updateGradeMultiStats();
         }
 
-        function removeGradeSection(index) {
-            if (gradeSections.length <= 1) {
-                showToast('חובה להשאיר לפחות פרק אחד לבדיקה', 'warning');
-                return;
-            }
-            gradeSections.splice(index, 1);
-            renderGradeSections();
-            updateGradeMultiStats();
+        function removeGradeSection(sIdx) {
+            if (gradeSections.length <= 1) { showToast('חובה להשאיר פרק אחד לפחות', 'warning'); return; }
+            if (confirm('להסיר פרק זה לצמיתות?')) { gradeSections.splice(sIdx, 1); renderGradeSections(); updateGradeMultiStats(); }
         }
-
-        function enableSectionManual(secIndex) {
-            gradeSections[secIndex].ready = true;
-            renderGradeSections();
-            updateGradeMultiStats();
-            showToast(`מקלדת הבדיקה ל-${gradeSections[secIndex].name} פתוחה. הקלד 1-4.`, 'info');
-        }
-
-        function renderGradeSections() {
-            const container = document.getElementById('grade-sections-container');
-            if (!container) return;
-            container.innerHTML = '';
-
-            gradeSections.forEach((sec, sIdx) => {
-                const secCard = document.createElement('div');
-                secCard.className = 'bg-white rounded-2xl p-5 border border-apple-border shadow-apple-sm space-y-4';
-                
-                if (!sec.ready) {
-                    secCard.innerHTML = `
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-apple-border/60 pb-3">
-                            <input type="text" value="${sec.name}" onchange="gradeSections[${sIdx}].name = this.value" class="text-xs font-bold text-apple-textPrimary bg-transparent border-b border-dashed border-apple-border focus:outline-none focus:border-apple-accent">
-                            ${gradeSections.length > 1 ? `<button onclick="removeGradeSection(${sIdx})" class="text-xs text-apple-danger hover:underline">הסר פרק</button>` : ''}
-                        </div>
-
-                        <div class="py-6 px-4 bg-apple-grayBg/60 rounded-xl border border-dashed border-apple-border text-center space-y-3">
-                            <p class="text-xs font-bold text-apple-textPrimary">תשובות הספר טרם נסרקו/הוגדרו לפרק זה</p>
-                            <p class="text-[11px] text-apple-textSecondary max-w-md mx-auto">מקלדת בדיקת התשובות תופיע מיד לאחר סריקת תמונת הספר או אישור מפתח התשובות.</p>
-                            
-                            <div id="sec-loader-${sIdx}" class="hidden py-2 text-center">
-                                <i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline mb-1"></i>
-                                <span class="text-xs font-bold text-apple-textPrimary pr-2">מפענח תשובות ספר מתוך התמונה...</span>
-                            </div>
-
-                            <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
-                                <label class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-2.5 px-4 rounded-xl cursor-pointer transition shadow-apple-sm flex items-center gap-1.5">
-                                    <i data-lucide="scan-line" class="w-4 h-4"></i>
-                                    <span>📸 סרוק תשובות ספר מתמונה (AI)</span>
-                                    <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
-                                </label>
-                                <button type="button" onclick="enableSectionManual(${sIdx})" class="bg-white hover:bg-apple-grayBg border border-apple-border text-apple-textPrimary text-xs font-semibold py-2.5 px-4 rounded-xl transition flex items-center gap-1.5">
-                                    <i data-lucide="edit-3" class="w-4 h-4 text-apple-accent"></i>
-                                    <span>הזן/אישר תשובות ספר ידנית (20 שאלות)</span>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    let questionsHtml = sec.answers.map((item, qIdx) => {
-                        const isAnswered = item.userAns !== null;
-                        const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
-                        const isWrong = isAnswered && !isCorrect;
-
-                        let statusClass = "border-apple-border bg-white";
-                        if (isCorrect) statusClass = "border-apple-success bg-apple-success/10";
-                        if (isWrong) statusClass = "border-apple-danger bg-apple-danger/10";
-
-                        return `
-                            <div id="grade-card-${sIdx}-${qIdx}" class="p-2.5 rounded-xl border ${statusClass} flex flex-col items-center gap-1.5 transition shadow-sm">
-                                <div class="flex items-center justify-between w-full text-[10px] font-bold text-apple-textSecondary">
-                                    <span>#${item.q}</span>
-                                    <button type="button" onclick="correctGradeAnswerKey(${sIdx}, ${qIdx})" title="לחץ לעריכת תשובת הספר" class="text-apple-accent hover:underline">ספר: ${item.correct}</button>
-                                </div>
-                                <input type="text" inputmode="numeric" pattern="[1-4]*" maxlength="1" id="grade-input-${sIdx}-${qIdx}" value="${item.userAns || ''}" 
-                                    onkeydown="handleGradeKeydown(event, ${sIdx}, ${qIdx})" placeholder="1-4" 
-                                    class="w-full text-center bg-white border border-apple-border rounded-lg py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
-                            </div>
-                        `;
-                    }).join('');
-
-                    secCard.innerHTML = `
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-apple-border/60 pb-3">
-                            <input type="text" value="${sec.name}" onchange="gradeSections[${sIdx}].name = this.value" class="text-xs font-bold text-apple-textPrimary bg-transparent border-b border-dashed border-apple-border focus:outline-none focus:border-apple-accent">
-                            
-                            <div class="flex items-center gap-3">
-                                <label class="bg-apple-grayBg hover:bg-apple-border/60 text-apple-textPrimary border border-apple-border text-[11px] font-medium py-1.5 px-3 rounded-xl cursor-pointer transition flex items-center gap-1.5">
-                                    <i data-lucide="scan-line" class="w-3.5 h-3.5 text-apple-accent"></i>
-                                    <span>📸 סרוק מחדש מתמונה</span>
-                                    <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
-                                </label>
-                                <span class="text-xs font-bold text-apple-accent" id="sec-score-${sIdx}">נכון: 0/20</span>
-                                ${gradeSections.length > 1 ? `<button onclick="removeGradeSection(${sIdx})" class="text-xs text-apple-danger hover:underline">הסר פרק</button>` : ''}
-                            </div>
-                        </div>
-
-                        <div id="sec-loader-${sIdx}" class="hidden py-3 text-center bg-apple-grayBg/50 rounded-xl">
-                            <i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline mb-1"></i>
-                            <span class="text-xs font-bold text-apple-textPrimary pr-2">מפענח תשובות ספר מתוך התמונה...</span>
-                        </div>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2.5">
-                            ${questionsHtml}
-                        </div>
-                    `;
-                }
-
-                container.appendChild(secCard);
-            });
-
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
+        
+        function resetGradeSimulation() {
+            if (confirm('האם אתה בטוח שברצונך לאפס את כל הסימולציה? הנתונים לא יישמרו.')) {
+                gradeSections = [];
+                addGradeSection();
             }
         }
 
-        function handleGradeKeydown(e, sIdx, qIdx) {
-            const key = e.key;
-            if (['1', '2', '3', '4'].includes(key)) {
-                e.preventDefault();
-                const val = parseInt(key);
-                gradeSections[sIdx].answers[qIdx].userAns = val;
-
-                const card = document.getElementById(`grade-card-${sIdx}-${qIdx}`);
-                const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
-                const item = gradeSections[sIdx].answers[qIdx];
-
-                if (input) input.value = val;
-                if (card) {
-                    const isCorrect = val === item.correct;
-                    card.className = `p-2.5 rounded-xl border ${isCorrect ? 'border-apple-success bg-apple-success/10' : 'border-apple-danger bg-apple-danger/10'} flex flex-col items-center gap-1.5 transition shadow-sm`;
-                }
-
-                updateGradeMultiStats();
-                setTimeout(() => focusGradeInput(sIdx, qIdx + 1), 10);
-            } else if (key === 'Backspace') {
-                e.preventDefault();
-                const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
-                const card = document.getElementById(`grade-card-${sIdx}-${qIdx}`);
-
-                if (gradeSections[sIdx].answers[qIdx].userAns !== null) {
-                    gradeSections[sIdx].answers[qIdx].userAns = null;
-                    if (input) input.value = '';
-                    if (card) {
-                        card.className = 'p-2.5 rounded-xl border border-apple-border bg-white flex flex-col items-center gap-1.5 transition shadow-sm';
-                    }
-                    updateGradeMultiStats();
-                } else {
-                    focusGradeInput(sIdx, qIdx - 1);
-                }
-            } else if (key === 'ArrowLeft' || key === 'ArrowDown') {
-                e.preventDefault();
-                focusGradeInput(sIdx, qIdx + 1);
-            } else if (key === 'ArrowRight' || key === 'ArrowUp') {
-                e.preventDefault();
-                focusGradeInput(sIdx, qIdx - 1);
-            }
+        function enableSectionManual(sIdx) {
+            gradeSections[sIdx].ready = true;
+            renderGradeSections(); updateGradeMultiStats();
+            setTimeout(() => document.getElementById(`grade-input-${sIdx}-0`)?.focus(), 100);
         }
 
-        function focusGradeInput(sIdx, qIdx) {
-            if (qIdx >= gradeSections[sIdx].answers.length) {
-                if (sIdx + 1 < gradeSections.length) {
-                    sIdx++;
-                    qIdx = 0;
-                } else {
-                    return;
-                }
-            } else if (qIdx < 0) {
-                if (sIdx - 1 >= 0) {
-                    sIdx--;
-                    qIdx = gradeSections[sIdx].answers.length - 1;
-                } else {
-                    return;
-                }
-            }
-            const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
-            if (input) {
-                input.focus();
-                if (typeof input.select === 'function') input.select();
-            }
-        }
-
-        async function scanGradeSectionImage(secIndex, event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
+        async function scanGradeSectionImage(sIdx, event) {
+            const file = event.target.files[0]; if(!file) return;
             const apiKey = localStorage.getItem('my800_api_key') || '';
-            const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
-
-            if (!apiKey) {
-                showToast('לסריקת תשובות ספר מתוך תמונה נדרש API Key בהגדרות', 'warning');
-                return;
-            }
-
-            const loader = document.getElementById(`sec-loader-${secIndex}`);
+            const loader = document.getElementById(`sec-loader-${sIdx}`);
             if (loader) loader.classList.remove('hidden');
 
+            if (!apiKey) {
+                setTimeout(() => {
+                    gradeSections[sIdx].ready = true;
+                    if (loader) loader.classList.add('hidden');
+                    renderGradeSections(); updateGradeMultiStats();
+                    showToast('הפרק נפתח לעריכה (מצב ללא AI)', 'info');
+                }, 500); return;
+            }
+
             const reader = new FileReader();
-            reader.onload = async function (e) {
-                const base64 = e.target.result.split(',')[1];
-                const mime = file.type || 'image/jpeg';
-
+            reader.onload = async (e) => {
+                const b64 = e.target.result.split(',')[1];
                 try {
-                    const prompt = `החזר אך ורק טקסט בפורמט JSON תקני ללא שום מילים נלוות. פלח מתוך התמונה את מספר השאלה והתשובה הנכונה בספר. הדוגמה לפורמט: [{"q": 1, "ans": 3}, {"q": 2, "ans": 1}]`;
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
-
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [
-                                    { text: prompt },
-                                    { inline_data: { mime_type: mime, data: base64 } }
-                                ]
-                            }]
-                        })
+                    const model = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                    const res = await fetch(apiUrl, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: `החזר מערך JSON בלבד: [{"q": 1, "ans": 3}]` }, { inline_data: { mime_type: file.type || 'image/jpeg', data: b64 } }] }] })
                     });
-
-                    const data = await response.json();
-                    const rawText = data.candidates[0].content.parts[0].text;
-                    const cleanJson = rawText.replace(/```json|```/g, '').trim();
-                    const parsed = JSON.parse(cleanJson);
-
-                    parsed.forEach(item => {
-                        const qObj = gradeSections[secIndex].answers.find(a => a.q === item.q);
-                        if (qObj) qObj.correct = parseInt(item.ans);
-                    });
-
-                    gradeSections[secIndex].ready = true;
-                    renderGradeSections();
-                    updateGradeMultiStats();
-                    showToast(`תשובות הספר ל-${gradeSections[secIndex].name} פוענחו בהצלחה!`, 'success');
-                } catch (err) {
-                    console.error(err);
-                    showToast('שגיאה בפענוח התמונה. אנא בדוק תקינות התמונה וה-API Key.', 'danger');
+                    const data = await res.json();
+                    const parsed = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
+                    parsed.forEach(item => { const qO = gradeSections[sIdx].answers.find(a => a.q === item.q); if (qO) qO.correct = parseInt(item.ans); });
+                    gradeSections[sIdx].ready = true;
+                    showToast(`תשובות פוענחו בהצלחה!`, 'success');
+                } catch(err) {
+                    showToast('שגיאה בפענוח תמונה', 'danger');
                 } finally {
                     if (loader) loader.classList.add('hidden');
+                    renderGradeSections(); updateGradeMultiStats();
                 }
             };
             reader.readAsDataURL(file);
         }
 
-        function correctGradeAnswerKey(secIndex, qIndex) {
-            const cur = gradeSections[secIndex].answers[qIndex];
-            const newKey = prompt(`עדכן את תשובת הספר הנכונה לשאלה #${cur.q}:`, cur.correct);
-            if (newKey !== null) {
-                const parsed = parseInt(newKey);
-                if (parsed >= 1 && parsed <= 4) {
-                    cur.correct = parsed;
-                    renderGradeSections();
-                    updateGradeMultiStats();
-                    showToast(`תשובת הספר לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
-                }
+        function correctGradeBookKey(sIdx, qIdx) {
+            const cur = gradeSections[sIdx].answers[qIdx];
+            const nk = prompt(`עדכן תשובת ספר לשאלה #${cur.q}:`, cur.correct);
+            if (nk && ['1','2','3','4'].includes(nk.trim())) {
+                cur.correct = parseInt(nk.trim());
+                updateFastGridCard('grade', qIdx, sIdx, cur.userAns, cur.correct);
+                updateGradeMultiStats();
             }
+        }
+
+        function renderGradeSections() {
+            const container = document.getElementById('grade-sections-container');
+            if (!container) return;
+            container.innerHTML = gradeSections.map((sec, sIdx) => {
+                let inner = '';
+                if (!sec.ready) {
+                    inner = `
+                        <div class="py-8 px-4 bg-apple-bg rounded-xl border border-dashed border-apple-border text-center space-y-4">
+                            <p class="text-xs font-bold text-apple-textPrimary">תשובות הספר לפרק זה טרם הוגדרו</p>
+                            <div id="sec-loader-${sIdx}" class="hidden py-2"><i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline"></i></div>
+                            <div class="flex flex-wrap items-center justify-center gap-3">
+                                <label class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-2.5 px-4 rounded-xl cursor-pointer transition shadow-sm flex items-center gap-1.5 active:scale-95">
+                                    <i data-lucide="scan-line" class="w-4 h-4"></i> סרוק תמונת תשובות (AI)
+                                    <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
+                                </label>
+                                <button type="button" onclick="enableSectionManual(${sIdx})" class="bg-white hover:bg-apple-grayBg border border-apple-border text-apple-textPrimary text-xs font-semibold py-2.5 px-4 rounded-xl transition shadow-sm active:scale-95">הזן/אשר ידנית</button>
+                            </div>
+                        </div>`;
+                } else {
+                    let answeredCount = sec.answers.filter(a => a.userAns !== null).length;
+                    inner = `
+                        <div class="flex items-center justify-between text-[11px] font-bold text-apple-textSecondary mb-2">
+                            <span>הוזנו ${answeredCount} מתוך ${sec.answers.length} שאלות</span>
+                            <label class="text-apple-accent hover:underline cursor-pointer">
+                                🔄 סרוק מחדש מתמונה
+                                <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
+                            </label>
+                        </div>
+                        <div id="sec-loader-${sIdx}" class="hidden py-3 text-center bg-apple-bg rounded-xl mb-3"><i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline"></i></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-10 gap-2.5" id="grade-grid-${sIdx}"></div>
+                    `;
+                }
+                return `
+                    <div class="bg-white rounded-2xl p-5 border border-apple-border shadow-apple-sm space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-apple-border/60 pb-3">
+                            <input type="text" value="${sec.name}" onchange="gradeSections[${sIdx}].name = this.value" class="text-xs font-bold text-apple-textPrimary bg-transparent border-b border-dashed border-transparent hover:border-apple-border focus:border-apple-accent focus:outline-none transition-colors">
+                            <div class="flex items-center gap-3">
+                                ${sec.ready ? `<span class="text-[11px] font-bold text-apple-accent px-2 py-1 bg-apple-accent/10 rounded-lg" id="sec-score-${sIdx}">-</span>` : ''}
+                                ${gradeSections.length > 1 ? `<button onclick="removeGradeSection(${sIdx})" class="text-[11px] font-medium text-apple-danger hover:underline">הסר פרק</button>` : ''}
+                            </div>
+                        </div>
+                        ${inner}
+                    </div>
+                `;
+            }).join('');
+            
+            gradeSections.forEach((sec, sIdx) => {
+                if (sec.ready) renderFastGrid(`grade-grid-${sIdx}`, sec.answers, 'grade', sIdx);
+            });
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function updateGradeMultiStats() {
-            let totalCorrect = 0;
-            let totalAnswered = 0;
-            let totalQuestions = 0;
-
+            let tc = 0, ta = 0, tq = 0;
             gradeSections.forEach((sec, sIdx) => {
-                let secCorrect = 0;
-                sec.answers.forEach(item => {
-                    totalQuestions++;
-                    if (item.userAns !== null) {
-                        totalAnswered++;
-                        if (parseInt(item.userAns) === item.correct) {
-                            secCorrect++;
-                            totalCorrect++;
-                        }
-                    }
+                let sc = 0;
+                sec.answers.forEach(i => {
+                    tq++;
+                    if (i.userAns !== null) { ta++; if(parseInt(i.userAns) === i.correct) { sc++; tc++; } }
                 });
-
-                const secEl = document.getElementById(`sec-score-${sIdx}`);
-                if (secEl) {
-                    secEl.textContent = `נכון: ${secCorrect}/${sec.answers.length}`;
-                }
+                const se = document.getElementById(`sec-score-${sIdx}`);
+                if (se) se.textContent = `נכון: ${sc}/${sec.answers.length}`;
             });
-
-            const pct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-            const psychometricEl = document.getElementById('grade-multi-psychometric');
-
-            document.getElementById('grade-multi-raw').textContent = `${totalCorrect} / ${totalQuestions}`;
+            
+            const pct = ta > 0 ? Math.round((tc / ta) * 100) : 0;
+            document.getElementById('grade-multi-raw').textContent = `${tc} / ${tq}`;
             document.getElementById('grade-multi-pct').textContent = `${pct}%`;
-
-            if (psychometricEl) {
-                if (gradeSections.length >= 2) {
-                    const psychometricEst = getPsychometricScore(totalCorrect);
-                    psychometricEl.textContent = psychometricEst;
-                } else {
-                    psychometricEl.textContent = 'נדרשים 2 פרקים';
-                }
+            
+            const psyEl = document.getElementById('grade-multi-psychometric');
+            if (psyEl) {
+                if (gradeSections.length >= 2) psyEl.textContent = NITE_PSYCHOMETRIC_TABLE[tc] || (tc > 40 ? 150 : 50);
+                else psyEl.textContent = 'נדרשים 2 פרקים';
             }
         }
-
-        function getPsychometricScore(rawScore) {
-            if (rawScore in NITE_PSYCHOMETRIC_TABLE) {
-                return NITE_PSYCHOMETRIC_TABLE[rawScore];
-            }
-            if (rawScore > 40) return 150;
-            return 50;
-        }
-
+        
         function saveGradeReport() {
-            let totalCorrect = 0;
-            let totalQuestions = 0;
-
-            gradeSections.forEach(sec => {
-                sec.answers.forEach(item => {
-                    totalQuestions++;
-                    if (item.userAns !== null && parseInt(item.userAns) === item.correct) {
-                        totalCorrect++;
-                    }
-                });
+            let tc = 0, tq = 0;
+            gradeSections.forEach(sec => sec.answers.forEach(i => { tq++; if(i.userAns !== null && parseInt(i.userAns) === i.correct) tc++; }));
+            const pct = tq > 0 ? Math.round((tc/tq)*100) : 0;
+            reportsData.unshift({
+                id: 'rep_'+Date.now(), date: new Date().toLocaleDateString('he-IL'),
+                sectionsCount: gradeSections.length, rawScore: `${tc}/${tq}`,
+                percentage: `${pct}%`, psychometric: gradeSections.length >= 2 ? (NITE_PSYCHOMETRIC_TABLE[tc] || 150) : 'ללא חיווי'
             });
-
-            const pct = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
-            const psychometricScore = gradeSections.length >= 2 ? getPsychometricScore(totalCorrect) : 'ללא חיווי (פחות מ-2 פרקים)';
-
-            const report = {
-                id: 'rep_' + Date.now(),
-                date: new Date().toLocaleDateString('he-IL'),
-                sectionsCount: gradeSections.length,
-                rawScore: `${totalCorrect}/${totalQuestions}`,
-                percentage: `${pct}%`,
-                psychometric: psychometricScore
-            };
-
-            reportsData.unshift(report);
-            saveData();
-            showToast('הדו"ח נשמר בהצלחה במרכז הדו"חות שלי!', 'success');
+            saveData(); showToast('הדו"ח נשמר במרכז הדו"חות!', 'success');
         }
 
+        // Review List (Active Recall)
         function renderReviewList() {
             const container = document.getElementById('review-items-container');
-            const filterSelect = document.getElementById('review-filter-chapter');
-            if (!container || !filterSelect) return;
+            const filterChap = document.getElementById('review-filter-chapter');
+            if (!container) return;
 
-            const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
-            filterSelect.innerHTML = '<option value="">כל הפרקים</option>' + chapters.map(c => `<option value="${c}">${c}</option>`).join('');
-
-            const selectedChapter = filterSelect.value;
-            const pendingMistakes = mistakesData.filter(m => m.status === 'pending' && (!selectedChapter || m.chapter === selectedChapter));
-
-            const badge = document.getElementById('review-badge');
-            if (badge) {
-                badge.textContent = pendingMistakes.length;
-                badge.classList.toggle('hidden', pendingMistakes.length === 0);
+            const pendingItems = mistakesData.filter(m => m.status === 'pending');
+            
+            if (filterChap) {
+                const curVal = filterChap.value;
+                const chapters = [...new Set(pendingItems.map(m => m.chapter))].filter(Boolean);
+                filterChap.innerHTML = `<option value="">כל הפרקים (${pendingItems.length})</option>` + chapters.map(c => `<option value="${c}" ${c===curVal?'selected':''}>${c}</option>`).join('');
             }
 
-            if (pendingMistakes.length === 0) {
+            const selectedChap = filterChap ? filterChap.value : '';
+            const filtered = pendingItems.filter(m => !selectedChap || m.chapter === selectedChap);
+
+            if (filtered.length === 0) {
+                container.className = "col-span-full";
                 container.innerHTML = `
-                    <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-apple-border text-apple-textSecondary">
-                        <i data-lucide="check-circle-2" class="w-10 h-10 mx-auto mb-2 text-apple-success"></i>
-                        <p class="font-bold text-xs">אין שאלות ממתינות לחזרה!</p>
-                        <p class="text-[11px] mt-1">כל הכבוד, סיימת לעבור על כל הטעויות בסבב זה.</p>
-                    </div>
-                `;
+                    <div class="bg-white rounded-2xl p-10 border border-apple-border text-center space-y-3 shadow-apple-sm">
+                        <i data-lucide="check-circle-2" class="w-10 h-10 text-apple-success mx-auto"></i>
+                        <h3 class="text-sm font-bold text-apple-textPrimary">אין שאלות ממתינות לחזרה!</h3>
+                        <p class="text-xs text-apple-textSecondary max-w-sm mx-auto">כל הכבוד! סיימת לעבור על כל טעויות החובה שלך. תוכל להוסיף טעויות חדשות או לבדוק פרקים נוספים.</p>
+                    </div>`;
                 if (typeof lucide !== 'undefined') lucide.createIcons();
                 return;
             }
 
-            container.innerHTML = pendingMistakes.map(m => `
-                <div class="bg-white rounded-2xl p-4 border border-apple-border shadow-apple-sm flex items-center justify-between">
-                    <div>
-                        <div class="text-[11px] font-bold text-apple-textSecondary">${m.chapter}</div>
-                        <div class="text-lg font-extrabold text-apple-textPrimary">שאלה #${m.qNum}</div>
+            container.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4";
+            container.innerHTML = filtered.map(item => `
+                <div class="bg-white rounded-2xl p-5 border border-apple-border shadow-apple-sm hover:shadow-apple-md transition-all duration-200 flex flex-col justify-between gap-4 group">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-apple-accent bg-apple-accent/10 px-2.5 py-0.5 rounded-full">${item.chapter}</span>
+                            <span class="text-[10px] text-apple-textSecondary">${new Date(item.date).toLocaleDateString('he-IL')}</span>
+                        </div>
+                        <div class="text-lg font-extrabold text-apple-textPrimary pt-1">שאלה #${item.qNum}</div>
+                        <div class="text-xs font-medium text-apple-textSecondary line-clamp-2 bg-apple-grayBg/50 p-2.5 rounded-xl border border-apple-border/50 mt-1">${item.reason}</div>
                     </div>
-                    <button onclick="toggleMistakeStatus('${m.id}')" class="bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs px-3 py-1.5 rounded-xl border border-apple-success/30 transition">
-                        V סמן כפתור
-                    </button>
+                    <div class="flex items-center gap-2 pt-2 border-t border-apple-border/60">
+                        <button onclick="markMistakeMastered('${item.id}')" class="flex-1 bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-2 px-3 rounded-xl transition flex items-center justify-center gap-1.5 active:scale-95">
+                            <i data-lucide="check" class="w-4 h-4"></i> סיים והעבר להושלם
+                        </button>
+                    </div>
                 </div>
             `).join('');
-
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        function startReviewWizard() {
-            const selectedChapter = document.getElementById('review-filter-chapter').value;
-            reviewWizardItems = mistakesData.filter(m => m.status === 'pending' && (!selectedChapter || m.chapter === selectedChapter));
-
-            if (reviewWizardItems.length === 0) {
-                showToast('אין שאלות ברשימת החזרה', 'info');
-                return;
-            }
-
-            reviewWizardIndex = 0;
-            document.getElementById('review-wizard-modal').classList.remove('hidden');
-            renderReviewWizardStep();
-        }
-
-        function closeReviewWizard() {
-            document.getElementById('review-wizard-modal').classList.add('hidden');
-        }
-
-        function renderReviewWizardStep() {
-            if (reviewWizardIndex >= reviewWizardItems.length) {
-                closeReviewWizard();
-                renderReviewList();
-                showToast('סיימת את אשף החזרה!', 'success');
-                return;
-            }
-
-            const cur = reviewWizardItems[reviewWizardIndex];
-            document.getElementById('review-wizard-step').textContent = `שאלה ${reviewWizardIndex + 1} מתוך ${reviewWizardItems.length}`;
-            document.getElementById('review-wizard-chapter-name').textContent = `פרק: ${cur.chapter}`;
-            document.getElementById('review-wizard-qnum').textContent = `שאלה #${cur.qNum}`;
-
-            document.getElementById('review-wizard-ans-input').value = '';
-            document.getElementById('review-wizard-ans-feedback').textContent = '';
-
-            document.getElementById('btn-review-choice-master').className = "bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-success/30 flex flex-col items-center gap-1";
-            document.getElementById('btn-review-choice-fail').className = "bg-apple-danger/10 hover:bg-apple-danger/20 text-apple-danger font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-danger/30 flex flex-col items-center gap-1";
-        }
-
-        function submitReviewAnswerCheck() {
-            const val = document.getElementById('review-wizard-ans-input').value.trim();
-            const feedbackEl = document.getElementById('review-wizard-ans-feedback');
-            const cur = reviewWizardItems[reviewWizardIndex];
-
-            if (!val || !cur.correct) {
-                feedbackEl.textContent = '';
-                return;
-            }
-
-            const parsed = parseInt(val);
-            if (parsed === cur.correct) {
-                feedbackEl.className = "text-[11px] text-center font-bold text-apple-success min-h-[18px]";
-                feedbackEl.textContent = "V תשובה נכונה! כל הכבוד!";
-            } else {
-                feedbackEl.className = "text-[11px] text-center font-bold text-apple-danger min-h-[18px]";
-                feedbackEl.textContent = `X תשובה שגויה. תשובת הספר הנכונה היא: ${cur.correct}`;
+        function markMistakeMastered(id) {
+            const m = mistakesData.find(x => x.id === id);
+            if (m) {
+                m.status = 'mastered';
+                saveData();
+                showToast('השאלה סומנה כהושלמה בהצלחה!', 'success');
             }
         }
 
-        function handleReviewWizardChoice(choice) {
-            const cur = reviewWizardItems[reviewWizardIndex];
-
-            if (choice === 'master') {
-                cur.status = 'mastered';
-            } else if (choice === 'fail') {
-                cur.status = 'pending';
-            }
-
-            saveData();
-            reviewWizardIndex++;
-            renderReviewWizardStep();
-        }
-
+        // Mistakes Database (Log)
         function renderMistakesLog() {
             const container = document.getElementById('log-items-container');
+            const filterChap = document.getElementById('log-filter-chapter');
+            const filterStatus = document.getElementById('log-filter-status')?.value || 'all';
+            const searchQuery = document.getElementById('log-search')?.value.toLowerCase() || '';
+
             if (!container) return;
 
-            const searchVal = document.getElementById('log-search').value.toLowerCase().trim();
-            const filterChapter = document.getElementById('log-filter-chapter').value;
-            const filterStatus = document.getElementById('log-filter-status').value;
+            if (filterChap) {
+                const curVal = filterChap.value;
+                const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
+                filterChap.innerHTML = `<option value="">כל הפרקים</option>` + chapters.map(c => `<option value="${c}" ${c===curVal?'selected':''}>${c}</option>`).join('');
+            }
 
-            const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
-            document.getElementById('log-filter-chapter').innerHTML = '<option value="">כל הפרקים</option>' + chapters.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('log-filter-chapter').value = filterChapter;
-
+            const selectedChap = filterChap ? filterChap.value : '';
             const filtered = mistakesData.filter(m => {
-                const matchSearch = m.chapter.toLowerCase().includes(searchVal) || m.reason.toLowerCase().includes(searchVal) || m.category.toLowerCase().includes(searchVal);
-                const matchChapter = !filterChapter || m.chapter === filterChapter;
+                const matchChap = !selectedChap || m.chapter === selectedChap;
                 const matchStatus = filterStatus === 'all' || m.status === filterStatus;
-                return matchSearch && matchChapter && matchStatus;
+                const matchSearch = !searchQuery || m.reason.toLowerCase().includes(searchQuery) || m.chapter.toLowerCase().includes(searchQuery);
+                return matchChap && matchStatus && matchSearch;
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="p-8 text-center bg-white rounded-2xl border border-apple-border text-xs text-apple-textSecondary">לא נמצאו טעויות התואמות את המסנן.</div>`;
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 border border-apple-border text-center text-apple-textSecondary text-xs">
+                        לא נמצאו טעויות התואמות את מסנני הניטור.
+                    </div>`;
                 return;
             }
 
-            container.innerHTML = filtered.map(m => {
-                const isMastered = m.status === 'mastered';
+            container.innerHTML = filtered.map(item => {
+                const isMastered = item.status === 'mastered';
                 return `
-                    <div class="bg-white rounded-2xl border border-apple-border shadow-apple-sm overflow-hidden transition">
-                        <div onclick="toggleAccordion('${m.id}')" class="p-4 cursor-pointer flex items-center justify-between hover:bg-apple-grayBg/40 transition">
-                            <div class="flex items-center gap-3">
-                                <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${isMastered ? 'bg-apple-success/10 text-apple-success' : 'bg-apple-warning/10 text-apple-warning'}">
+                    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-apple-border shadow-apple-sm space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-apple-border/60 pb-2.5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-xs font-bold text-apple-textPrimary">${item.chapter} - שאלה #${item.qNum}</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${isMastered ? 'bg-apple-success/10 text-apple-success' : 'bg-apple-warning/10 text-apple-warning'}">
                                     ${isMastered ? 'הושלם (Mastered)' : 'ממתין לחזרה'}
                                 </span>
-                                <div>
-                                    <div class="text-xs font-bold text-apple-textPrimary">${m.chapter} - שאלה #${m.qNum}</div>
-                                    <div class="text-[11px] text-apple-textSecondary mt-0.5">${m.category}</div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[11px] font-bold text-apple-accent bg-apple-accent/10 px-2.5 py-1 rounded-lg">${item.category}</span>
+                                <div class="flex items-center gap-1 border-r border-apple-border pr-3">
+                                    <button onclick="openEditModal('${item.id}')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-accent p-1 transition" title="ערוך"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                    <button onclick="deleteMistake('${item.id}')" class="text-xs font-medium text-apple-textSecondary hover:text-apple-danger p-1 transition" title="מחק"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </div>
                             </div>
-
-                            <div class="flex items-center gap-2">
-                                <button onclick="event.stopPropagation(); openEditModal('${m.id}')" class="text-xs text-apple-accent hover:underline px-2 py-1">עריכה</button>
-                                <button onclick="event.stopPropagation(); deleteMistake('${m.id}')" class="text-xs text-apple-danger hover:underline px-2 py-1">מחיקה</button>
-                                <i data-lucide="chevron-down" id="acc-icon-${m.id}" class="w-4 h-4 text-apple-textSecondary transition-transform duration-200"></i>
-                            </div>
                         </div>
-
-                        <div id="acc-body-${m.id}" class="hidden px-4 pb-4 pt-1 border-t border-apple-border/40 bg-apple-grayBg/30 text-xs text-apple-textPrimary">
-                            <div class="font-bold mb-1 text-apple-textSecondary">סיבת הטעות והערה לסיבוב הבא:</div>
-                            <div class="leading-relaxed bg-white p-3 rounded-xl border border-apple-border/80">${m.reason}</div>
+                        <div class="text-xs text-apple-textPrimary leading-relaxed bg-apple-grayBg/50 p-3.5 rounded-xl border border-apple-border/50">
+                            <strong>סיבת הטעות והלקח:</strong> ${item.reason}
                         </div>
                     </div>
                 `;
             }).join('');
-
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        function toggleAccordion(id) {
-            const body = document.getElementById(`acc-body-${id}`);
-            const icon = document.getElementById(`acc-icon-${id}`);
-
-            if (body && body.classList.contains('hidden')) {
-                body.classList.remove('hidden');
-                if (icon) icon.style.transform = 'rotate(180deg)';
-            } else if (body) {
-                body.classList.add('hidden');
-                if (icon) icon.style.transform = 'rotate(0deg)';
-            }
-        }
-
-        function toggleMistakeStatus(id) {
-            const item = mistakesData.find(m => m.id === id);
-            if (item) {
-                item.status = item.status === 'mastered' ? 'pending' : 'mastered';
-                saveData();
-                renderReviewList();
-                renderMistakesLog();
-                showToast(`סטטוס השאלה עודכן ל-${item.status === 'mastered' ? 'הושלם' : 'ממתין לחזרה'}`, 'info');
-            }
-        }
-
         function deleteMistake(id) {
-            if (confirm('האם אתה בטוח שברצונך למחוק טעות זו?')) {
+            if (confirm('האם למחוק טעות זו לצמיתות מהמאגר?')) {
                 mistakesData = mistakesData.filter(m => m.id !== id);
                 saveData();
-                renderMistakesLog();
                 showToast('הטעות נמחקה בהצלחה', 'info');
             }
         }
 
         function openEditModal(id) {
-            const item = mistakesData.find(m => m.id === id);
-            if (!item) return;
-
-            document.getElementById('edit-id').value = item.id;
-            document.getElementById('edit-chapter').value = item.chapter;
-            document.getElementById('edit-qnum').value = item.qNum;
-            document.getElementById('edit-category').value = item.category;
-            document.getElementById('edit-reason').value = item.reason;
-
-            document.getElementById('edit-modal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document.getElementById('edit-modal').classList.add('hidden');
+            const m = mistakesData.find(x => x.id === id);
+            if (!m) return;
+            document.getElementById('edit-id').value = m.id;
+            document.getElementById('edit-chapter').value = m.chapter;
+            document.getElementById('edit-qnum').value = m.qNum;
+            document.getElementById('edit-category').value = m.category;
+            document.getElementById('edit-reason').value = m.reason;
+            openModalWithAnim('edit-modal');
         }
 
         function saveEditMistake() {
             const id = document.getElementById('edit-id').value;
-            const item = mistakesData.find(m => m.id === id);
-
-            if (item) {
-                item.chapter = document.getElementById('edit-chapter').value.trim();
-                item.qNum = parseInt(document.getElementById('edit-qnum').value);
-                item.category = document.getElementById('edit-category').value;
-                item.reason = document.getElementById('edit-reason').value.trim();
-
-                saveData();
-                closeEditModal();
-                renderMistakesLog();
-                showToast('הטעות עודכנה בהצלחה!', 'success');
-            }
+            const m = mistakesData.find(x => x.id === id);
+            if (!m) return;
+            m.chapter = document.getElementById('edit-chapter').value.trim();
+            m.qNum = parseInt(document.getElementById('edit-qnum').value);
+            m.category = document.getElementById('edit-category').value;
+            m.reason = document.getElementById('edit-reason').value.trim();
+            saveData();
+            closeModalWithAnim('edit-modal');
+            showToast('הטעות עודכנה בהצלחה!', 'success');
         }
 
+        // AI Charts & Report
         function renderAiCharts() {
             const total = mistakesData.length;
             const pending = mistakesData.filter(m => m.status === 'pending').length;
             const mastered = mistakesData.filter(m => m.status === 'mastered').length;
             const pctMastered = total > 0 ? Math.round((mastered / total) * 100) : 0;
 
-            document.getElementById('kpi-total').textContent = total;
-            document.getElementById('kpi-pending').textContent = pending;
-            document.getElementById('kpi-mastered').textContent = `${mastered} (${pctMastered}%)`;
+            const kpiTotal = document.getElementById('kpi-total');
+            const kpiPending = document.getElementById('kpi-pending');
+            const kpiMastered = document.getElementById('kpi-mastered');
+            const kpiWeakness = document.getElementById('kpi-weakness');
+
+            if (kpiTotal) kpiTotal.textContent = total;
+            if (kpiPending) kpiPending.textContent = pending;
+            if (kpiMastered) kpiMastered.textContent = `${mastered} (${pctMastered}%)`;
 
             const catCounts = {};
-            mistakesData.forEach(m => {
-                catCounts[m.category] = (catCounts[m.category] || 0) + 1;
-            });
-
-            let mainWeakness = '-';
-            let maxCount = 0;
-            for (let cat in catCounts) {
-                if (catCounts[cat] > maxCount) {
-                    maxCount = catCounts[cat];
-                    mainWeakness = cat;
-                }
-            }
-            document.getElementById('kpi-weakness').textContent = mainWeakness;
+            mistakesData.forEach(m => { catCounts[m.category] = (catCounts[m.category] || 0) + 1; });
+            let topCat = '-'; let maxC = 0;
+            for (let c in catCounts) { if (catCounts[c] > maxC) { maxC = catCounts[c]; topCat = c; } }
+            if (kpiWeakness) kpiWeakness.textContent = topCat;
 
             const ctxCat = document.getElementById('chart-categories');
-            const ctxMastery = document.getElementById('chart-mastery');
-
-            if (ctxCat && ctxMastery) {
-                if (chartCategoriesInstance) chartCategoriesInstance.destroy();
-                if (chartMasteryInstance) chartMasteryInstance.destroy();
-
-                const labelsCat = Object.keys(catCounts);
-                const dataCat = Object.values(catCounts);
-
-                chartCategoriesInstance = new Chart(ctxCat, {
+            if (ctxCat && typeof Chart !== 'undefined') {
+                if (window.chartCategoriesInstance) window.chartCategoriesInstance.destroy();
+                const labels = Object.keys(catCounts);
+                const dataVals = Object.values(catCounts);
+                window.chartCategoriesInstance = new Chart(ctxCat, {
                     type: 'doughnut',
                     data: {
-                        labels: labelsCat.length > 0 ? labelsCat : ['אין נתונים'],
-                        datasets: [{
-                            data: dataCat.length > 0 ? dataCat : [1],
-                            backgroundColor: ['#0071e3', '#34c759', '#ff9500', '#ff3b30', '#5856d6', '#af52de']
-                        }]
+                        labels: labels.length ? labels : ['אין נתונים'],
+                        datasets: [{ data: dataVals.length ? dataVals : [1], backgroundColor: ['#0071e3', '#34c759', '#ff9500', '#ff3b30', '#af52de', '#5856d6', '#ff2d55', '#5ac8fa'] }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Heebo', size: 10 } } } } }
                 });
+            }
 
-                chartMasteryInstance = new Chart(ctxMastery, {
+            const ctxMastery = document.getElementById('chart-mastery');
+            if (ctxMastery && typeof Chart !== 'undefined') {
+                if (window.chartMasteryInstance) window.chartMasteryInstance.destroy();
+                window.chartMasteryInstance = new Chart(ctxMastery, {
                     type: 'bar',
                     data: {
-                        labels: ['ממתינות לחזרה', 'הושלמו בהצלחה'],
-                        datasets: [{
-                            label: 'כמות שאלות',
-                            data: [pending, mastered],
-                            backgroundColor: ['#ff9500', '#34c759']
-                        }]
+                        labels: ['ממתינים לחזרה', 'הושלמו בהצלחה'],
+                        datasets: [{ label: 'כמות שאלות', data: [pending, mastered], backgroundColor: ['#ff9500', '#34c759'], borderRadius: 8 }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false }
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { precision: 0, font: { family: 'Heebo' } } }, x: { ticks: { font: { family: 'Heebo' } } } }, plugins: { legend: { display: false } } }
                 });
             }
         }
 
         async function generateAiReport() {
             const apiKey = localStorage.getItem('my800_api_key') || '';
-            const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
-            const customPrompt = localStorage.getItem('my800_custom_prompt') || '';
-            const reportContent = document.getElementById('ai-report-content');
-
-            if (mistakesData.length === 0) {
-                showToast('אין מספיק נתונים במאגר לניתוח AI', 'warning');
-                return;
-            }
-
-            reportContent.innerHTML = `
-                <div class="text-center py-12">
-                    <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
-                    <p class="font-bold text-xs text-apple-textPrimary">מנוע ה-AI מנתח את מאגר הטעויות והמגמות שלך...</p>
-                </div>
-            `;
+            const content = document.getElementById('ai-report-content');
+            if (mistakesData.length === 0) { showToast('אין מספיק נתונים לניתוח', 'warning'); return; }
+            
+            content.innerHTML = `<div class="text-center py-12"><i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-3"></i><p class="font-bold text-xs">מנוע Gemini מעבד נתונים ומפיק דו"ח עומק...</p></div>`;
             if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            const systemPrompt = `אתה אנליסט פסיכומטרי בכיר מומחה בכמותי. נתח את כל הטעויות וההערות של התלמיד והגש דו"ח ממוקד, ברור ומעמיק בפורמט Markdown.
-התייחס לתקציר מנהלים, דפוסי כשל חוזרים, נקודת תורפה מרכזית, ותוכנית פעולה מעשית.
-${customPrompt ? 'הנחיה מיוחדת מהמשתמש: ' + customPrompt : ''}
-הנתונים: ${JSON.stringify(mistakesData)}`;
-
-            if (!apiKey) {
-                setTimeout(() => {
-                    reportContent.innerHTML = marked.parse(`
-# 📊 דו"ח אבחון אסטרטגיומטרי (סימולציה)
-> **הערה:** לניתוח AI בלייב מבוסס Gemini, אנא הגדר API Key בהגדרות.
-
-## 1. תקציר מנהלים
-תועדו **${mistakesData.length}** טעויות במאגר. שיעור השליטה הנוכחי עומד על **${Math.round((mistakesData.filter(m => m.status === 'mastered').length / mistakesData.length) * 100)}%**.
-
-## 2. דפוסי כשל מרכזיים
-* **ריכוז וחוסר תשומת לב:** בולטת נטייה לא לחשב תנאי קצה או להחליף בין נתונים בשאלה.
-* **ניהול זמן:** מעבר מהיר מדי בין שלבים גורם לנפילה במלכודות מסיח.
-
-## 3. תוכנית פעולה מומלצת
-1. פתור שוב את כל השאלות ברשימת החזרה דרך **"אשף החזרה"**.
-2. הקפד לרשום הערה קצרה ומזוקקת לכל טעות חדשה.
-                    `);
-                }, 1000);
-                return;
-            }
+            if (!apiKey) { setTimeout(() => content.innerHTML = `<p class="text-apple-danger font-bold text-center">נדרש מפתח API בהגדרות לפענוח ה-AI</p>`, 600); return; }
 
             try {
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
+                const prompt = `אתה אנליסט פסיכומטרי בכיר. נתח את היסטוריית הטעויות והסימולציות של התלמיד הבא. החזר דו"ח Markdown מעוצב ומקצועי המכיל: 1. תקציר מנהלים. 2. ניתוח מגמות לאורך זמן. 3. דפוסי כשל עיקריים. 4. המלצה קריטית לשיפור. נתונים: ${JSON.stringify(mistakesData.slice(0, 50))}`;
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview'}:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
-
-                const data = await response.json();
-                const aiMarkdown = data.candidates[0].content.parts[0].text;
-                reportContent.innerHTML = marked.parse(aiMarkdown);
+                const data = await res.json();
+                content.innerHTML = marked.parse(data.candidates[0].content.parts[0].text);
             } catch (err) {
-                reportContent.innerHTML = `<p class="text-apple-danger font-bold text-center py-4">שגיאה בתקשורת עם ה-AI. אנא בדוק את תקינות ה-API Key בהגדרות.</p>`;
+                content.innerHTML = `<p class="text-apple-danger font-bold text-center">שגיאת תקשורת עם שרתי ה-AI.</p>`;
             }
         }
 
-        function openReportsModal() {
-            const container = document.getElementById('reports-list-container');
-            if (!container) return;
-
-            if (reportsData.length === 0) {
-                container.innerHTML = `<div class="p-6 text-center text-xs text-apple-textSecondary">טרם נשמרו דוחות בדיקה. בדיקות פרק וסימולציות שתבצע יופיעו כאן.</div>`;
+        // Active Recall Wizard
+        function startReviewWizard() {
+            const chap = document.getElementById('review-filter-chapter').value;
+            reviewWizardItems = mistakesData.filter(m => m.status === 'pending' && (!chap || m.chapter === chap));
+            if(reviewWizardItems.length === 0) { showToast('אין שאלות ממתינות לחזרה', 'info'); return; }
+            reviewWizardIndex = 0; openModalWithAnim('review-wizard-modal'); renderReviewWizardStep();
+        }
+        
+        function renderReviewWizardStep() {
+            if(reviewWizardIndex >= reviewWizardItems.length) { closeModalWithAnim('review-wizard-modal'); renderReviewList(); showToast('סיימת את סבב החזרה בהצלחה!', 'success'); return; }
+            const cur = reviewWizardItems[reviewWizardIndex];
+            document.getElementById('review-wizard-step').textContent = `שאלה ${reviewWizardIndex+1} מתוך ${reviewWizardItems.length}`;
+            document.getElementById('review-wizard-chapter-name').textContent = `פרק: ${cur.chapter}`;
+            document.getElementById('review-wizard-qnum').textContent = `שאלה #${cur.qNum}`;
+            const input = document.getElementById('review-wizard-ans-input');
+            input.value = ''; input.className = "w-16 h-12 text-center bg-apple-grayBg border border-apple-border rounded-xl text-lg font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50 transition-all";
+            document.getElementById('review-wizard-ans-feedback').textContent = '';
+            setTimeout(() => input.focus(), 100);
+        }
+        
+        function submitReviewAnswerCheck() {
+            const val = document.getElementById('review-wizard-ans-input').value.trim();
+            const cur = reviewWizardItems[reviewWizardIndex];
+            const fb = document.getElementById('review-wizard-ans-feedback');
+            const inp = document.getElementById('review-wizard-ans-input');
+            
+            if(!val || !cur || !cur.correct) { fb.textContent = ''; inp.classList.remove('text-apple-success', 'text-apple-danger', 'border-apple-success', 'border-apple-danger'); return; }
+            if(parseInt(val) === cur.correct) {
+                fb.className = "text-[11px] text-center font-bold text-apple-success min-h-[18px] mt-2 transition-colors duration-200"; fb.textContent = "V תשובה נכונה!";
+                inp.classList.add('text-apple-success', 'border-apple-success'); inp.classList.remove('text-apple-danger', 'border-apple-danger');
             } else {
-                container.innerHTML = reportsData.map(r => `
-                    <div class="bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border/80 flex items-center justify-between">
-                        <div>
-                            <div class="text-xs font-bold text-apple-textPrimary">סימולציה / בדיקת פרק - ${r.date}</div>
-                            <div class="text-[11px] text-apple-textSecondary mt-0.5">${r.sectionsCount} פרקים | raw score: ${r.rawScore}</div>
-                        </div>
-                        <div class="text-left">
-                            <div class="text-xs font-extrabold text-apple-accent">${r.percentage}</div>
-                            <div class="text-[10px] font-bold text-apple-success">${r.psychometric}</div>
-                        </div>
-                    </div>
-                `).join('');
+                fb.className = "text-[11px] text-center font-bold text-apple-danger min-h-[18px] mt-2 transition-colors duration-200"; fb.textContent = `X שגוי. התשובה הנכונה היא ${cur.correct}`;
+                inp.classList.add('text-apple-danger', 'border-apple-danger'); inp.classList.remove('text-apple-success', 'border-apple-success');
             }
-
-            document.getElementById('reports-modal').classList.remove('hidden');
+        }
+        
+        function handleReviewWizardChoice(choice) {
+            const cur = reviewWizardItems[reviewWizardIndex];
+            if (cur) {
+                if (choice === 'master') cur.status = 'mastered';
+                else if (choice === 'fail') cur.status = 'pending';
+                saveData();
+            }
+            reviewWizardIndex++;
+            renderReviewWizardStep();
         }
 
-        function closeReportsModal() {
-            document.getElementById('reports-modal').classList.add('hidden');
+        function correctReviewWizardBookKey() {
+            const cur = reviewWizardItems[reviewWizardIndex];
+            if (!cur) return;
+            const nk = prompt(`עדכן תשובת ספר נכונה לשאלה #${cur.qNum}:`, cur.correct || 1);
+            if (nk && ['1','2','3','4'].includes(nk.trim())) {
+                cur.correct = parseInt(nk.trim());
+                const m = mistakesData.find(x => x.id === cur.id);
+                if (m) m.correct = cur.correct;
+                saveData();
+                submitReviewAnswerCheck();
+                showToast('תשובת הספר עודכנה בהצלחה', 'success');
+            }
         }
 
+        // Modal Animations
+        function openModalWithAnim(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.remove('hidden');
+                const dialog = m.firstElementChild;
+                if (dialog) {
+                    dialog.classList.remove('scale-95', 'opacity-0');
+                    requestAnimationFrame(() => {
+                        dialog.classList.add('scale-100', 'opacity-100');
+                    });
+                }
+            }
+        }
+
+        function closeModalWithAnim(id) {
+            const m = document.getElementById(id);
+            if (m && !m.classList.contains('hidden')) {
+                const dialog = m.firstElementChild;
+                if (dialog) {
+                    dialog.classList.remove('scale-100', 'opacity-100');
+                    dialog.classList.add('scale-95', 'opacity-0');
+                }
+                setTimeout(() => {
+                    m.classList.add('hidden');
+                }, 200);
+            }
+        }
+        
+        function setupGlobalListeners() {
+            document.addEventListener('keydown', e => {
+                if(e.key === 'Escape') ['settings-modal', 'reports-modal', 'edit-modal', 'add-cat-modal', 'review-wizard-modal'].forEach(id => { closeModalWithAnim(id); });
+                if((e.ctrlKey || e.metaKey) && e.key === 'Enter' && activeTab === 'add') handleAddMistake();
+            });
+        }
+        
+        // Settings & Universal Backup Management
         function openSettingsModal() {
             document.getElementById('setting-api-key').value = localStorage.getItem('my800_api_key') || '';
             document.getElementById('setting-ai-model').value = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
             document.getElementById('setting-custom-prompt').value = localStorage.getItem('my800_custom_prompt') || '';
-
-            renderSettingsCategories();
-            document.getElementById('settings-modal').classList.remove('hidden');
+            
+            const cont = document.getElementById('settings-categories-list');
+            cont.innerHTML = categoriesData.map((c, i) => `
+                <span class="inline-flex items-center gap-1.5 bg-apple-bg border border-apple-border px-3 py-1.5 rounded-full text-[11px] font-medium text-apple-textPrimary shadow-sm group">
+                    ${c} <button type="button" onclick="deleteCategory(${i})" class="text-apple-textSecondary group-hover:text-apple-danger transition-colors"><i data-lucide="x" class="w-3 h-3"></i></button>
+                </span>`).join('');
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+            openModalWithAnim('settings-modal');
         }
-
-        function closeSettingsModal() {
-            document.getElementById('settings-modal').classList.add('hidden');
-        }
-
-        function renderSettingsCategories() {
-            const container = document.getElementById('settings-categories-list');
-            if (!container) return;
-
-            container.innerHTML = categoriesData.map((c, idx) => `
-                <span class="inline-flex items-center gap-1.5 bg-white border border-apple-border px-2.5 py-1 rounded-lg text-xs font-medium text-apple-textPrimary">
-                    ${c}
-                    <button type="button" onclick="deleteCategory(${idx})" class="text-apple-textSecondary hover:text-apple-danger">&times;</button>
-                </span>
-            `).join('');
-        }
-
-        function deleteCategory(idx) {
-            categoriesData.splice(idx, 1);
-            saveData();
-            renderCategoryDropdowns();
-            renderSettingsCategories();
+        
+        function saveSettings() {
+            localStorage.setItem('my800_api_key', document.getElementById('setting-api-key').value.trim());
+            localStorage.setItem('my800_ai_model', document.getElementById('setting-ai-model').value);
+            localStorage.setItem('my800_custom_prompt', document.getElementById('setting-custom-prompt').value.trim());
+            closeModalWithAnim('settings-modal'); showToast('ההגדרות נשמרו בהצלחה', 'success');
         }
 
         function restoreDefaultCategories() {
             categoriesData = [...DEFAULT_CATEGORIES];
-            saveData();
-            renderCategoryDropdowns();
-            renderSettingsCategories();
-            showToast('קטגוריות ברירת המחדל שוחזרו', 'info');
+            saveData(); openSettingsModal();
+            showToast('הקטגוריות שחזרו לברירת המחדל', 'success');
+        }
+
+        function deleteCategory(idx) {
+            categoriesData.splice(idx, 1);
+            saveData(); openSettingsModal();
         }
 
         function openAddCategoryModal() {
             document.getElementById('new-cat-name').value = '';
-            document.getElementById('add-cat-modal').classList.remove('hidden');
-        }
-
-        function closeAddCategoryModal() {
-            document.getElementById('add-cat-modal').classList.add('hidden');
+            openModalWithAnim('add-cat-modal');
+            setTimeout(() => document.getElementById('new-cat-name').focus(), 100);
         }
 
         function saveNewCategory() {
             const name = document.getElementById('new-cat-name').value.trim();
             if (name && !categoriesData.includes(name)) {
                 categoriesData.push(name);
-                saveData();
-                renderCategoryDropdowns();
-                closeAddCategoryModal();
-                showToast(`הקטגוריה "${name}" הוספה בהצלחה`, 'success');
+                saveData(); renderCategoryDropdowns();
+                closeModalWithAnim('add-cat-modal');
+                showToast('הקטגוריה נוספה בהצלחה!', 'success');
             }
-        }
-
-        function saveSettings() {
-            const apiKey = document.getElementById('setting-api-key').value.trim();
-            const model = document.getElementById('setting-ai-model').value;
-            const prompt = document.getElementById('setting-custom-prompt').value.trim();
-
-            localStorage.setItem('my800_api_key', apiKey);
-            localStorage.setItem('my800_ai_model', model);
-            localStorage.setItem('my800_custom_prompt', prompt);
-
-            closeSettingsModal();
-            showToast('ההגדרות שנשמרו בהצלחה!', 'success');
         }
 
         function exportData() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-                mistakes: mistakesData,
-                customCategories: categoriesData,
-                reports: reportsData
+                mistakes: mistakesData, categories: categoriesData, reports: reportsData, exportedAt: new Date().toISOString()
             }, null, 2));
-
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `800hub_backup_${new Date().toISOString().slice(0,10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-
-            showToast('קובץ הגיבוי הורד בהצלחה למחשב', 'success');
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `800hub_backup_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+            showToast('קובץ הגיבוי הורד בהצלחה למחשבך!', 'success');
         }
 
         function triggerImport() {
             document.getElementById('import-file-input').click();
         }
 
-        function handleFileImport(e) {
-            const file = e.target.files[0];
+        function handleFileImport(event) {
+            const file = event.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
-            reader.onload = function (event) {
+            reader.onload = e => {
                 try {
-                    const parsed = JSON.parse(event.target.result);
-                    let importedMistakes = parsed.mistakes || parsed;
-
-                    if (!Array.isArray(importedMistakes)) {
-                        showToast('פורמט קובץ גיבוי לא תקין', 'danger');
-                        return;
-                    }
-
-                    mistakesData = importedMistakes.map(item => ({
-                        id: item.id || 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-                        chapter: item.chapter || 'כללי',
-                        qNum: item.qNum || item.question || 1,
-                        category: item.category || 'כללי',
-                        reason: item.reason || '',
-                        status: item.status || (item.needsReview === false ? 'mastered' : 'pending'),
-                        correct: item.correct || null,
-                        userAns: item.userAns || null,
-                        createdAt: item.createdAt || new Date().toISOString()
-                    }));
-
-                    if (parsed.customCategories && Array.isArray(parsed.customCategories)) {
-                        categoriesData = [...new Set([...categoriesData, ...parsed.customCategories])];
-                    }
-
-                    if (parsed.reports && Array.isArray(parsed.reports)) {
-                        reportsData = parsed.reports;
-                    }
-
+                    const parsed = JSON.parse(e.target.result);
+                    mistakesData = normalizeMistakes(parsed.mistakes || parsed);
+                    categoriesData = parsed.categories || parsed.customCategories || [...DEFAULT_CATEGORIES];
+                    reportsData = parsed.reports || [];
                     saveData();
-                    renderCategoryDropdowns();
-                    renderReviewList();
-                    renderMistakesLog();
-                    closeSettingsModal();
-
-                    showToast('שחזור הנתונים והגיבוי הושלם בהצלחה!', 'success');
-                } catch (err) {
-                    showToast('שגיאה בפענוח קובץ הגיבוי', 'danger');
+                    closeModalWithAnim('settings-modal');
+                    showToast('הנתונים שוחזרו בהצלחה מן הגיבוי!', 'success');
+                } catch(err) {
+                    showToast('שגיאה בקריאת קובץ הגיבוי. וודא שזהו קובץ JSON תקני.', 'danger');
                 }
             };
             reader.readAsText(file);
         }
 
-        function setupKeyboardShortcuts() {
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    closeSettingsModal();
-                    closeReportsModal();
-                    closeEditModal();
-                    closeAddCategoryModal();
-                    closeReviewWizard();
+        function factoryResetData() {
+            if (confirm('אזהרה חמורה: פעולה זו תמחק את כל נתוני הלמידה, הטעויות והדו"חות לצמיתות! האם להמשיך?')) {
+                if (confirm('אישור אחרון למחיקת כל הנתונים:')) {
+                    localStorage.removeItem('my800_data');
+                    mistakesData = []; categoriesData = [...DEFAULT_CATEGORIES]; reportsData = [];
+                    saveData();
+                    closeModalWithAnim('settings-modal');
+                    showToast('המערכת אופסה לחלוטין.', 'info');
+                    setTimeout(() => window.location.reload(), 1000);
                 }
-
-                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                    if (activeTab === 'add') {
-                        handleAddMistake();
-                    }
-                }
-            });
+            }
         }
 
-        function setupModalBackdrops() {
-            const modals = ['reports-modal', 'settings-modal', 'edit-modal', 'add-cat-modal', 'review-wizard-modal'];
-            modals.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener('click', function () {
-                        el.classList.add('hidden');
-                    });
-                }
-            });
+        function showToast(msg, type='info') {
+            const cont = document.getElementById('toast-container');
+            if(!cont) return;
+            const t = document.createElement('div');
+            t.className = `px-4 py-3 rounded-xl shadow-apple-lg text-xs font-bold transition-all duration-300 transform translate-y-4 opacity-0 flex items-center gap-2 ${type === 'success' ? 'bg-apple-success text-white' : type === 'danger' ? 'bg-apple-danger text-white' : 'bg-apple-textPrimary text-white'}`;
+            t.textContent = msg;
+            cont.appendChild(t);
+            requestAnimationFrame(() => { t.classList.remove('translate-y-4', 'opacity-0'); });
+            setTimeout(() => { t.classList.add('opacity-0', 'translate-y-4'); setTimeout(() => t.remove(), 300); }, 3000);
         }
 
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            if (!container) return;
-
-            let bgColor = 'bg-apple-textPrimary text-white';
-            if (type === 'success') bgColor = 'bg-apple-success text-white';
-            if (type === 'danger') bgColor = 'bg-apple-danger text-white';
-            if (type === 'warning') bgColor = 'bg-apple-warning text-white';
-
-            const toast = document.createElement('div');
-            toast.className = `${bgColor} px-4 py-2.5 rounded-xl shadow-apple-lg text-xs font-bold transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto`;
-            toast.textContent = message;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+        function renderReportsList() {
+            const cont = document.getElementById('reports-list-container');
+            if (!cont) return;
+            if (reportsData.length === 0) {
+                cont.innerHTML = `<div class="text-center py-10 text-apple-textSecondary text-xs">אין עדיין דו"חות ששמורים במערכת.</div>`;
+                return;
+            }
+            cont.innerHTML = reportsData.map(r => `
+                <div class="bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border flex items-center justify-between gap-4 shadow-sm">
+                    <div>
+                        <div class="text-xs font-bold text-apple-textPrimary">סימולציה / בדיקת פרק - ${r.date}</div>
+                        <div class="text-[11px] text-apple-textSecondary mt-0.5">${r.sectionsCount} פרקים | ציוני גלם: ${r.rawScore} (${r.percentage})</div>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-[10px] font-bold text-apple-textSecondary">ציון משוער</div>
+                        <div class="text-base font-extrabold text-apple-accent">${r.psychometric}</div>
+                    </div>
+                </div>
+            `).join('');
         }
     </script>
 </body>
