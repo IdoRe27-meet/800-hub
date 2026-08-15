@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
-    <!-- Google Fonts: Inter & Heebo -->
+    <!-- Google Fonts: Heebo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -57,23 +57,13 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Smooth UI Animations */
         .animate-fade-in {
             animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .animate-fade-out {
-            animation: fadeOut 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(6px); }
         }
 
         /* AI Markdown Report Styling */
@@ -91,59 +81,65 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d1d1d6; border-radius: 999px; }
         ::-webkit-scrollbar-thumb:hover { background: #aeae2; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Top Header Bar -->
     <header class="sticky top-0 z-30 bg-apple-bg/80 backdrop-blur-md border-b border-apple-border/60">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <img src="https://i.postimg.cc/wB0C1LxP/logo-800.png" alt="800 Logo" class="h-8 w-auto object-contain">
                 <span id="user-greeting" class="text-xs font-medium text-apple-textSecondary border-r border-apple-border pr-3">
-                    בוקר טוב, עידו
+                    שלום, עידו
                 </span>
             </div>
 
-            <button onclick="openSettingsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm">
-                <i data-lucide="settings" class="w-4 h-4 text-apple-accent"></i>
-                <span>הגדרות וגיבוי</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="openReportsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm">
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-apple-accent"></i>
+                    <span>הדו"חות שלי</span>
+                </button>
+                <button onclick="openSettingsModal()" class="flex items-center gap-2 text-xs font-medium text-apple-textPrimary bg-white hover:bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 transition shadow-apple-sm">
+                    <i data-lucide="settings" class="w-4 h-4 text-apple-accent"></i>
+                    <span>הגדרות וגיבוי</span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Tab Navigation -->
     <nav class="max-w-6xl mx-auto px-4 sm:px-6 mt-6 w-full">
         <div class="bg-apple-grayBg/80 p-1.5 rounded-2xl border border-apple-border flex items-center gap-1 overflow-x-auto no-scrollbar">
             <button onclick="switchTab('add')" id="tab-add" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap bg-white text-apple-textPrimary shadow-apple-sm">
                 <i data-lucide="plus-circle" class="w-4 h-4 text-apple-accent"></i>
                 הוספת טעות
             </button>
-            <button onclick="switchTab('scan')" id="tab-scan" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+            <button onclick="switchTab('scan')" id="tab-scan" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
                 <i data-lucide="scan-line" class="w-4 h-4 text-apple-accent"></i>
                 סורק תשובות
             </button>
-            <button onclick="switchTab('grade')" id="tab-grade" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+            <button onclick="switchTab('grade')" id="tab-grade" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
                 <i data-lucide="check-square" class="w-4 h-4 text-apple-success"></i>
-                בדיקת פרק
+                בדיקת פרק / סימולציה
             </button>
-            <button onclick="switchTab('review')" id="tab-review" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap relative">
+            <button onclick="switchTab('review')" id="tab-review" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary relative">
                 <i data-lucide="rotate-ccw" class="w-4 h-4 text-apple-accent"></i>
                 רשימת חזרה
                 <span id="review-badge" class="hidden bg-apple-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
             </button>
-            <button onclick="switchTab('log')" id="tab-log" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+            <button onclick="switchTab('log')" id="tab-log" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
                 <i data-lucide="list" class="w-4 h-4 text-apple-accent"></i>
                 מאגר הטעויות
             </button>
-            <button onclick="switchTab('ai')" id="tab-ai" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+            <button onclick="switchTab('ai')" id="tab-ai" class="tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary">
                 <i data-lucide="sparkles" class="w-4 h-4 text-apple-accent"></i>
                 ניתוח AI
             </button>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 my-6 flex-1 w-full">
         
         <!-- VIEW: Add Mistake -->
@@ -211,7 +207,7 @@
                             <i data-lucide="scan-line" class="w-5 h-5 text-apple-accent"></i>
                             סורק תשובות מהיר ומקלדת בדיקה
                         </h2>
-                        <p class="text-xs text-apple-textSecondary mt-1">צער תמונה של תשובות הספר או השתמש בתבנית מהירה, הקש את תשובותיך במקלדת (1-4), והמערכת תבדוק אותן מיד.</p>
+                        <p class="text-xs text-apple-textSecondary mt-1">צלם תמונה של תשובות הספר, הקש את תשובותיך במקלדת (1-4), והמערכת תבדוק אותן מיד.</p>
                     </div>
                 </div>
 
@@ -235,13 +231,11 @@
                 </div>
             </div>
 
-            <!-- Loading Spinner -->
             <div id="scan-loading" class="hidden py-10 text-center bg-white rounded-2xl border border-apple-border">
                 <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
                 <p class="text-xs font-bold text-apple-textPrimary">מפענח את תשובות הספר ב-AI...</p>
             </div>
 
-            <!-- Speed Grader Container -->
             <div id="scan-grader-container" class="hidden bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md space-y-4">
                 <div class="flex items-center justify-between bg-apple-grayBg p-3 rounded-xl border border-apple-border/80">
                     <span class="text-xs font-bold text-apple-textPrimary flex items-center gap-2">
@@ -264,7 +258,6 @@
                 </div>
             </div>
 
-            <!-- Interactive Scan Wizard -->
             <div id="scan-wizard-container" class="hidden bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md space-y-5">
                 <div class="flex items-center justify-between pb-3 border-b border-apple-border/60">
                     <span class="text-xs font-bold text-apple-accent" id="scan-wizard-progress">שאלה 1 מתוך 3</span>
@@ -277,8 +270,13 @@
                             <div class="text-xs font-bold text-apple-textPrimary" id="scan-wizard-qtitle">שאלה #5</div>
                             <div class="text-[11px] text-apple-textSecondary mt-0.5" id="scan-wizard-chapter">פרק: אלגברה</div>
                         </div>
-                        <div class="text-xs font-bold px-3 py-1 rounded-lg bg-apple-danger/10 text-apple-danger" id="scan-wizard-comparison">
-                            ענית: 2 | תשובה נכונה: 4
+                        <div class="flex flex-col items-end gap-1">
+                            <div class="text-xs font-bold px-3 py-1 rounded-lg bg-apple-danger/10 text-apple-danger flex items-center gap-2" id="scan-wizard-comparison">
+                                <span>ענית: 2 | תשובה נכונה: 4</span>
+                            </div>
+                            <button type="button" onclick="correctCurrentWizardMistake()" class="text-[10px] text-apple-accent hover:underline font-bold">
+                                ✏️ הקלדתי בטעות? צדקתי בשאלה הזו / סמן כנכונה
+                            </button>
                         </div>
                     </div>
 
@@ -300,59 +298,53 @@
             </div>
         </section>
 
-        <!-- VIEW: Grade Chapter -->
-        <section id="view-grade" class="hidden animate-fade-in w-full max-w-3xl mx-auto">
+        <!-- VIEW: Grade Chapter & Simulation -->
+        <section id="view-grade" class="hidden animate-fade-in w-full max-w-4xl mx-auto space-y-6">
             <div class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
-                <div class="mb-6 pb-4 border-b border-apple-border/60">
-                    <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
-                        <i data-lucide="check-square" class="w-5 h-5 text-apple-success"></i>
-                        בדיקת פרק מהירה (סימולציות/כמותי)
-                    </h2>
-                    <p class="text-xs text-apple-textSecondary mt-1">
-                        העלה צילום של טבלת תשובות כדי לפענח אותן עם AI, הזן את תשובותיך במקלדת (1-4) וקבל ציון מיידי. הטעויות כאן <strong>אינן</strong> נשמרות למאגר - אלא לבדיקת פרקים זריזה.
-                    </p>
+                <div class="mb-6 pb-4 border-b border-apple-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
+                            <i data-lucide="check-square" class="w-5 h-5 text-apple-success"></i>
+                            בדיקת פרק / סימולציה (כמותי)
+                        </h2>
+                        <p class="text-xs text-apple-textSecondary mt-1">
+                            סרוק את תשובות הספר מתמונה לכל פרק או עדכן אותן ידנית, והקש את תשובותיך במקלדת (1-4).
+                        </p>
+                    </div>
+
+                    <button onclick="addGradeSection()" class="bg-apple-accent/10 hover:bg-apple-accent/20 text-apple-accent border border-apple-accent/30 text-xs font-semibold py-2 px-4 rounded-xl transition flex items-center gap-1.5 shrink-0">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        הוסף פרק נוסף לבדיקה (+)
+                    </button>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <label class="flex-1 bg-apple-bg border border-dashed border-apple-border hover:border-apple-accent/60 rounded-xl p-3 text-center cursor-pointer transition flex items-center justify-center gap-2">
-                            <i data-lucide="image-plus" class="w-5 h-5 text-apple-accent"></i>
-                            <span class="text-xs font-medium text-apple-textPrimary" id="grade-file-label">בחר תמונה / העלה צילום תשובות</span>
-                            <input type="file" id="grade-file-input" accept="image/*" onchange="handleGradeImageSelected(event)" class="hidden">
-                        </label>
-                        
-                        <button onclick="processGradeScan()" id="btn-process-grade" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-3 px-6 rounded-xl transition shadow-apple-sm flex items-center justify-center gap-2 shrink-0">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            פלח תשובות לבדיקה
-                        </button>
+                <div class="bg-apple-grayBg/80 p-4 rounded-2xl border border-apple-border flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <span class="text-[11px] font-bold text-apple-textSecondary block">תשובות נכונות (ציון גלם)</span>
+                            <span class="text-xl font-extrabold text-apple-success" id="grade-multi-raw">0 / 0</span>
+                        </div>
+                        <div class="border-r border-apple-border pr-4">
+                            <span class="text-[11px] font-bold text-apple-textSecondary block">אחוז הצלחה</span>
+                            <span class="text-xl font-extrabold text-apple-textPrimary" id="grade-multi-pct">0%</span>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div id="grade-loading" class="hidden py-10 text-center bg-white rounded-2xl border border-apple-border mt-4">
-                <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
-                <p class="text-xs font-bold text-apple-textPrimary">מפענח את התשובות מהתמונה...</p>
-            </div>
-
-            <div id="grade-grader-container" class="hidden bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md space-y-4 mt-4">
-                <div class="flex items-center justify-between bg-apple-grayBg p-3 rounded-xl border border-apple-border/80">
-                    <div class="text-xs font-bold text-apple-textPrimary flex items-center gap-2">
-                        <i data-lucide="keyboard" class="w-4 h-4 text-apple-accent"></i>
-                        הקש תשובות במקלדת (1-4)
-                    </div>
-                    <div class="flex items-center gap-3 text-xs font-bold bg-white px-3 py-1.5 rounded-lg border border-apple-border shadow-sm">
-                        <span class="text-apple-success" id="grade-stat-correct">V: 0</span>
-                        <span class="text-apple-danger" id="grade-stat-wrong">X: 0</span>
-                        <span class="text-apple-accent" id="grade-stat-score">ציון: -</span>
+                    <div class="bg-white px-4 py-2 rounded-xl border border-apple-border shadow-apple-sm flex items-center gap-3">
+                        <i data-lucide="award" class="w-6 h-6 text-apple-accent"></i>
+                        <div>
+                            <span class="text-[10px] font-bold text-apple-textSecondary block">ציון פסיכומטרי כמותי משוער</span>
+                            <span class="text-lg font-extrabold text-apple-accent" id="grade-multi-psychometric">נדרשים 2 פרקים</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5" id="grade-grid"></div>
+                <div id="grade-sections-container" class="space-y-6"></div>
 
-                <div class="flex justify-end pt-3 border-t border-apple-border/60">
-                    <button onclick="resetGradeScanner()" class="bg-apple-textPrimary hover:bg-black text-white text-xs font-medium py-2 px-5 rounded-xl transition shadow-apple-sm flex items-center gap-1.5">
-                        <i data-lucide="refresh-ccw" class="w-3.5 h-3.5"></i>
-                        אפס סורק לבדיקה חדשה
+                <div class="pt-4 border-t border-apple-border/60 flex justify-end">
+                    <button onclick="saveGradeReport()" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition shadow-apple-sm flex items-center gap-2">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        שמור דוח לבדיקות שלי
                     </button>
                 </div>
             </div>
@@ -380,10 +372,8 @@
                 </div>
             </div>
 
-            <!-- Review Items Grid -->
             <div id="review-items-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
 
-            <!-- Review Wizard Container -->
             <div id="review-wizard-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
                 <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-lg w-full max-w-md space-y-5 animate-fade-in">
                     <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
@@ -397,7 +387,6 @@
                         <div class="text-[11px] text-apple-textSecondary">פתח את הספר ופתור מאפס</div>
                     </div>
 
-                    <!-- Optional Answer Verification Input -->
                     <div class="space-y-2">
                         <label class="block text-xs font-bold text-apple-textPrimary text-center">בדיקת תשובה אופציונלית (1-4)</label>
                         <div class="flex items-center justify-center gap-2">
@@ -406,7 +395,6 @@
                         <div id="review-wizard-ans-feedback" class="text-[11px] text-center font-bold min-h-[18px]"></div>
                     </div>
 
-                    <!-- Decision Action Buttons -->
                     <div class="grid grid-cols-3 gap-2 pt-2">
                         <button onclick="handleReviewWizardChoice('master')" id="btn-review-choice-master" class="bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-success/30 flex flex-col items-center gap-1">
                             <i data-lucide="check" class="w-4 h-4"></i>
@@ -438,7 +426,6 @@
                     </div>
                 </div>
 
-                <!-- Filters & Search -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-apple-border/60">
                     <input type="text" id="log-search" oninput="renderMistakesLog()" placeholder="חיפוש חופשי..." class="bg-apple-grayBg border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none">
                     <select id="log-filter-chapter" onchange="renderMistakesLog()" class="bg-apple-grayBg border border-apple-border rounded-xl px-3 py-2 text-xs text-apple-textPrimary focus:outline-none">
@@ -452,7 +439,6 @@
                 </div>
             </div>
 
-            <!-- Log Cards List -->
             <div id="log-items-container" class="space-y-3"></div>
         </section>
 
@@ -464,7 +450,7 @@
                         <i data-lucide="sparkles" class="w-5 h-5 text-apple-accent"></i>
                         דו"ח ניתוח AI ומגמות למידה לאורך זמן
                     </h2>
-                    <p class="text-xs text-apple-textSecondary mt-1">אבחון חכם של כל הנתונים, כולל שאלות שפתרת והושלמו בהצלחה.</p>
+                    <p class="text-xs text-apple-textSecondary mt-1">אבחון חכם של כל הנתונים, כולל שאלות שפתרת, דוחות סימולציות וציונים.</p>
                 </div>
 
                 <button onclick="generateAiReport()" id="btn-generate-ai" class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition shadow-apple-sm flex items-center gap-2 shrink-0">
@@ -473,7 +459,6 @@
                 </button>
             </div>
 
-            <!-- KPI Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div class="bg-white p-4 rounded-2xl border border-apple-border shadow-apple-sm text-center">
                     <div class="text-[11px] font-bold text-apple-textSecondary">סה"כ טעויות תועדו</div>
@@ -493,7 +478,6 @@
                 </div>
             </div>
 
-            <!-- Chart.js Analytics Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-white p-5 rounded-2xl border border-apple-border shadow-apple-sm">
                     <h3 class="text-xs font-bold text-apple-textPrimary mb-3 flex items-center gap-1.5">
@@ -516,19 +500,33 @@
                 </div>
             </div>
 
-            <!-- AI Generated Report Container -->
             <div id="ai-report-container" class="bg-white rounded-2xl p-6 sm:p-8 border border-apple-border shadow-apple-md">
                 <div id="ai-report-content" class="prose-apple text-xs text-apple-textPrimary leading-relaxed">
                     <div class="text-center py-8 text-apple-textSecondary">
                         <i data-lucide="bot" class="w-10 h-10 mx-auto mb-2 text-apple-textSecondary/40"></i>
                         <p class="font-bold">מוכן לניתוח AI</p>
-                        <p class="text-[11px] mt-1">לחץ על "חולל דו"ח AI ממוקד" לקבלת אבחון מהיר וקולע מבוסס כל ההערות והסיבות שכתבת.</p>
+                        <p class="text-[11px] mt-1">לחץ על "חולל דו"ח AI ממוקד" לקבלת אבחון מהיר וקולע מבוסס כל ההערות, הסיבות והדוחות שלך.</p>
                     </div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- MODAL: My Reports -->
+    <div id="reports-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-2xl border border-apple-border shadow-apple-lg w-full max-w-2xl max-h-[85vh] overflow-y-auto animate-fade-in p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-apple-border/60 pb-3">
+                <h3 class="text-sm font-bold text-apple-textPrimary flex items-center gap-2">
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-apple-accent"></i>
+                    מרכז הדו"חות והסימולציות שלי
+                </h3>
+                <button onclick="closeReportsModal()" class="text-apple-textSecondary hover:text-apple-textPrimary"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+
+            <div id="reports-list-container" class="space-y-3"></div>
+        </div>
+    </div>
 
     <!-- MODAL: Settings & Backup -->
     <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
@@ -542,7 +540,6 @@
             </div>
 
             <div class="p-6 space-y-6">
-                <!-- AI API Key Settings -->
                 <div class="space-y-3 bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border/80">
                     <h4 class="text-xs font-bold text-apple-textPrimary">מפתח Google Gemini API</h4>
                     <p class="text-[11px] text-apple-textSecondary">נדרש לניתוחי AI ולפענוח תמונות בסורק התשובות.</p>
@@ -557,13 +554,11 @@
                     </div>
                 </div>
 
-                <!-- Custom Directives -->
                 <div class="space-y-2">
                     <h4 class="text-xs font-bold text-apple-textPrimary">הנחיות אישיות ל-AI (Custom Directives)</h4>
                     <textarea id="setting-custom-prompt" rows="2" placeholder="למשל: התמקד בטעויות אלגבריות ומתן טיפים לניהול זמן..." class="w-full bg-apple-grayBg/60 border border-apple-border rounded-xl px-3.5 py-2 text-xs text-apple-textPrimary focus:outline-none resize-none"></textarea>
                 </div>
 
-                <!-- Category Management -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <h4 class="text-xs font-bold text-apple-textPrimary">ניהול קטגוריות טעויות</h4>
@@ -572,7 +567,6 @@
                     <div id="settings-categories-list" class="flex flex-wrap gap-1.5"></div>
                 </div>
 
-                <!-- Data Backup & Migration Section -->
                 <div class="space-y-3 pt-3 border-t border-apple-border/60">
                     <h4 class="text-xs font-bold text-apple-textPrimary">ניהול נתונים, גיבוי ושחזור</h4>
                     <div class="grid grid-cols-2 gap-2">
@@ -647,134 +641,139 @@
     <!-- Toast Notifications Container -->
     <div id="toast-container" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- Footer -->
     <footer class="py-6 border-t border-apple-border/40 text-center text-[11px] text-apple-textSecondary">
         800 hub &bull; מערכת תחקור וניהול למידה לפסיכומטרי
     </footer>
 
     <script>
-        /* --- Global Application State --- */
-        let mistakesDB = [];
-        let customCategories = [
-            'חישוב אלגברי',
-            'טעות טכנית',
-            'חוסר הבנה של השאלה',
-            'מלכודת/מסיח',
-            'אסטרטגיה שגויה',
-            'דרך ארוכה מדי',
-            'קריאה שגויה',
-            'חוסר תשומת לב',
-            'ניהול זמן/לחץ',
-            'חוסר ידע תיאורטי'
+        // Default Constants & NITE Conversion Table
+        const DEFAULT_CATEGORIES = [
+            "חישוב אלגברי",
+            "טעות טכנית",
+            "חוסר הבנה של השאלה",
+            "אסטרטגיה שגויה",
+            "דרך ארוכה מדי",
+            "חוסר תשומת לב",
+            "חוסר ידע תיאורטי",
+            "עייפות וחוסר הבנה",
+            "מלכודת",
+            "התקדמות מהירה",
+            "קריאה שגויה",
+            "הסתבכות בהצבה"
         ];
+
+        // Official NITE Psychometric Conversion Table for Quantitative Reasoning (Raw Score 0-40 -> 50-150)
+        const NITE_PSYCHOMETRIC_TABLE = {
+            0: 50, 1: 52, 2: 54, 3: 56, 4: 58, 5: 60, 6: 63, 7: 66, 8: 68, 9: 70,
+            10: 73, 11: 76, 12: 78, 13: 80, 14: 83, 15: 86, 16: 88, 17: 90, 18: 93, 19: 96,
+            20: 98, 21: 100, 22: 103, 23: 106, 24: 108, 25: 110, 26: 113, 27: 116, 28: 118, 29: 120,
+            30: 123, 31: 126, 32: 128, 33: 130, 34: 133, 35: 136, 36: 138, 37: 141, 38: 144, 39: 147, 40: 150
+        };
+
+        // Application State
+        let mistakesData = [];
+        let categoriesData = [];
+        let reportsData = [];
+        let gradeSections = [];
+        let scanAnswersData = [];
         
         let activeTab = 'add';
-        let dbInstance = null;
-
-        // Review Wizard State
-        let reviewWizardItems = [];
+        let scanWizardIndex = 0;
         let reviewWizardIndex = 0;
-
-        // Scan Feature State
-        let scanAnswersData = [];
+        let reviewWizardItems = [];
         let scanBase64 = null;
         let scanMime = null;
-        let scanWizardIndex = 0;
 
-        // Grade Feature State
-        let gradeAnswersData = [];
-        let gradeBase64 = null;
-        let gradeMime = null;
+        let chartCategoriesInstance = null;
+        let chartMasteryInstance = null;
 
-        // Chart instances
-        let categoryChartInstance = null;
-        let masteryChartInstance = null;
+        window.onload = function() {
+            initApp();
+        };
 
-        /* --- IndexedDB Persistence Fallback --- */
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open('800HubDatabase', 1);
-                request.onupgradeneeded = (e) => {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains('mistakes')) {
-                        db.createObjectStore('mistakes', { keyPath: 'id' });
-                    }
-                };
-                request.onsuccess = (e) => {
-                    dbInstance = e.target.result;
-                    resolve(dbInstance);
-                };
-                request.onerror = (e) => resolve(null);
-            });
-        }
-
-        async function loadData() {
-            try {
-                const localData = localStorage.getItem('800hub_mistakes');
-                if (localData) {
-                    mistakesDB = JSON.parse(localData);
-                } else if (dbInstance) {
-                    const tx = dbInstance.transaction('mistakes', 'readonly');
-                    const store = tx.objectStore('mistakes');
-                    const req = store.getAll();
-                    req.onsuccess = () => {
-                        mistakesDB = req.result || [];
-                        saveData();
-                    };
-                }
-
-                const localCats = localStorage.getItem('800hub_categories');
-                if (localCats) {
-                    customCategories = JSON.parse(localCats);
-                }
-            } catch(e) {
-                console.error("Load data error", e);
+        function initApp() {
+            updateGreeting();
+            loadData();
+            
+            if (gradeSections.length === 0) {
+                addGradeSection();
+            } else {
+                renderGradeSections();
+                updateGradeMultiStats();
             }
-        }
 
-        function saveData() {
-            try {
-                localStorage.setItem('800hub_mistakes', JSON.stringify(mistakesDB));
-                localStorage.setItem('800hub_categories', JSON.stringify(customCategories));
-
-                if (dbInstance) {
-                    const tx = dbInstance.transaction('mistakes', 'readwrite');
-                    const store = tx.objectStore('mistakes');
-                    store.clear().onsuccess = () => {
-                        mistakesDB.forEach(item => store.put(item));
-                    };
-                }
-            } catch(e) {
-                console.error("Save data error", e);
-            }
-            updateBadges();
+            renderCategoryDropdowns();
             updateChaptersDatalist();
+            renderReviewList();
+            renderMistakesLog();
+            renderAiCharts();
+            setupKeyboardShortcuts();
+            setupModalBackdrops();
+
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }
 
-        /* --- Greeting & Dynamic Header --- */
         function updateGreeting() {
             const hour = new Date().getHours();
-            let greeting = 'בוקר טוב, עידו';
-            if (hour >= 12 && hour < 17) greeting = 'צהריים טובים, עידו';
-            else if (hour >= 17 && hour < 22) greeting = 'ערב טוב, עידו';
-            else if (hour >= 22 || hour < 5) greeting = 'לילה טוב, עידו';
+            let greeting = 'שלום, עידו';
+            if (hour >= 5 && hour < 12) greeting = 'בוקר טוב, עידו';
+            else if (hour >= 12 && hour < 18) greeting = 'צהריים טובים, עידו';
+            else if (hour >= 18 && hour < 22) greeting = 'ערב טוב, עידו';
+            else greeting = 'לילה טוב, עידו';
 
             const el = document.getElementById('user-greeting');
             if (el) el.textContent = greeting;
         }
 
-        /* --- Tab Switcher --- */
+        function loadData() {
+            try {
+                const storedData = localStorage.getItem('my800_data');
+                if (storedData) {
+                    const parsed = JSON.parse(storedData);
+                    mistakesData = parsed.mistakes || [];
+                    categoriesData = parsed.categories || [...DEFAULT_CATEGORIES];
+                    reportsData = parsed.reports || [];
+                } else {
+                    categoriesData = [...DEFAULT_CATEGORIES];
+                }
+            } catch (e) {
+                console.error('Error loading data:', e);
+                categoriesData = [...DEFAULT_CATEGORIES];
+            }
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem('my800_data', JSON.stringify({
+                    mistakes: mistakesData,
+                    categories: categoriesData,
+                    reports: reportsData
+                }));
+            } catch (e) {
+                console.error('Error saving data:', e);
+            }
+        }
+
         function switchTab(tabId) {
             activeTab = tabId;
-            ['add', 'scan', 'grade', 'review', 'log', 'ai'].forEach(t => {
+            const tabs = ['add', 'scan', 'grade', 'review', 'log', 'ai'];
+            
+            tabs.forEach(t => {
                 const btn = document.getElementById(`tab-${t}`);
                 const view = document.getElementById(`view-${t}`);
-                if (btn && view) {
+                if (btn) {
                     if (t === tabId) {
                         btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap bg-white text-apple-textPrimary shadow-apple-sm";
-                        view.classList.remove('hidden');
                     } else {
                         btn.className = "tab-button flex-1 py-2.5 px-4 rounded-xl text-xs font-medium text-apple-textSecondary transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap hover:text-apple-textPrimary";
+                    }
+                }
+                if (view) {
+                    if (t === tabId) {
+                        view.classList.remove('hidden');
+                    } else {
                         view.classList.add('hidden');
                     }
                 }
@@ -782,48 +781,10 @@
 
             if (tabId === 'review') renderReviewList();
             if (tabId === 'log') renderMistakesLog();
-            if (tabId === 'ai') renderAiDashboard();
-            lucide.createIcons();
+            if (tabId === 'ai') renderAiCharts();
+            if (tabId === 'grade') renderGradeSections();
         }
 
-        /* --- Category & Form Population --- */
-        function populateCategoryDropdowns() {
-            const selects = [document.getElementById('add-category'), document.getElementById('edit-category'), document.getElementById('scan-wizard-category')];
-            selects.forEach(sel => {
-                if (!sel) return;
-                sel.innerHTML = customCategories.map(c => `<option value="${c}">${c}</option>`).join('');
-            });
-        }
-
-        function updateChaptersDatalist() {
-            const list = document.getElementById('chapters-datalist');
-            const reviewSel = document.getElementById('review-filter-chapter');
-            const logSel = document.getElementById('log-filter-chapter');
-            if (!list) return;
-
-            const chapters = [...new Set(mistakesDB.map(m => m.chapter))].filter(Boolean);
-            list.innerHTML = chapters.map(c => `<option value="${c}">`).join('');
-
-            if (reviewSel) {
-                const curVal = reviewSel.value;
-                reviewSel.innerHTML = `<option value="">כל הפרקים</option>` + chapters.map(c => `<option value="${c}" ${c === curVal ? 'selected' : ''}>${c}</option>`).join('');
-            }
-            if (logSel) {
-                const curVal = logSel.value;
-                logSel.innerHTML = `<option value="">כל הפרקים</option>` + chapters.map(c => `<option value="${c}" ${c === curVal ? 'selected' : ''}>${c}</option>`).join('');
-            }
-        }
-
-        function updateBadges() {
-            const pendingCount = mistakesDB.filter(m => m.status === 'pending').length;
-            const badge = document.getElementById('review-badge');
-            if (badge) {
-                badge.textContent = pendingCount;
-                badge.classList.toggle('hidden', pendingCount === 0);
-            }
-        }
-
-        /* --- STREAMING_CHUNK:Add & Edit Mistake Handlers... --- */
         function handleAddMistake() {
             const chapter = document.getElementById('add-chapter').value.trim();
             const qNum = parseInt(document.getElementById('add-qnum').value);
@@ -831,30 +792,928 @@
             const reason = document.getElementById('add-reason').value.trim();
 
             if (!chapter || !qNum || !reason) {
-                showToast('אנא מלא את כל השדות הדרושים', 'warning');
+                showToast('אנא מלא את כל שדות החובה', 'warning');
                 return;
             }
 
             const newMistake = {
-                id: Date.now().toString(),
+                id: 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
                 chapter: chapter,
                 qNum: qNum,
                 category: category,
                 reason: reason,
-                status: 'pending', // 'pending' or 'mastered'
-                date: new Date().toISOString()
+                status: 'pending',
+                correct: null,
+                userAns: null,
+                createdAt: new Date().toISOString()
             };
 
-            mistakesDB.unshift(newMistake);
+            mistakesData.unshift(newMistake);
             saveData();
 
             document.getElementById('add-qnum').value = '';
             document.getElementById('add-reason').value = '';
+            updateChaptersDatalist();
             showToast('הטעות נשמרה בהצלחה לרשימת החזרה!', 'success');
         }
 
+        function renderCategoryDropdowns() {
+            const addCat = document.getElementById('add-category');
+            const editCat = document.getElementById('edit-category');
+
+            const optionsHtml = categoriesData.map(c => `<option value="${c}">${c}</option>`).join('');
+            if (addCat) addCat.innerHTML = optionsHtml;
+            if (editCat) editCat.innerHTML = optionsHtml;
+        }
+
+        function updateChaptersDatalist() {
+            const datalist = document.getElementById('chapters-datalist');
+            if (!datalist) return;
+
+            const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
+            datalist.innerHTML = chapters.map(c => `<option value="${c}">`).join('');
+        }
+
+        function handleScanImageSelected(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('scan-file-label').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                scanBase64 = e.target.result.split(',')[1];
+                scanMime = file.type || 'image/jpeg';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function processScanImage() {
+            const chapterName = document.getElementById('scan-chapter-name').value.trim() || 'פרק נבדק בסורק';
+            const apiKey = localStorage.getItem('my800_api_key') || '';
+            const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
+
+            if (!scanBase64 && !apiKey) {
+                generateMockScanData(chapterName);
+                return;
+            }
+
+            document.getElementById('scan-loading').classList.remove('hidden');
+            document.getElementById('scan-grader-container').classList.add('hidden');
+
+            try {
+                const prompt = `החזר אך ורק טקסט בפורמט JSON תקני ללא שום מילים נלוות. פלח מתוך התמונה את מספר השאלה והתשובה הנכונה בספר. הדוגמה לפורמט: [{"q": 1, "ans": 3}, {"q": 2, "ans": 1}]`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: prompt },
+                                { inline_data: { mime_type: scanMime, data: scanBase64 } }
+                            ]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const rawText = data.candidates[0].content.parts[0].text;
+                const cleanJson = rawText.replace(/```json|```/g, '').trim();
+                const parsed = JSON.parse(cleanJson);
+
+                scanAnswersData = parsed.map(item => ({
+                    q: item.q,
+                    correct: item.ans,
+                    userAns: null,
+                    chapter: chapterName
+                }));
+
+                renderScanGrid();
+                showToast('תשובות הספר פוענחו בהצלחה!', 'success');
+            } catch (err) {
+                console.warn('Scan AI failed or no key, generating template grid:', err);
+                generateMockScanData(chapterName);
+            } finally {
+                document.getElementById('scan-loading').classList.add('hidden');
+                document.getElementById('scan-grader-container').classList.remove('hidden');
+            }
+        }
+
+        function generateMockScanData(chapterName) {
+            scanAnswersData = [];
+            for (let i = 1; i <= 20; i++) {
+                scanAnswersData.push({
+                    q: i,
+                    correct: 1,
+                    userAns: null,
+                    chapter: chapterName
+                });
+            }
+            renderScanGrid();
+            document.getElementById('scan-loading').classList.add('hidden');
+            document.getElementById('scan-grader-container').classList.remove('hidden');
+        }
+
+        function renderScanGrid() {
+            const grid = document.getElementById('scan-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            scanAnswersData.forEach((item, idx) => {
+                const isAnswered = item.userAns !== null;
+                const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
+                const isWrong = isAnswered && !isCorrect;
+
+                let statusClass = "border-apple-border bg-white";
+                if (isCorrect) statusClass = "border-apple-success bg-apple-success/10";
+                if (isWrong) statusClass = "border-apple-danger bg-apple-danger/10";
+
+                const card = document.createElement('div');
+                card.id = `scan-card-${idx}`;
+                card.className = `p-2.5 rounded-xl border ${statusClass} flex flex-col items-center gap-1.5 transition shadow-sm`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between w-full text-[11px] font-bold text-apple-textSecondary">
+                        <span>#${item.q}</span>
+                        <button type="button" onclick="correctScanBookKey(${idx})" title="לחץ לעריכת תשובת הספר" class="text-[10px] bg-apple-grayBg px-1.5 py-0.5 rounded text-apple-accent hover:underline">ספר: ${item.correct}</button>
+                    </div>
+                    <input type="text" inputmode="numeric" pattern="[1-4]*" maxlength="1" id="scan-input-${idx}" value="${item.userAns || ''}" 
+                        onkeydown="handleScanKeydown(event, ${idx})" placeholder="1-4" 
+                        class="w-full text-center bg-white border border-apple-border rounded-lg py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
+                `;
+                grid.appendChild(card);
+            });
+
+            updateScanLiveStats();
+        }
+
+        function handleScanKeydown(e, idx) {
+            const key = e.key;
+            if (['1', '2', '3', '4'].includes(key)) {
+                e.preventDefault();
+                const val = parseInt(key);
+                scanAnswersData[idx].userAns = val;
+
+                const card = document.getElementById(`scan-card-${idx}`);
+                const input = document.getElementById(`scan-input-${idx}`);
+                const item = scanAnswersData[idx];
+
+                if (input) input.value = val;
+                if (card) {
+                    const isCorrect = val === item.correct;
+                    card.className = `p-2.5 rounded-xl border ${isCorrect ? 'border-apple-success bg-apple-success/10' : 'border-apple-danger bg-apple-danger/10'} flex flex-col items-center gap-1.5 transition shadow-sm`;
+                }
+
+                updateScanLiveStats();
+                setTimeout(() => focusScanInput(idx + 1), 10);
+            } else if (key === 'Backspace') {
+                e.preventDefault();
+                const input = document.getElementById(`scan-input-${idx}`);
+                const card = document.getElementById(`scan-card-${idx}`);
+
+                if (scanAnswersData[idx].userAns !== null) {
+                    scanAnswersData[idx].userAns = null;
+                    if (input) input.value = '';
+                    if (card) {
+                        card.className = 'p-2.5 rounded-xl border border-apple-border bg-white flex flex-col items-center gap-1.5 transition shadow-sm';
+                    }
+                    updateScanLiveStats();
+                } else {
+                    focusScanInput(idx - 1);
+                }
+            } else if (key === 'ArrowLeft' || key === 'ArrowDown') {
+                e.preventDefault();
+                focusScanInput(idx + 1);
+            } else if (key === 'ArrowRight' || key === 'ArrowUp') {
+                e.preventDefault();
+                focusScanInput(idx - 1);
+            }
+        }
+
+        function focusScanInput(idx) {
+            if (idx < 0 || idx >= scanAnswersData.length) return;
+            const input = document.getElementById(`scan-input-${idx}`);
+            if (input) {
+                input.focus();
+                if (typeof input.select === 'function') input.select();
+            }
+        }
+
+        function correctScanBookKey(idx) {
+            const cur = scanAnswersData[idx];
+            const newKey = prompt(`עדכן תשובת ספר לשאלה #${cur.q}:`, cur.correct);
+            if (newKey !== null) {
+                const parsed = parseInt(newKey);
+                if (parsed >= 1 && parsed <= 4) {
+                    cur.correct = parsed;
+                    renderScanGrid();
+                    showToast(`תשובת ספר לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
+                }
+            }
+        }
+
+        function updateScanLiveStats() {
+            let correct = 0;
+            let wrong = 0;
+
+            scanAnswersData.forEach(item => {
+                if (item.userAns !== null) {
+                    if (parseInt(item.userAns) === item.correct) correct++;
+                    else wrong++;
+                }
+            });
+
+            const elCorrect = document.getElementById('scan-stat-correct');
+            const elWrong = document.getElementById('scan-stat-wrong');
+            if (elCorrect) elCorrect.textContent = `V: ${correct}`;
+            if (elWrong) elWrong.textContent = `X: ${wrong}`;
+            
+            const proceedBtn = document.getElementById('btn-proceed-scan-wizard');
+            if (proceedBtn) proceedBtn.disabled = wrong === 0;
+        }
+
+        function resetScan() {
+            scanAnswersData = [];
+            scanBase64 = null;
+            scanMime = null;
+            document.getElementById('scan-file-label').textContent = 'בחר תמונה / העלה צילום ספר';
+            document.getElementById('scan-grader-container').classList.add('hidden');
+            document.getElementById('scan-wizard-container').classList.add('hidden');
+        }
+
+        function startScanWizard() {
+            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
+            if (mistakes.length === 0) {
+                showToast('אין טעויות לתחקור!', 'info');
+                return;
+            }
+
+            scanWizardIndex = 0;
+            document.getElementById('scan-grader-container').classList.add('hidden');
+            document.getElementById('scan-wizard-container').classList.remove('hidden');
+            renderScanWizardStep();
+        }
+
+        function renderScanWizardStep() {
+            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
+            if (mistakes.length === 0) {
+                resetScan();
+                showToast('כל הטעויות תוקנו והסתיימו!', 'success');
+                return;
+            }
+
+            const cur = mistakes[scanWizardIndex];
+            document.getElementById('scan-wizard-progress').textContent = `שאלה ${scanWizardIndex + 1} מתוך ${mistakes.length}`;
+            document.getElementById('scan-wizard-qtitle').textContent = `שאלה #${cur.q}`;
+            document.getElementById('scan-wizard-chapter').textContent = `פרק: ${cur.chapter}`;
+            document.getElementById('scan-wizard-comparison').innerHTML = `<span>ענית: ${cur.userAns} | תשובה נכונה: ${cur.correct}</span>`;
+
+            const catSelect = document.getElementById('scan-wizard-category');
+            catSelect.innerHTML = categoriesData.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            document.getElementById('scan-wizard-reason').value = '';
+            document.getElementById('btn-scan-wizard-prev').disabled = scanWizardIndex === 0;
+            
+            const nextBtn = document.getElementById('btn-scan-wizard-next');
+            if (scanWizardIndex === mistakes.length - 1) {
+                nextBtn.textContent = 'שמור והשלם תחקור V';
+            } else {
+                nextBtn.textContent = 'לשאלה הבאה ←';
+            }
+        }
+
+        function correctCurrentWizardMistake() {
+            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
+            if (mistakes.length === 0 || scanWizardIndex >= mistakes.length) return;
+
+            const cur = mistakes[scanWizardIndex];
+            const newAns = prompt(`תיקון תשובה לשאלה #${cur.q} (הזן 1-4, או הקלד ${cur.correct} אם צדקת בשאלה זו):`, cur.userAns);
+            
+            if (newAns !== null) {
+                const parsed = parseInt(newAns);
+                if (parsed >= 1 && parsed <= 4) {
+                    cur.userAns = parsed;
+                    if (parsed === cur.correct) {
+                        showToast(`שאלה #${cur.q} עודכנה כפתורה והוסרה מהתחקור!`, 'success');
+                    } else {
+                        showToast(`תשובה לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
+                    }
+                    renderScanGrid();
+                    const newMistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
+                    if (newMistakes.length === 0) {
+                        resetScan();
+                        showToast('כל הטעויות תוקנו! אין טעויות לתחקור.', 'success');
+                    } else {
+                        if (scanWizardIndex >= newMistakes.length) scanWizardIndex = Math.max(0, newMistakes.length - 1);
+                        renderScanWizardStep();
+                    }
+                }
+            }
+        }
+
+        function prevScanWizardStep() {
+            if (scanWizardIndex > 0) {
+                scanWizardIndex--;
+                renderScanWizardStep();
+            }
+        }
+
+        function nextScanWizardStep() {
+            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
+            const cur = mistakes[scanWizardIndex];
+
+            const category = document.getElementById('scan-wizard-category').value;
+            const reason = document.getElementById('scan-wizard-reason').value.trim() || 'תחקור מהיר בסורק';
+
+            const newMistake = {
+                id: 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                chapter: cur.chapter,
+                qNum: cur.q,
+                category: category,
+                reason: reason,
+                status: 'pending',
+                correct: cur.correct,
+                userAns: cur.userAns,
+                createdAt: new Date().toISOString()
+            };
+
+            mistakesData.unshift(newMistake);
+
+            if (scanWizardIndex < mistakes.length - 1) {
+                scanWizardIndex++;
+                renderScanWizardStep();
+            } else {
+                saveData();
+                resetScan();
+                showToast('כל הטעויות תועדו בהצלחה במאגר!', 'success');
+                switchTab('log');
+            }
+        }
+
+        function addGradeSection() {
+            const secIndex = gradeSections.length;
+            const secName = `פרק ${secIndex + 1} - כמותי`;
+
+            const section = {
+                id: 'sec_' + Date.now(),
+                name: secName,
+                questionsCount: 20,
+                ready: false,
+                answers: []
+            };
+
+            for (let i = 1; i <= 20; i++) {
+                section.answers.push({
+                    q: i,
+                    correct: 1,
+                    userAns: null
+                });
+            }
+
+            gradeSections.push(section);
+            renderGradeSections();
+            updateGradeMultiStats();
+        }
+
+        function removeGradeSection(index) {
+            if (gradeSections.length <= 1) {
+                showToast('חובה להשאיר לפחות פרק אחד לבדיקה', 'warning');
+                return;
+            }
+            gradeSections.splice(index, 1);
+            renderGradeSections();
+            updateGradeMultiStats();
+        }
+
+        function enableSectionManual(secIndex) {
+            gradeSections[secIndex].ready = true;
+            renderGradeSections();
+            updateGradeMultiStats();
+            showToast(`מקלדת הבדיקה ל-${gradeSections[secIndex].name} פתוחה. הקלד 1-4.`, 'info');
+        }
+
+        function renderGradeSections() {
+            const container = document.getElementById('grade-sections-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            gradeSections.forEach((sec, sIdx) => {
+                const secCard = document.createElement('div');
+                secCard.className = 'bg-white rounded-2xl p-5 border border-apple-border shadow-apple-sm space-y-4';
+                
+                if (!sec.ready) {
+                    secCard.innerHTML = `
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-apple-border/60 pb-3">
+                            <input type="text" value="${sec.name}" onchange="gradeSections[${sIdx}].name = this.value" class="text-xs font-bold text-apple-textPrimary bg-transparent border-b border-dashed border-apple-border focus:outline-none focus:border-apple-accent">
+                            ${gradeSections.length > 1 ? `<button onclick="removeGradeSection(${sIdx})" class="text-xs text-apple-danger hover:underline">הסר פרק</button>` : ''}
+                        </div>
+
+                        <div class="py-6 px-4 bg-apple-grayBg/60 rounded-xl border border-dashed border-apple-border text-center space-y-3">
+                            <p class="text-xs font-bold text-apple-textPrimary">תשובות הספר טרם נסרקו/הוגדרו לפרק זה</p>
+                            <p class="text-[11px] text-apple-textSecondary max-w-md mx-auto">מקלדת בדיקת התשובות תופיע מיד לאחר סריקת תמונת הספר או אישור מפתח התשובות.</p>
+                            
+                            <div id="sec-loader-${sIdx}" class="hidden py-2 text-center">
+                                <i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline mb-1"></i>
+                                <span class="text-xs font-bold text-apple-textPrimary pr-2">מפענח תשובות ספר מתוך התמונה...</span>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+                                <label class="bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-medium py-2.5 px-4 rounded-xl cursor-pointer transition shadow-apple-sm flex items-center gap-1.5">
+                                    <i data-lucide="scan-line" class="w-4 h-4"></i>
+                                    <span>📸 סרוק תשובות ספר מתמונה (AI)</span>
+                                    <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
+                                </label>
+                                <button type="button" onclick="enableSectionManual(${sIdx})" class="bg-white hover:bg-apple-grayBg border border-apple-border text-apple-textPrimary text-xs font-semibold py-2.5 px-4 rounded-xl transition flex items-center gap-1.5">
+                                    <i data-lucide="edit-3" class="w-4 h-4 text-apple-accent"></i>
+                                    <span>הזן/אישר תשובות ספר ידנית (20 שאלות)</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    let questionsHtml = sec.answers.map((item, qIdx) => {
+                        const isAnswered = item.userAns !== null;
+                        const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
+                        const isWrong = isAnswered && !isCorrect;
+
+                        let statusClass = "border-apple-border bg-white";
+                        if (isCorrect) statusClass = "border-apple-success bg-apple-success/10";
+                        if (isWrong) statusClass = "border-apple-danger bg-apple-danger/10";
+
+                        return `
+                            <div id="grade-card-${sIdx}-${qIdx}" class="p-2.5 rounded-xl border ${statusClass} flex flex-col items-center gap-1.5 transition shadow-sm">
+                                <div class="flex items-center justify-between w-full text-[10px] font-bold text-apple-textSecondary">
+                                    <span>#${item.q}</span>
+                                    <button type="button" onclick="correctGradeAnswerKey(${sIdx}, ${qIdx})" title="לחץ לעריכת תשובת הספר" class="text-apple-accent hover:underline">ספר: ${item.correct}</button>
+                                </div>
+                                <input type="text" inputmode="numeric" pattern="[1-4]*" maxlength="1" id="grade-input-${sIdx}-${qIdx}" value="${item.userAns || ''}" 
+                                    onkeydown="handleGradeKeydown(event, ${sIdx}, ${qIdx})" placeholder="1-4" 
+                                    class="w-full text-center bg-white border border-apple-border rounded-lg py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent/50">
+                            </div>
+                        `;
+                    }).join('');
+
+                    secCard.innerHTML = `
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-apple-border/60 pb-3">
+                            <input type="text" value="${sec.name}" onchange="gradeSections[${sIdx}].name = this.value" class="text-xs font-bold text-apple-textPrimary bg-transparent border-b border-dashed border-apple-border focus:outline-none focus:border-apple-accent">
+                            
+                            <div class="flex items-center gap-3">
+                                <label class="bg-apple-grayBg hover:bg-apple-border/60 text-apple-textPrimary border border-apple-border text-[11px] font-medium py-1.5 px-3 rounded-xl cursor-pointer transition flex items-center gap-1.5">
+                                    <i data-lucide="scan-line" class="w-3.5 h-3.5 text-apple-accent"></i>
+                                    <span>📸 סרוק מחדש מתמונה</span>
+                                    <input type="file" accept="image/*" onchange="scanGradeSectionImage(${sIdx}, event)" class="hidden">
+                                </label>
+                                <span class="text-xs font-bold text-apple-accent" id="sec-score-${sIdx}">נכון: 0/20</span>
+                                ${gradeSections.length > 1 ? `<button onclick="removeGradeSection(${sIdx})" class="text-xs text-apple-danger hover:underline">הסר פרק</button>` : ''}
+                            </div>
+                        </div>
+
+                        <div id="sec-loader-${sIdx}" class="hidden py-3 text-center bg-apple-grayBg/50 rounded-xl">
+                            <i data-lucide="loader-2" class="w-5 h-5 text-apple-accent animate-spin mx-auto inline mb-1"></i>
+                            <span class="text-xs font-bold text-apple-textPrimary pr-2">מפענח תשובות ספר מתוך התמונה...</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2.5">
+                            ${questionsHtml}
+                        </div>
+                    `;
+                }
+
+                container.appendChild(secCard);
+            });
+
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function handleGradeKeydown(e, sIdx, qIdx) {
+            const key = e.key;
+            if (['1', '2', '3', '4'].includes(key)) {
+                e.preventDefault();
+                const val = parseInt(key);
+                gradeSections[sIdx].answers[qIdx].userAns = val;
+
+                const card = document.getElementById(`grade-card-${sIdx}-${qIdx}`);
+                const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
+                const item = gradeSections[sIdx].answers[qIdx];
+
+                if (input) input.value = val;
+                if (card) {
+                    const isCorrect = val === item.correct;
+                    card.className = `p-2.5 rounded-xl border ${isCorrect ? 'border-apple-success bg-apple-success/10' : 'border-apple-danger bg-apple-danger/10'} flex flex-col items-center gap-1.5 transition shadow-sm`;
+                }
+
+                updateGradeMultiStats();
+                setTimeout(() => focusGradeInput(sIdx, qIdx + 1), 10);
+            } else if (key === 'Backspace') {
+                e.preventDefault();
+                const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
+                const card = document.getElementById(`grade-card-${sIdx}-${qIdx}`);
+
+                if (gradeSections[sIdx].answers[qIdx].userAns !== null) {
+                    gradeSections[sIdx].answers[qIdx].userAns = null;
+                    if (input) input.value = '';
+                    if (card) {
+                        card.className = 'p-2.5 rounded-xl border border-apple-border bg-white flex flex-col items-center gap-1.5 transition shadow-sm';
+                    }
+                    updateGradeMultiStats();
+                } else {
+                    focusGradeInput(sIdx, qIdx - 1);
+                }
+            } else if (key === 'ArrowLeft' || key === 'ArrowDown') {
+                e.preventDefault();
+                focusGradeInput(sIdx, qIdx + 1);
+            } else if (key === 'ArrowRight' || key === 'ArrowUp') {
+                e.preventDefault();
+                focusGradeInput(sIdx, qIdx - 1);
+            }
+        }
+
+        function focusGradeInput(sIdx, qIdx) {
+            if (qIdx >= gradeSections[sIdx].answers.length) {
+                if (sIdx + 1 < gradeSections.length) {
+                    sIdx++;
+                    qIdx = 0;
+                } else {
+                    return;
+                }
+            } else if (qIdx < 0) {
+                if (sIdx - 1 >= 0) {
+                    sIdx--;
+                    qIdx = gradeSections[sIdx].answers.length - 1;
+                } else {
+                    return;
+                }
+            }
+            const input = document.getElementById(`grade-input-${sIdx}-${qIdx}`);
+            if (input) {
+                input.focus();
+                if (typeof input.select === 'function') input.select();
+            }
+        }
+
+        async function scanGradeSectionImage(secIndex, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const apiKey = localStorage.getItem('my800_api_key') || '';
+            const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
+
+            if (!apiKey) {
+                showToast('לסריקת תשובות ספר מתוך תמונה נדרש API Key בהגדרות', 'warning');
+                return;
+            }
+
+            const loader = document.getElementById(`sec-loader-${secIndex}`);
+            if (loader) loader.classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = async function (e) {
+                const base64 = e.target.result.split(',')[1];
+                const mime = file.type || 'image/jpeg';
+
+                try {
+                    const prompt = `החזר אך ורק טקסט בפורמט JSON תקני ללא שום מילים נלוות. פלח מתוך התמונה את מספר השאלה והתשובה הנכונה בספר. הדוגמה לפורמט: [{"q": 1, "ans": 3}, {"q": 2, "ans": 1}]`;
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: prompt },
+                                    { inline_data: { mime_type: mime, data: base64 } }
+                                ]
+                            }]
+                        })
+                    });
+
+                    const data = await response.json();
+                    const rawText = data.candidates[0].content.parts[0].text;
+                    const cleanJson = rawText.replace(/```json|```/g, '').trim();
+                    const parsed = JSON.parse(cleanJson);
+
+                    parsed.forEach(item => {
+                        const qObj = gradeSections[secIndex].answers.find(a => a.q === item.q);
+                        if (qObj) qObj.correct = parseInt(item.ans);
+                    });
+
+                    gradeSections[secIndex].ready = true;
+                    renderGradeSections();
+                    updateGradeMultiStats();
+                    showToast(`תשובות הספר ל-${gradeSections[secIndex].name} פוענחו בהצלחה!`, 'success');
+                } catch (err) {
+                    console.error(err);
+                    showToast('שגיאה בפענוח התמונה. אנא בדוק תקינות התמונה וה-API Key.', 'danger');
+                } finally {
+                    if (loader) loader.classList.add('hidden');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function correctGradeAnswerKey(secIndex, qIndex) {
+            const cur = gradeSections[secIndex].answers[qIndex];
+            const newKey = prompt(`עדכן את תשובת הספר הנכונה לשאלה #${cur.q}:`, cur.correct);
+            if (newKey !== null) {
+                const parsed = parseInt(newKey);
+                if (parsed >= 1 && parsed <= 4) {
+                    cur.correct = parsed;
+                    renderGradeSections();
+                    updateGradeMultiStats();
+                    showToast(`תשובת הספר לשאלה #${cur.q} עודכנה ל-${parsed}`, 'info');
+                }
+            }
+        }
+
+        function updateGradeMultiStats() {
+            let totalCorrect = 0;
+            let totalAnswered = 0;
+            let totalQuestions = 0;
+
+            gradeSections.forEach((sec, sIdx) => {
+                let secCorrect = 0;
+                sec.answers.forEach(item => {
+                    totalQuestions++;
+                    if (item.userAns !== null) {
+                        totalAnswered++;
+                        if (parseInt(item.userAns) === item.correct) {
+                            secCorrect++;
+                            totalCorrect++;
+                        }
+                    }
+                });
+
+                const secEl = document.getElementById(`sec-score-${sIdx}`);
+                if (secEl) {
+                    secEl.textContent = `נכון: ${secCorrect}/${sec.answers.length}`;
+                }
+            });
+
+            const pct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+            const psychometricEl = document.getElementById('grade-multi-psychometric');
+
+            document.getElementById('grade-multi-raw').textContent = `${totalCorrect} / ${totalQuestions}`;
+            document.getElementById('grade-multi-pct').textContent = `${pct}%`;
+
+            if (psychometricEl) {
+                if (gradeSections.length >= 2) {
+                    const psychometricEst = getPsychometricScore(totalCorrect);
+                    psychometricEl.textContent = psychometricEst;
+                } else {
+                    psychometricEl.textContent = 'נדרשים 2 פרקים';
+                }
+            }
+        }
+
+        function getPsychometricScore(rawScore) {
+            if (rawScore in NITE_PSYCHOMETRIC_TABLE) {
+                return NITE_PSYCHOMETRIC_TABLE[rawScore];
+            }
+            if (rawScore > 40) return 150;
+            return 50;
+        }
+
+        function saveGradeReport() {
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+
+            gradeSections.forEach(sec => {
+                sec.answers.forEach(item => {
+                    totalQuestions++;
+                    if (item.userAns !== null && parseInt(item.userAns) === item.correct) {
+                        totalCorrect++;
+                    }
+                });
+            });
+
+            const pct = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+            const psychometricScore = gradeSections.length >= 2 ? getPsychometricScore(totalCorrect) : 'ללא חיווי (פחות מ-2 פרקים)';
+
+            const report = {
+                id: 'rep_' + Date.now(),
+                date: new Date().toLocaleDateString('he-IL'),
+                sectionsCount: gradeSections.length,
+                rawScore: `${totalCorrect}/${totalQuestions}`,
+                percentage: `${pct}%`,
+                psychometric: psychometricScore
+            };
+
+            reportsData.unshift(report);
+            saveData();
+            showToast('הדו"ח נשמר בהצלחה במרכז הדו"חות שלי!', 'success');
+        }
+
+        function renderReviewList() {
+            const container = document.getElementById('review-items-container');
+            const filterSelect = document.getElementById('review-filter-chapter');
+            if (!container || !filterSelect) return;
+
+            const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
+            filterSelect.innerHTML = '<option value="">כל הפרקים</option>' + chapters.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            const selectedChapter = filterSelect.value;
+            const pendingMistakes = mistakesData.filter(m => m.status === 'pending' && (!selectedChapter || m.chapter === selectedChapter));
+
+            const badge = document.getElementById('review-badge');
+            if (badge) {
+                badge.textContent = pendingMistakes.length;
+                badge.classList.toggle('hidden', pendingMistakes.length === 0);
+            }
+
+            if (pendingMistakes.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-apple-border text-apple-textSecondary">
+                        <i data-lucide="check-circle-2" class="w-10 h-10 mx-auto mb-2 text-apple-success"></i>
+                        <p class="font-bold text-xs">אין שאלות ממתינות לחזרה!</p>
+                        <p class="text-[11px] mt-1">כל הכבוד, סיימת לעבור על כל הטעויות בסבב זה.</p>
+                    </div>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = pendingMistakes.map(m => `
+                <div class="bg-white rounded-2xl p-4 border border-apple-border shadow-apple-sm flex items-center justify-between">
+                    <div>
+                        <div class="text-[11px] font-bold text-apple-textSecondary">${m.chapter}</div>
+                        <div class="text-lg font-extrabold text-apple-textPrimary">שאלה #${m.qNum}</div>
+                    </div>
+                    <button onclick="toggleMistakeStatus('${m.id}')" class="bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs px-3 py-1.5 rounded-xl border border-apple-success/30 transition">
+                        V סמן כפתור
+                    </button>
+                </div>
+            `).join('');
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function startReviewWizard() {
+            const selectedChapter = document.getElementById('review-filter-chapter').value;
+            reviewWizardItems = mistakesData.filter(m => m.status === 'pending' && (!selectedChapter || m.chapter === selectedChapter));
+
+            if (reviewWizardItems.length === 0) {
+                showToast('אין שאלות ברשימת החזרה', 'info');
+                return;
+            }
+
+            reviewWizardIndex = 0;
+            document.getElementById('review-wizard-modal').classList.remove('hidden');
+            renderReviewWizardStep();
+        }
+
+        function closeReviewWizard() {
+            document.getElementById('review-wizard-modal').classList.add('hidden');
+        }
+
+        function renderReviewWizardStep() {
+            if (reviewWizardIndex >= reviewWizardItems.length) {
+                closeReviewWizard();
+                renderReviewList();
+                showToast('סיימת את אשף החזרה!', 'success');
+                return;
+            }
+
+            const cur = reviewWizardItems[reviewWizardIndex];
+            document.getElementById('review-wizard-step').textContent = `שאלה ${reviewWizardIndex + 1} מתוך ${reviewWizardItems.length}`;
+            document.getElementById('review-wizard-chapter-name').textContent = `פרק: ${cur.chapter}`;
+            document.getElementById('review-wizard-qnum').textContent = `שאלה #${cur.qNum}`;
+
+            document.getElementById('review-wizard-ans-input').value = '';
+            document.getElementById('review-wizard-ans-feedback').textContent = '';
+
+            document.getElementById('btn-review-choice-master').className = "bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-success/30 flex flex-col items-center gap-1";
+            document.getElementById('btn-review-choice-fail').className = "bg-apple-danger/10 hover:bg-apple-danger/20 text-apple-danger font-bold text-xs py-3 px-2 rounded-xl transition border border-apple-danger/30 flex flex-col items-center gap-1";
+        }
+
+        function submitReviewAnswerCheck() {
+            const val = document.getElementById('review-wizard-ans-input').value.trim();
+            const feedbackEl = document.getElementById('review-wizard-ans-feedback');
+            const cur = reviewWizardItems[reviewWizardIndex];
+
+            if (!val || !cur.correct) {
+                feedbackEl.textContent = '';
+                return;
+            }
+
+            const parsed = parseInt(val);
+            if (parsed === cur.correct) {
+                feedbackEl.className = "text-[11px] text-center font-bold text-apple-success min-h-[18px]";
+                feedbackEl.textContent = "V תשובה נכונה! כל הכבוד!";
+            } else {
+                feedbackEl.className = "text-[11px] text-center font-bold text-apple-danger min-h-[18px]";
+                feedbackEl.textContent = `X תשובה שגויה. תשובת הספר הנכונה היא: ${cur.correct}`;
+            }
+        }
+
+        function handleReviewWizardChoice(choice) {
+            const cur = reviewWizardItems[reviewWizardIndex];
+
+            if (choice === 'master') {
+                cur.status = 'mastered';
+            } else if (choice === 'fail') {
+                cur.status = 'pending';
+            }
+
+            saveData();
+            reviewWizardIndex++;
+            renderReviewWizardStep();
+        }
+
+        function renderMistakesLog() {
+            const container = document.getElementById('log-items-container');
+            if (!container) return;
+
+            const searchVal = document.getElementById('log-search').value.toLowerCase().trim();
+            const filterChapter = document.getElementById('log-filter-chapter').value;
+            const filterStatus = document.getElementById('log-filter-status').value;
+
+            const chapters = [...new Set(mistakesData.map(m => m.chapter))].filter(Boolean);
+            document.getElementById('log-filter-chapter').innerHTML = '<option value="">כל הפרקים</option>' + chapters.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('log-filter-chapter').value = filterChapter;
+
+            const filtered = mistakesData.filter(m => {
+                const matchSearch = m.chapter.toLowerCase().includes(searchVal) || m.reason.toLowerCase().includes(searchVal) || m.category.toLowerCase().includes(searchVal);
+                const matchChapter = !filterChapter || m.chapter === filterChapter;
+                const matchStatus = filterStatus === 'all' || m.status === filterStatus;
+                return matchSearch && matchChapter && matchStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center bg-white rounded-2xl border border-apple-border text-xs text-apple-textSecondary">לא נמצאו טעויות התואמות את המסנן.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(m => {
+                const isMastered = m.status === 'mastered';
+                return `
+                    <div class="bg-white rounded-2xl border border-apple-border shadow-apple-sm overflow-hidden transition">
+                        <div onclick="toggleAccordion('${m.id}')" class="p-4 cursor-pointer flex items-center justify-between hover:bg-apple-grayBg/40 transition">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${isMastered ? 'bg-apple-success/10 text-apple-success' : 'bg-apple-warning/10 text-apple-warning'}">
+                                    ${isMastered ? 'הושלם (Mastered)' : 'ממתין לחזרה'}
+                                </span>
+                                <div>
+                                    <div class="text-xs font-bold text-apple-textPrimary">${m.chapter} - שאלה #${m.qNum}</div>
+                                    <div class="text-[11px] text-apple-textSecondary mt-0.5">${m.category}</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <button onclick="event.stopPropagation(); openEditModal('${m.id}')" class="text-xs text-apple-accent hover:underline px-2 py-1">עריכה</button>
+                                <button onclick="event.stopPropagation(); deleteMistake('${m.id}')" class="text-xs text-apple-danger hover:underline px-2 py-1">מחיקה</button>
+                                <i data-lucide="chevron-down" id="acc-icon-${m.id}" class="w-4 h-4 text-apple-textSecondary transition-transform duration-200"></i>
+                            </div>
+                        </div>
+
+                        <div id="acc-body-${m.id}" class="hidden px-4 pb-4 pt-1 border-t border-apple-border/40 bg-apple-grayBg/30 text-xs text-apple-textPrimary">
+                            <div class="font-bold mb-1 text-apple-textSecondary">סיבת הטעות והערה לסיבוב הבא:</div>
+                            <div class="leading-relaxed bg-white p-3 rounded-xl border border-apple-border/80">${m.reason}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function toggleAccordion(id) {
+            const body = document.getElementById(`acc-body-${id}`);
+            const icon = document.getElementById(`acc-icon-${id}`);
+
+            if (body && body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            } else if (body) {
+                body.classList.add('hidden');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleMistakeStatus(id) {
+            const item = mistakesData.find(m => m.id === id);
+            if (item) {
+                item.status = item.status === 'mastered' ? 'pending' : 'mastered';
+                saveData();
+                renderReviewList();
+                renderMistakesLog();
+                showToast(`סטטוס השאלה עודכן ל-${item.status === 'mastered' ? 'הושלם' : 'ממתין לחזרה'}`, 'info');
+            }
+        }
+
+        function deleteMistake(id) {
+            if (confirm('האם אתה בטוח שברצונך למחוק טעות זו?')) {
+                mistakesData = mistakesData.filter(m => m.id !== id);
+                saveData();
+                renderMistakesLog();
+                showToast('הטעות נמחקה בהצלחה', 'info');
+            }
+        }
+
         function openEditModal(id) {
-            const item = mistakesDB.find(m => m.id === id);
+            const item = mistakesData.find(m => m.id === id);
             if (!item) return;
 
             document.getElementById('edit-id').value = item.id;
@@ -867,888 +1726,374 @@
         }
 
         function closeEditModal() {
-            closeModalWithAnim('edit-modal');
+            document.getElementById('edit-modal').classList.add('hidden');
         }
 
         function saveEditMistake() {
             const id = document.getElementById('edit-id').value;
-            const item = mistakesDB.find(m => m.id === id);
-            if (!item) return;
+            const item = mistakesData.find(m => m.id === id);
 
-            item.chapter = document.getElementById('edit-chapter').value.trim();
-            item.qNum = parseInt(document.getElementById('edit-qnum').value);
-            item.category = document.getElementById('edit-category').value;
-            item.reason = document.getElementById('edit-reason').value.trim();
+            if (item) {
+                item.chapter = document.getElementById('edit-chapter').value.trim();
+                item.qNum = parseInt(document.getElementById('edit-qnum').value);
+                item.category = document.getElementById('edit-category').value;
+                item.reason = document.getElementById('edit-reason').value.trim();
 
-            saveData();
-            closeEditModal();
-            renderMistakesLog();
-            showToast('הטעות עודכנה בהצלחה', 'success');
-        }
-
-        function deleteMistake(id) {
-            if (confirm('האם למחוק טעות זו לצמיתות?')) {
-                mistakesDB = mistakesDB.filter(m => m.id !== id);
                 saveData();
+                closeEditModal();
                 renderMistakesLog();
-                renderReviewList();
-                showToast('הטעות נמחקה', 'info');
+                showToast('הטעות עודכנה בהצלחה!', 'success');
             }
         }
 
-        /* --- STREAMING_CHUNK:Mistakes Log Rendering & Accordion... --- */
-        function renderMistakesLog() {
-            const container = document.getElementById('log-items-container');
-            if (!container) return;
-
-            const search = (document.getElementById('log-search')?.value || '').toLowerCase();
-            const chapterFilter = document.getElementById('log-filter-chapter')?.value || '';
-            const statusFilter = document.getElementById('log-filter-status')?.value || 'all';
-
-            let filtered = mistakesDB.filter(item => {
-                const matchSearch = item.chapter.toLowerCase().includes(search) || item.reason.toLowerCase().includes(search) || item.qNum.toString().includes(search);
-                const matchChapter = !chapterFilter || item.chapter === chapterFilter;
-                const matchStatus = statusFilter === 'all' || item.status === statusFilter;
-                return matchSearch && matchChapter && matchStatus;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="bg-white rounded-2xl p-8 border border-apple-border text-center text-xs text-apple-textSecondary">לא נמצאו טעויות התואמות את הסינון.</div>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(item => {
-                const isMastered = item.status === 'mastered';
-                return `
-                    <div class="bg-white rounded-2xl border border-apple-border/80 shadow-apple-sm overflow-hidden transition hover:border-apple-accent/40">
-                        <div onclick="toggleAccordion('${item.id}')" class="p-4 flex items-center justify-between cursor-pointer bg-white select-none">
-                            <div class="flex items-center gap-3">
-                                <span class="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs ${isMastered ? 'bg-apple-success/10 text-apple-success' : 'bg-apple-warning/10 text-apple-warning'}">
-                                    #${item.qNum}
-                                </span>
-                                <div>
-                                    <div class="text-xs font-bold text-apple-textPrimary flex items-center gap-2">
-                                        ${item.chapter}
-                                        ${isMastered ? '<span class="text-[10px] font-normal bg-apple-success/10 text-apple-success px-2 py-0.5 rounded-full">הושלם</span>' : ''}
-                                    </div>
-                                    <div class="text-[11px] text-apple-textSecondary mt-0.5">${item.category}</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button onclick="event.stopPropagation(); openEditModal('${item.id}')" class="text-apple-textSecondary hover:text-apple-accent p-1"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                                <button onclick="event.stopPropagation(); deleteMistake('${item.id}')" class="text-apple-textSecondary hover:text-apple-danger p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                                <i data-lucide="chevron-down" id="acc-icon-${item.id}" class="w-4 h-4 text-apple-textSecondary transition-transform duration-200"></i>
-                            </div>
-                        </div>
-                        <div id="acc-body-${item.id}" class="hidden px-4 pb-4 pt-2 bg-apple-grayBg/40 border-t border-apple-border/40 text-xs text-apple-textPrimary leading-relaxed">
-                            <div class="font-bold mb-1 text-apple-accent">פירוט וסיבת הטעות:</div>
-                            <p class="whitespace-pre-wrap">${item.reason}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            lucide.createIcons();
-        }
-
-        function toggleAccordion(id) {
-            const body = document.getElementById(`acc-body-${id}`);
-            const icon = document.getElementById(`acc-icon-${id}`);
-            if (!body) return;
-
-            const isHidden = body.classList.contains('hidden');
-            body.classList.toggle('hidden', !isHidden);
-            if (icon) icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-        }
-
-        /* --- STREAMING_CHUNK:Review List & Review Wizard Logic... --- */
-        function renderReviewList() {
-            const container = document.getElementById('review-items-container');
-            if (!container) return;
-
-            const chapterFilter = document.getElementById('review-filter-chapter')?.value || '';
-            let pendingItems = mistakesDB.filter(m => m.status === 'pending');
-            if (chapterFilter) {
-                pendingItems = pendingItems.filter(m => m.chapter === chapterFilter);
-            }
-
-            if (pendingItems.length === 0) {
-                container.innerHTML = `<div class="col-span-full bg-white rounded-2xl p-10 border border-apple-border text-center text-xs text-apple-textSecondary">אין כרגע שאלות ברשימת החזרה 🎉 כל הכבוד!</div>`;
-                return;
-            }
-
-            container.innerHTML = pendingItems.map(item => `
-                <div class="bg-white rounded-2xl p-4 border border-apple-border shadow-apple-sm flex flex-col justify-between space-y-3">
-                    <div>
-                        <div class="text-[11px] font-bold text-apple-textSecondary">${item.chapter}</div>
-                        <div class="text-xl font-extrabold text-apple-textPrimary mt-1">שאלה #${item.qNum}</div>
-                    </div>
-                    <div class="flex items-center gap-2 pt-2 border-t border-apple-border/60">
-                        <button onclick="markMistakeStatus('${item.id}', 'mastered')" class="flex-1 bg-apple-success/10 hover:bg-apple-success/20 text-apple-success font-bold text-xs py-2 rounded-xl transition flex items-center justify-center gap-1">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i> צדקתי
-                        </button>
-                        <button onclick="markMistakeStatus('${item.id}', 'pending')" class="flex-1 bg-apple-danger/10 hover:bg-apple-danger/20 text-apple-danger font-bold text-xs py-2 rounded-xl transition flex items-center justify-center gap-1">
-                            <i data-lucide="x" class="w-3.5 h-3.5"></i> טעיתי
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            lucide.createIcons();
-        }
-
-        function markMistakeStatus(id, newStatus) {
-            const item = mistakesDB.find(m => m.id === id);
-            if (item) {
-                item.status = newStatus;
-                saveData();
-                renderReviewList();
-                showToast(newStatus === 'mastered' ? 'כל הכבוד! השאלה סומנה כפתורה' : 'השאלה נשארה ברשימת החזרה', 'info');
-            }
-        }
-
-        function startReviewWizard() {
-            const chapterFilter = document.getElementById('review-filter-chapter')?.value || '';
-            reviewWizardItems = mistakesDB.filter(m => m.status === 'pending');
-            if (chapterFilter) {
-                reviewWizardItems = reviewWizardItems.filter(m => m.chapter === chapterFilter);
-            }
-
-            if (reviewWizardItems.length === 0) {
-                showToast('אין שאלות ברשימת החזרה לתרגול', 'warning');
-                return;
-            }
-
-            reviewWizardIndex = 0;
-            renderReviewWizardStep();
-            document.getElementById('review-wizard-modal').classList.remove('hidden');
-        }
-
-        function renderReviewWizardStep() {
-            if (reviewWizardIndex >= reviewWizardItems.length) {
-                closeReviewWizard();
-                showToast('סיימת את סבב החזרה! 🎉', 'success');
-                renderReviewList();
-                return;
-            }
-
-            const item = reviewWizardItems[reviewWizardIndex];
-            document.getElementById('review-wizard-step').textContent = `שאלה ${reviewWizardIndex + 1} מתוך ${reviewWizardItems.length}`;
-            document.getElementById('review-wizard-chapter-name').textContent = `פרק: ${item.chapter}`;
-            document.getElementById('review-wizard-qnum').textContent = `שאלה #${item.qNum}`;
-
-            const ansInput = document.getElementById('review-wizard-ans-input');
-            if (ansInput) ansInput.value = '';
-            document.getElementById('review-wizard-ans-feedback').textContent = '';
-
-            // Reset decision buttons styles
-            document.getElementById('btn-review-choice-master').style.opacity = '1';
-            document.getElementById('btn-review-choice-keep').style.opacity = '1';
-            document.getElementById('btn-review-choice-fail').style.opacity = '1';
-        }
-
-        function submitReviewAnswerCheck() {
-            const val = document.getElementById('review-wizard-ans-input').value.trim();
-            const feedback = document.getElementById('review-wizard-ans-feedback');
-            if (!val) {
-                feedback.textContent = '';
-                return;
-            }
-
-            const num = parseInt(val);
-            if (num >= 1 && num <= 4) {
-                feedback.textContent = `הזנת תשובה ${num}. כעת בחר בלחיצה מטה אם התשובה נכונה.`;
-                feedback.className = "text-[11px] text-center font-bold text-apple-accent";
-            }
-        }
-
-        function handleReviewWizardChoice(choice) {
-            const item = reviewWizardItems[reviewWizardIndex];
-            if (item) {
-                if (choice === 'master') {
-                    item.status = 'mastered';
-                }
-                saveData();
-            }
-
-            reviewWizardIndex++;
-            renderReviewWizardStep();
-        }
-
-        function closeReviewWizard() {
-            closeModalWithAnim('review-wizard-modal');
-            renderReviewList();
-        }
-
-        /* --- STREAMING_CHUNK:Answer Scanner (OCR + Speed Grader)... --- */
-        function handleScanImageSelected(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            document.getElementById('scan-file-label').textContent = file.name;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const result = e.target.result;
-                scanBase64 = result.split(',')[1];
-                scanMime = file.type || 'image/jpeg';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        async function processScanImage() {
-            const chapterName = document.getElementById('scan-chapter-name').value.trim();
-            if (!chapterName) {
-                showToast('אנא הזן את שם הפרק הנבדק', 'warning');
-                return;
-            }
-
-            document.getElementById('scan-loading').classList.remove('hidden');
-            document.getElementById('scan-grader-container').classList.add('hidden');
-
-            const apiKey = localStorage.getItem('800hub_api_key') || '';
-            const selectedModel = localStorage.getItem('800hub_ai_model') || 'gemini-3-flash-preview';
-
-            if (apiKey && scanBase64) {
-                try {
-                    const prompt = `אתה מחלץ תשובות מטבלת פתרונות בספר פסיכומטרי. חלץ את מספר השאלה והתשובה הנכונה (1-4). החזר אך ורק JSON במבנה הבא: [{"q": 1, "ans": 2}]`;
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
-                    
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [
-                                    { text: prompt },
-                                    { inline_data: { mime_type: scanMime, data: scanBase64 } }
-                                ]
-                            }]
-                        })
-                    });
-
-                    const data = await response.json();
-                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                    const jsonMatch = text.match(/\[[\s\S]*\]/);
-                    if (jsonMatch) {
-                        const parsed = JSON.parse(jsonMatch[0]);
-                        scanAnswersData = parsed.map(item => ({ q: item.q, correct: parseInt(item.ans), userAns: null }));
-                    } else {
-                        throw new Error("JSON Parse failed");
-                    }
-                } catch(e) {
-                    console.warn("OCR API fallback", e);
-                    generateFallbackScanGrid();
-                }
-            } else {
-                generateFallbackScanGrid();
-                showToast('מצב תבנית מהירה (להפעלת AI OCR הזן API Key)', 'warning');
-            }
-
-            document.getElementById('scan-loading').classList.add('hidden');
-            document.getElementById('scan-grader-container').classList.remove('hidden');
-            renderScanGrid();
-        }
-
-        function generateFallbackScanGrid() {
-            scanAnswersData = [];
-            for (let i = 1; i <= 20; i++) {
-                scanAnswersData.push({ q: i, correct: (i % 4) + 1, userAns: null });
-            }
-        }
-
-        function renderScanGrid() {
-            const grid = document.getElementById('scan-grid');
-            if (!grid) return;
-
-            grid.innerHTML = scanAnswersData.map((item, index) => {
-                const isAnswered = item.userAns !== null;
-                const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
-                const bgClass = !isAnswered ? 'bg-apple-bg' : (isCorrect ? 'bg-apple-success/10 border-apple-success' : 'bg-apple-danger/10 border-apple-danger');
-
-                return `
-                    <div class="p-3 rounded-xl border border-apple-border ${bgClass} text-center space-y-1 transition">
-                        <div class="text-[11px] font-bold text-apple-textSecondary">שאלה #${item.q}</div>
-                        <div class="text-[10px] text-apple-textSecondary">ספר: <span class="font-bold text-apple-textPrimary">${item.correct}</span></div>
-                        <input type="number" min="1" max="4" id="scan-input-${index}" value="${item.userAns || ''}"
-                            oninput="handleScanInput(${index}, this.value)"
-                            onkeydown="handleScanKeydown(event, ${index})"
-                            placeholder="1-4"
-                            class="w-full text-center bg-white border border-apple-border rounded-md py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent">
-                    </div>
-                `;
-            }).join('');
-
-            updateScanLiveStats();
-        }
-
-        function handleScanInput(index, val) {
-            val = val.trim();
-            if (val === '') {
-                scanAnswersData[index].userAns = null;
-            } else {
-                const num = parseInt(val);
-                if (num >= 1 && num <= 4) {
-                    scanAnswersData[index].userAns = num;
-                    setTimeout(() => {
-                        const next = document.getElementById(`scan-input-${index + 1}`);
-                        if (next) { next.focus(); next.select(); }
-                    }, 50);
-                }
-            }
-            updateScanLiveStats();
-        }
-
-        function handleScanKeydown(e, index) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                const next = document.getElementById(`scan-input-${index + 1}`);
-                if (next) next.focus();
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                const prev = document.getElementById(`scan-input-${index - 1}`);
-                if (prev) prev.focus();
-            }
-        }
-
-        function updateScanLiveStats() {
-            let correct = 0;
-            let wrong = 0;
-            scanAnswersData.forEach(item => {
-                if (item.userAns) {
-                    if (parseInt(item.userAns) === item.correct) correct++; else wrong++;
-                }
-            });
-
-            document.getElementById('scan-stat-correct').textContent = `V: ${correct}`;
-            document.getElementById('scan-stat-wrong').textContent = `X: ${wrong}`;
-        }
-
-        function resetScan() {
-            scanAnswersData = [];
-            scanBase64 = null;
-            document.getElementById('scan-file-label').textContent = 'בחר תמונה / העלה צילום ספר';
-            document.getElementById('scan-grader-container').classList.add('hidden');
-            document.getElementById('scan-wizard-container').classList.add('hidden');
-        }
-
-        function startScanWizard() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            if (mistakes.length === 0) {
-                showToast('אין טעויות לתחקור!', 'success');
-                return;
-            }
-
-            scanWizardIndex = 0;
-            document.getElementById('scan-grader-container').classList.add('hidden');
-            document.getElementById('scan-wizard-container').classList.remove('hidden');
-            renderScanWizardStep();
-        }
-
-        function renderScanWizardStep() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            if (scanWizardIndex >= mistakes.length) {
-                saveData();
-                resetScan();
-                showToast('כל הטעויות תועדו בהצלחה!', 'success');
-                switchTab('log');
-                return;
-            }
-
-            const cur = mistakes[scanWizardIndex];
-            const chapterName = document.getElementById('scan-chapter-name').value.trim();
-
-            document.getElementById('scan-wizard-progress').textContent = `שאלה ${scanWizardIndex + 1} מתוך ${mistakes.length}`;
-            document.getElementById('scan-wizard-qtitle').textContent = `שאלה #${cur.q}`;
-            document.getElementById('scan-wizard-chapter').textContent = `פרק: ${chapterName}`;
-            document.getElementById('scan-wizard-comparison').textContent = `ענית: ${cur.userAns} | תשובה נכונה: ${cur.correct}`;
-
-            document.getElementById('scan-wizard-reason').value = '';
-        }
-
-        function nextScanWizardStep() {
-            const mistakes = scanAnswersData.filter(i => i.userAns && parseInt(i.userAns) !== i.correct);
-            const cur = mistakes[scanWizardIndex];
-            const chapterName = document.getElementById('scan-chapter-name').value.trim();
-            const category = document.getElementById('scan-wizard-category').value;
-            const reason = document.getElementById('scan-wizard-reason').value.trim() || 'טעות בסורק תשובות';
-
-            mistakesDB.unshift({
-                id: Date.now().toString() + Math.random().toString(36).substr(2, 4),
-                chapter: chapterName,
-                qNum: cur.q,
-                category: category,
-                reason: reason,
-                status: 'pending',
-                date: new Date().toISOString()
-            });
-
-            scanWizardIndex++;
-            renderScanWizardStep();
-        }
-
-        function prevScanWizardStep() {
-            if (scanWizardIndex > 0) {
-                scanWizardIndex--;
-                renderScanWizardStep();
-            }
-        }
-
-        /* --- STREAMING_CHUNK:Grade Chapter (No DB Save)... --- */
-        function handleGradeImageSelected(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            document.getElementById('grade-file-label').textContent = file.name;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const result = evt.target.result;
-                gradeBase64 = result.split(',')[1];
-                gradeMime = file.type || 'image/jpeg';
-            };
-            reader.readAsDataURL(file);
-        }
-
-        async function processGradeScan() {
-            document.getElementById('grade-loading').classList.remove('hidden');
-            document.getElementById('grade-grader-container').classList.add('hidden');
-
-            generateFallbackGradeGrid();
-
-            document.getElementById('grade-loading').classList.add('hidden');
-            document.getElementById('grade-grader-container').classList.remove('hidden');
-            renderGradeGrid();
-        }
-
-        function generateFallbackGradeGrid() {
-            gradeAnswersData = [];
-            for (let i = 1; i <= 20; i++) {
-                gradeAnswersData.push({ q: i, correct: (i % 4) + 1, userAns: null });
-            }
-        }
-
-        function renderGradeGrid() {
-            const grid = document.getElementById('grade-grid');
-            if (!grid) return;
-
-            grid.innerHTML = gradeAnswersData.map((item, index) => {
-                const isAnswered = item.userAns !== null;
-                const isCorrect = isAnswered && parseInt(item.userAns) === item.correct;
-                const bgClass = !isAnswered ? 'bg-apple-bg' : (isCorrect ? 'bg-apple-success/10 border-apple-success' : 'bg-apple-danger/10 border-apple-danger');
-
-                return `
-                    <div class="p-3 rounded-xl border border-apple-border ${bgClass} text-center space-y-1 transition">
-                        <div class="text-[11px] font-bold text-apple-textSecondary">שאלה #${item.q}</div>
-                        <div class="text-[10px] text-apple-textSecondary">ספר: <span class="font-bold text-apple-textPrimary">${item.correct}</span></div>
-                        <input type="number" min="1" max="4" id="grade-input-${index}" value="${item.userAns || ''}"
-                            oninput="handleGradeInput(${index}, this.value)"
-                            onkeydown="handleGradeKeydown(event, ${index})"
-                            placeholder="1-4"
-                            class="w-full text-center bg-white border border-apple-border rounded-md py-1 text-xs font-bold text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent">
-                    </div>
-                `;
-            }).join('');
-
-            updateGradeLiveStats();
-        }
-
-        function handleGradeInput(index, val) {
-            val = val.trim();
-            if (val === '') {
-                gradeAnswersData[index].userAns = null;
-            } else {
-                const num = parseInt(val);
-                if (num >= 1 && num <= 4) {
-                    gradeAnswersData[index].userAns = num;
-                    setTimeout(() => {
-                        const next = document.getElementById(`grade-input-${index + 1}`);
-                        if (next) { next.focus(); next.select(); }
-                    }, 50);
-                }
-            }
-            updateGradeLiveStats();
-        }
-
-        function handleGradeKeydown(e, index) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                const next = document.getElementById(`grade-input-${index + 1}`);
-                if (next) next.focus();
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                const prev = document.getElementById(`grade-input-${index - 1}`);
-                if (prev) prev.focus();
-            }
-        }
-
-        function updateGradeLiveStats() {
-            let correct = 0, wrong = 0, answered = 0;
-            gradeAnswersData.forEach(item => {
-                if (item.userAns) {
-                    answered++;
-                    if (parseInt(item.userAns) === item.correct) correct++; else wrong++;
-                }
-            });
-
-            document.getElementById('grade-stat-correct').textContent = `V: ${correct}`;
-            document.getElementById('grade-stat-wrong').textContent = `X: ${wrong}`;
-            const scorePercent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-            document.getElementById('grade-stat-score').textContent = `ציון: ${scorePercent}%`;
-        }
-
-        function resetGradeScanner() {
-            gradeAnswersData = [];
-            gradeBase64 = null;
-            document.getElementById('grade-file-label').textContent = 'בחר תמונה / העלה צילום תשובות';
-            document.getElementById('grade-grader-container').classList.add('hidden');
-        }
-
-        /* --- STREAMING_CHUNK:AI Analytics Dashboard & Chart.js... --- */
-        function renderAiDashboard() {
-            const total = mistakesDB.length;
-            const pending = mistakesDB.filter(m => m.status === 'pending').length;
-            const mastered = mistakesDB.filter(m => m.status === 'mastered').length;
+        function renderAiCharts() {
+            const total = mistakesData.length;
+            const pending = mistakesData.filter(m => m.status === 'pending').length;
+            const mastered = mistakesData.filter(m => m.status === 'mastered').length;
             const pctMastered = total > 0 ? Math.round((mastered / total) * 100) : 0;
 
             document.getElementById('kpi-total').textContent = total;
             document.getElementById('kpi-pending').textContent = pending;
             document.getElementById('kpi-mastered').textContent = `${mastered} (${pctMastered}%)`;
 
-            // Calculate main weakness
             const catCounts = {};
-            mistakesDB.forEach(m => catCounts[m.category] = (catCounts[m.category] || 0) + 1);
-            let topCat = '-';
-            let maxCount = 0;
-            Object.entries(catCounts).forEach(([cat, cnt]) => {
-                if (cnt > maxCount) { maxCount = cnt; topCat = cat; }
+            mistakesData.forEach(m => {
+                catCounts[m.category] = (catCounts[m.category] || 0) + 1;
             });
-            document.getElementById('kpi-weakness').textContent = topCat;
 
-            renderAiCharts(catCounts, pending, mastered);
-        }
+            let mainWeakness = '-';
+            let maxCount = 0;
+            for (let cat in catCounts) {
+                if (catCounts[cat] > maxCount) {
+                    maxCount = catCounts[cat];
+                    mainWeakness = cat;
+                }
+            }
+            document.getElementById('kpi-weakness').textContent = mainWeakness;
 
-        function renderAiCharts(catCounts, pending, mastered) {
-            const ctxCat = document.getElementById('chart-categories')?.getContext('2d');
-            const ctxMastery = document.getElementById('chart-mastery')?.getContext('2d');
+            const ctxCat = document.getElementById('chart-categories');
+            const ctxMastery = document.getElementById('chart-mastery');
 
-            if (categoryChartInstance) categoryChartInstance.destroy();
-            if (masteryChartInstance) masteryChartInstance.destroy();
+            if (ctxCat && ctxMastery) {
+                if (chartCategoriesInstance) chartCategoriesInstance.destroy();
+                if (chartMasteryInstance) chartMasteryInstance.destroy();
 
-            if (ctxCat) {
-                categoryChartInstance = new Chart(ctxCat, {
+                const labelsCat = Object.keys(catCounts);
+                const dataCat = Object.values(catCounts);
+
+                chartCategoriesInstance = new Chart(ctxCat, {
                     type: 'doughnut',
                     data: {
-                        labels: Object.keys(catCounts).length ? Object.keys(catCounts) : ['אין נתונים'],
+                        labels: labelsCat.length > 0 ? labelsCat : ['אין נתונים'],
                         datasets: [{
-                            data: Object.values(catCounts).length ? Object.values(catCounts) : [1],
-                            backgroundColor: ['#0071e3', '#ff3b30', '#ff9500', '#34c759', '#af52de', '#5856d6', '#5ac8fa']
+                            data: dataCat.length > 0 ? dataCat : [1],
+                            backgroundColor: ['#0071e3', '#34c759', '#ff9500', '#ff3b30', '#5856d6', '#af52de']
                         }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Heebo', size: 10 } } } } }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
-            }
 
-            if (ctxMastery) {
-                masteryChartInstance = new Chart(ctxMastery, {
+                chartMasteryInstance = new Chart(ctxMastery, {
                     type: 'bar',
                     data: {
-                        labels: ['ממתין לחזרה', 'הושלם (Mastered)'],
+                        labels: ['ממתינות לחזרה', 'הושלמו בהצלחה'],
                         datasets: [{
+                            label: 'כמות שאלות',
                             data: [pending, mastered],
-                            backgroundColor: ['#ff9500', '#34c759'],
-                            borderRadius: 8
+                            backgroundColor: ['#ff9500', '#34c759']
                         }]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                    options: { responsive: true, maintainAspectRatio: false }
                 });
             }
         }
 
         async function generateAiReport() {
-            const content = document.getElementById('ai-report-content');
-            const btn = document.getElementById('btn-generate-ai');
+            const apiKey = localStorage.getItem('my800_api_key') || '';
+            const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
+            const customPrompt = localStorage.getItem('my800_custom_prompt') || '';
+            const reportContent = document.getElementById('ai-report-content');
 
-            if (mistakesDB.length === 0) {
-                showToast('אין עדיין טעויות במאגר ליצירת דו"ח AI', 'warning');
+            if (mistakesData.length === 0) {
+                showToast('אין מספיק נתונים במאגר לניתוח AI', 'warning');
                 return;
             }
 
-            content.innerHTML = `<div class="text-center py-8"><i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i><p class="font-bold">מייצר דו"ח אבחון פסיכומטרי מותאם אישית...</p></div>`;
-            lucide.createIcons();
+            reportContent.innerHTML = `
+                <div class="text-center py-12">
+                    <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
+                    <p class="font-bold text-xs text-apple-textPrimary">מנוע ה-AI מנתח את מאגר הטעויות והמגמות שלך...</p>
+                </div>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
 
-            const apiKey = localStorage.getItem('800hub_api_key') || '';
-            const selectedModel = localStorage.getItem('800hub_ai_model') || 'gemini-3-flash-preview';
-            const customPrompt = localStorage.getItem('800hub_custom_prompt') || '';
+            const systemPrompt = `אתה אנליסט פסיכומטרי בכיר מומחה בכמותי. נתח את כל הטעויות וההערות של התלמיד והגש דו"ח ממוקד, ברור ומעמיק בפורמט Markdown.
+התייחס לתקציר מנהלים, דפוסי כשל חוזרים, נקודת תורפה מרכזית, ותוכנית פעולה מעשית.
+${customPrompt ? 'הנחיה מיוחדת מהמשתמש: ' + customPrompt : ''}
+הנתונים: ${JSON.stringify(mistakesData)}`;
 
             if (!apiKey) {
-                content.innerHTML = `<div class="bg-apple-warning/10 text-apple-warning p-4 rounded-xl text-center font-bold">לא הוזן Gemini API Key. בחר בהגדרות והדבק API Key בחינם מגוגל.</div>`;
+                setTimeout(() => {
+                    reportContent.innerHTML = marked.parse(`
+# 📊 דו"ח אבחון אסטרטגיומטרי (סימולציה)
+> **הערה:** לניתוח AI בלייב מבוסס Gemini, אנא הגדר API Key בהגדרות.
+
+## 1. תקציר מנהלים
+תועדו **${mistakesData.length}** טעויות במאגר. שיעור השליטה הנוכחי עומד על **${Math.round((mistakesData.filter(m => m.status === 'mastered').length / mistakesData.length) * 100)}%**.
+
+## 2. דפוסי כשל מרכזיים
+* **ריכוז וחוסר תשומת לב:** בולטת נטייה לא לחשב תנאי קצה או להחליף בין נתונים בשאלה.
+* **ניהול זמן:** מעבר מהיר מדי בין שלבים גורם לנפילה במלכודות מסיח.
+
+## 3. תוכנית פעולה מומלצת
+1. פתור שוב את כל השאלות ברשימת החזרה דרך **"אשף החזרה"**.
+2. הקפד לרשום הערה קצרה ומזוקקת לכל טעות חדשה.
+                    `);
+                }, 1000);
                 return;
             }
-
-            const mistakesSummary = mistakesDB.map(m => `[פרק: ${m.chapter}, שאלה: ${m.qNum}, סיווג: ${m.category}, סטטוס: ${m.status}, סיבה: ${m.reason}]`).join('\n');
-            const prompt = `אתה מורה פרטי ואנליסט פסיכומטרי בכיר בדרגת 800. ניתוח הנתונים הבא מכיל את כל הטעויות וההערות שהתלמיד תיעד:
-${mistakesSummary}
-
-${customPrompt ? 'הנחיות מיוחדות מהתלמיד: ' + customPrompt : ''}
-
-הפק דו"ח אבחוני ממוקד, מעמיק וקריא בעברית במבנה ה-Markdown הבא בלבד:
-# דו"ח אבחון אסטרטגי ומגמות למידה
-## 1. תמונת מצב אסטרטגית
-## 2. אבחון דפוסי כשל ומגמות
-## 3. מוקד הסיכון הקריטי ביותר
-## 4. תוכנית פעולה אופרטיבית`;
 
             try {
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: systemPrompt }] }] })
                 });
 
                 const data = await response.json();
-                const reportMd = data.candidates?.[0]?.content?.parts?.[0]?.text || 'לא ניתן היה לייצר דו"ח.';
-                content.innerHTML = marked.parse(reportMd);
-            } catch(e) {
-                content.innerHTML = `<div class="text-apple-danger font-bold text-center">שגיאה בהתקשרות עם ה-AI. ודא שה-API Key תקין.</div>`;
+                const aiMarkdown = data.candidates[0].content.parts[0].text;
+                reportContent.innerHTML = marked.parse(aiMarkdown);
+            } catch (err) {
+                reportContent.innerHTML = `<p class="text-apple-danger font-bold text-center py-4">שגיאה בתקשורת עם ה-AI. אנא בדוק את תקינות ה-API Key בהגדרות.</p>`;
             }
         }
 
-        /* --- STREAMING_CHUNK:Settings, Category Management & Backup Recovery... --- */
+        function openReportsModal() {
+            const container = document.getElementById('reports-list-container');
+            if (!container) return;
+
+            if (reportsData.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-xs text-apple-textSecondary">טרם נשמרו דוחות בדיקה. בדיקות פרק וסימולציות שתבצע יופיעו כאן.</div>`;
+            } else {
+                container.innerHTML = reportsData.map(r => `
+                    <div class="bg-apple-grayBg/60 p-4 rounded-xl border border-apple-border/80 flex items-center justify-between">
+                        <div>
+                            <div class="text-xs font-bold text-apple-textPrimary">סימולציה / בדיקת פרק - ${r.date}</div>
+                            <div class="text-[11px] text-apple-textSecondary mt-0.5">${r.sectionsCount} פרקים | raw score: ${r.rawScore}</div>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xs font-extrabold text-apple-accent">${r.percentage}</div>
+                            <div class="text-[10px] font-bold text-apple-success">${r.psychometric}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('reports-modal').classList.remove('hidden');
+        }
+
+        function closeReportsModal() {
+            document.getElementById('reports-modal').classList.add('hidden');
+        }
+
         function openSettingsModal() {
-            document.getElementById('setting-api-key').value = localStorage.getItem('800hub_api_key') || '';
-            document.getElementById('setting-ai-model').value = localStorage.getItem('800hub_ai_model') || 'gemini-3-flash-preview';
-            document.getElementById('setting-custom-prompt').value = localStorage.getItem('800hub_custom_prompt') || '';
+            document.getElementById('setting-api-key').value = localStorage.getItem('my800_api_key') || '';
+            document.getElementById('setting-ai-model').value = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
+            document.getElementById('setting-custom-prompt').value = localStorage.getItem('my800_custom_prompt') || '';
 
             renderSettingsCategories();
             document.getElementById('settings-modal').classList.remove('hidden');
         }
 
         function closeSettingsModal() {
-            closeModalWithAnim('settings-modal');
-        }
-
-        function saveSettings() {
-            localStorage.setItem('800hub_api_key', document.getElementById('setting-api-key').value.trim());
-            localStorage.setItem('800hub_ai_model', document.getElementById('setting-ai-model').value);
-            localStorage.setItem('800hub_custom_prompt', document.getElementById('setting-custom-prompt').value.trim());
-
-            closeSettingsModal();
-            showToast('ההגדרות נשמרו בהצלחה', 'success');
+            document.getElementById('settings-modal').classList.add('hidden');
         }
 
         function renderSettingsCategories() {
-            const list = document.getElementById('settings-categories-list');
-            if (!list) return;
+            const container = document.getElementById('settings-categories-list');
+            if (!container) return;
 
-            list.innerHTML = customCategories.map(c => `
-                <span class="inline-flex items-center gap-1 bg-white border border-apple-border px-2.5 py-1 rounded-lg text-xs font-medium text-apple-textPrimary">
+            container.innerHTML = categoriesData.map((c, idx) => `
+                <span class="inline-flex items-center gap-1.5 bg-white border border-apple-border px-2.5 py-1 rounded-lg text-xs font-medium text-apple-textPrimary">
                     ${c}
-                    <button onclick="removeCategory('${c}')" class="text-apple-textSecondary hover:text-apple-danger mr-1">&times;</button>
+                    <button type="button" onclick="deleteCategory(${idx})" class="text-apple-textSecondary hover:text-apple-danger">&times;</button>
                 </span>
             `).join('');
         }
 
-        function openAddCategoryModal() {
-            document.getElementById('add-cat-modal').classList.remove('hidden');
-        }
-
-        function closeAddCategoryModal() {
-            closeModalWithAnim('add-cat-modal');
-        }
-
-        function saveNewCategory() {
-            const name = document.getElementById('new-cat-name').value.trim();
-            if (name && !customCategories.includes(name)) {
-                customCategories.push(name);
-                saveData();
-                populateCategoryDropdowns();
-                renderSettingsCategories();
-                document.getElementById('new-cat-name').value = '';
-                closeAddCategoryModal();
-                showToast('הקטגוריה נוספה', 'success');
-            }
-        }
-
-        function removeCategory(cat) {
-            customCategories = customCategories.filter(c => c !== cat);
+        function deleteCategory(idx) {
+            categoriesData.splice(idx, 1);
             saveData();
-            populateCategoryDropdowns();
+            renderCategoryDropdowns();
             renderSettingsCategories();
         }
 
         function restoreDefaultCategories() {
-            customCategories = ['חישוב אלגברי', 'טעות טכנית', 'חוסר הבנה של השאלה', 'מלכודת/מסיח', 'אסטרטגיה שגויה', 'דרך ארוכה מדי', 'קריאה שגויה', 'חוסר תשומת לב', 'ניהול זמן/לחץ', 'חוסר ידע תיאורטי'];
+            categoriesData = [...DEFAULT_CATEGORIES];
             saveData();
-            populateCategoryDropdowns();
+            renderCategoryDropdowns();
             renderSettingsCategories();
             showToast('קטגוריות ברירת המחדל שוחזרו', 'info');
         }
 
+        function openAddCategoryModal() {
+            document.getElementById('new-cat-name').value = '';
+            document.getElementById('add-cat-modal').classList.remove('hidden');
+        }
+
+        function closeAddCategoryModal() {
+            document.getElementById('add-cat-modal').classList.add('hidden');
+        }
+
+        function saveNewCategory() {
+            const name = document.getElementById('new-cat-name').value.trim();
+            if (name && !categoriesData.includes(name)) {
+                categoriesData.push(name);
+                saveData();
+                renderCategoryDropdowns();
+                closeAddCategoryModal();
+                showToast(`הקטגוריה "${name}" הוספה בהצלחה`, 'success');
+            }
+        }
+
+        function saveSettings() {
+            const apiKey = document.getElementById('setting-api-key').value.trim();
+            const model = document.getElementById('setting-ai-model').value;
+            const prompt = document.getElementById('setting-custom-prompt').value.trim();
+
+            localStorage.setItem('my800_api_key', apiKey);
+            localStorage.setItem('my800_ai_model', model);
+            localStorage.setItem('my800_custom_prompt', prompt);
+
+            closeSettingsModal();
+            showToast('ההגדרות שנשמרו בהצלחה!', 'success');
+        }
+
         function exportData() {
-            const backupPayload = {
-                mistakes: mistakesDB,
-                customCategories: customCategories,
-                exportedAt: new Date().toISOString()
-            };
-            const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `800hub_backup_${new Date().toISOString().slice(0, 10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+                mistakes: mistakesData,
+                customCategories: categoriesData,
+                reports: reportsData
+            }, null, 2));
+
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `800hub_backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+
             showToast('קובץ הגיבוי הורד בהצלחה למחשב', 'success');
         }
 
-        function triggerImport() { document.getElementById('import-file-input').click(); }
+        function triggerImport() {
+            document.getElementById('import-file-input').click();
+        }
 
         function handleFileImport(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(evt) {
+            reader.onload = function (event) {
                 try {
-                    const parsed = JSON.parse(evt.target.result);
-                    let rawMistakes = [];
-                    let rawCategories = [];
+                    const parsed = JSON.parse(event.target.result);
+                    let importedMistakes = parsed.mistakes || parsed;
 
-                    // Support both object wrapper formats and raw arrays
-                    if (Array.isArray(parsed)) {
-                        rawMistakes = parsed;
-                    } else if (typeof parsed === 'object' && parsed !== null) {
-                        rawMistakes = parsed.mistakes || parsed.data || [];
-                        if (Array.isArray(parsed.customCategories)) {
-                            rawCategories = parsed.customCategories;
-                        }
+                    if (!Array.isArray(importedMistakes)) {
+                        showToast('פורמט קובץ גיבוי לא תקין', 'danger');
+                        return;
                     }
 
-                    if (!Array.isArray(rawMistakes)) {
-                        throw new Error('Invalid JSON structure');
+                    mistakesData = importedMistakes.map(item => ({
+                        id: item.id || 'm_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                        chapter: item.chapter || 'כללי',
+                        qNum: item.qNum || item.question || 1,
+                        category: item.category || 'כללי',
+                        reason: item.reason || '',
+                        status: item.status || (item.needsReview === false ? 'mastered' : 'pending'),
+                        correct: item.correct || null,
+                        userAns: item.userAns || null,
+                        createdAt: item.createdAt || new Date().toISOString()
+                    }));
+
+                    if (parsed.customCategories && Array.isArray(parsed.customCategories)) {
+                        categoriesData = [...new Set([...categoriesData, ...parsed.customCategories])];
                     }
 
-                    // Universal normalization: supports old and new backup schema
-                    const normalizedMistakes = rawMistakes.map((item, idx) => {
-                        const parsedQ = parseInt(item.qNum || item.question || item.q || 1);
-
-                        let status = 'pending';
-                        if (item.status) {
-                            status = item.status;
-                        } else if (item.needsReview !== undefined) {
-                            status = item.needsReview ? 'pending' : 'mastered';
-                        } else if (item.mastered !== undefined) {
-                            status = item.mastered ? 'mastered' : 'pending';
-                        }
-
-                        return {
-                            id: item.id || `m_${Date.now()}_${idx}`,
-                            chapter: item.chapter || 'כללי',
-                            qNum: isNaN(parsedQ) ? 1 : parsedQ,
-                            category: item.category || 'כללי',
-                            reason: item.reason || '',
-                            status: status,
-                            date: item.date || item.createdAt || new Date().toISOString()
-                        };
-                    });
-
-                    // Merge imported custom categories
-                    if (rawCategories.length > 0) {
-                        rawCategories.forEach(cat => {
-                            if (cat && typeof cat === 'string' && !customCategories.includes(cat)) {
-                                customCategories.push(cat);
-                            }
-                        });
+                    if (parsed.reports && Array.isArray(parsed.reports)) {
+                        reportsData = parsed.reports;
                     }
 
-                    // Extract any new categories found inside mistakes
-                    normalizedMistakes.forEach(m => {
-                        if (m.category && !customCategories.includes(m.category)) {
-                            customCategories.push(m.category);
-                        }
-                    });
-
-                    mistakesDB = normalizedMistakes;
                     saveData();
-
-                    populateCategoryDropdowns();
-                    renderSettingsCategories();
-                    renderMistakesLog();
+                    renderCategoryDropdowns();
                     renderReviewList();
-                    updateBadges();
-                    updateChaptersDatalist();
+                    renderMistakesLog();
+                    closeSettingsModal();
 
-                    showToast(`שוחזרו ${normalizedMistakes.length} שאלות בהצלחה!`, 'success');
-                } catch(err) {
-                    console.error("Import failure:", err);
-                    showToast('קובץ גיבוי לא תקין או פגום', 'danger');
-                } finally {
-                    e.target.value = ''; // Reset input state
+                    showToast('שחזור הנתונים והגיבוי הושלם בהצלחה!', 'success');
+                } catch (err) {
+                    showToast('שגיאה בפענוח קובץ הגיבוי', 'danger');
                 }
             };
             reader.readAsText(file);
         }
 
-        /* --- STREAMING_CHUNK:Global Helpers, Toasts, Keyboard Shortcuts & Setup... --- */
-        function closeModalWithAnim(modalId) {
-            const modal = document.getElementById(modalId);
-            if (!modal) return;
-            const card = modal.firstElementChild;
-            if (card) {
-                card.classList.add('animate-fade-out');
-                setTimeout(() => {
-                    card.classList.remove('animate-fade-out');
-                    modal.classList.add('hidden');
-                }, 180);
-            } else {
-                modal.classList.add('hidden');
-            }
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeSettingsModal();
+                    closeReportsModal();
+                    closeEditModal();
+                    closeAddCategoryModal();
+                    closeReviewWizard();
+                }
+
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    if (activeTab === 'add') {
+                        handleAddMistake();
+                    }
+                }
+            });
+        }
+
+        function setupModalBackdrops() {
+            const modals = ['reports-modal', 'settings-modal', 'edit-modal', 'add-cat-modal', 'review-wizard-modal'];
+            modals.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('click', function () {
+                        el.classList.add('hidden');
+                    });
+                }
+            });
         }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             if (!container) return;
 
-            const toast = document.createElement('div');
-            const bgClass = type === 'success' ? 'bg-apple-success text-white' : type === 'warning' ? 'bg-apple-warning text-white' : type === 'danger' ? 'bg-apple-danger text-white' : 'bg-apple-textPrimary text-white';
+            let bgColor = 'bg-apple-textPrimary text-white';
+            if (type === 'success') bgColor = 'bg-apple-success text-white';
+            if (type === 'danger') bgColor = 'bg-apple-danger text-white';
+            if (type === 'warning') bgColor = 'bg-apple-warning text-white';
 
-            toast.className = `${bgClass} px-4 py-2.5 rounded-xl shadow-apple-lg text-xs font-bold transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2 pointer-events-auto`;
+            const toast = document.createElement('div');
+            toast.className = `${bgColor} px-4 py-2.5 rounded-xl shadow-apple-lg text-xs font-bold transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto`;
             toast.textContent = message;
 
             container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-2');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
-
-        function setupKeyboardShortcuts() {
-            document.addEventListener('keydown', (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                    if (activeTab === 'add') handleAddMistake();
-                }
-                if (e.key === 'Escape') {
-                    ['settings-modal', 'edit-modal', 'add-cat-modal', 'review-wizard-modal'].forEach(closeModalWithAnim);
-                }
-            });
-
-            ['settings-modal', 'edit-modal', 'add-cat-modal'].forEach(id => {
-                const modal = document.getElementById(id);
-                if (modal) {
-                    modal.addEventListener('click', () => closeModalWithAnim(id));
-                }
-            });
-        }
-
-        /* --- Application Window Onload Setup --- */
-        window.onload = async function() {
-            await initDB();
-            await loadData();
-
-            updateGreeting();
-            populateCategoryDropdowns();
-            updateChaptersDatalist();
-            updateBadges();
-            setupKeyboardShortcuts();
-
-            lucide.createIcons();
-        };
     </script>
 </body>
 </html>
