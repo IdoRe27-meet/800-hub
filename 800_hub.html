@@ -51,6 +51,9 @@
     <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+    <!-- Chart.js for Visual Trends -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         body {
             background-color: #fbfbfd;
@@ -125,7 +128,7 @@
     <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-apple-border/80 transition-all">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             
-            <!-- Branded Header Logo -->
+            <!-- Branded Header Logo & Greeting -->
             <div class="flex items-center gap-3">
                 <img src="https://i.postimg.cc/wB0C1LxP/logo-800.png" alt="800 Logo" class="h-8 w-auto object-contain rounded-md" onerror="this.src='https://placehold.co/100x100/0071e3/fff?text=800'">
                 <span id="user-greeting" class="text-sm font-semibold text-apple-textPrimary hidden sm:block">שלום, עידו</span>
@@ -143,6 +146,7 @@
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-1 w-full flex flex-col items-center">
         
+        <!-- Navigation Tabs -->
         <nav class="bg-apple-grayBg p-1.5 rounded-[16px] inline-flex gap-1 mb-8 border border-apple-border/60 shadow-sm overflow-x-auto max-w-full w-auto">
             <button onclick="switchTab('add')" id="tab-add" class="tab-button active min-w-[110px] py-2 px-3 rounded-[12px] text-xs font-medium text-apple-textPrimary transition-all duration-200 flex items-center justify-center gap-1.5 whitespace-nowrap">
                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
@@ -168,6 +172,7 @@
         </nav>
 
         <div class="w-full">
+            <!-- VIEW: Add Mistake -->
             <section id="view-add" class="animate-fade-in w-full max-w-2xl mx-auto">
                 <div class="bg-white rounded-2xl p-7 border border-apple-border shadow-apple-md">
                     <div class="mb-6 flex justify-between items-center pb-4 border-b border-apple-border/60">
@@ -225,6 +230,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: Answer Scanner -->
             <section id="view-scan" class="hidden animate-fade-in w-full max-w-3xl mx-auto">
                 <div class="bg-white rounded-2xl p-7 border border-apple-border shadow-apple-md">
                     <div class="mb-6 pb-4 border-b border-apple-border/60">
@@ -237,7 +243,6 @@
                         </p>
                     </div>
 
-                    <!-- Chapter & Image Upload Step - FIXED UI -->
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-apple-textPrimary mb-1.5">שם הפרק הנבדק</label>
@@ -260,7 +265,6 @@
                     </div>
                 </div>
 
-                <!-- Scanning Progress Loading State -->
                 <div id="scan-loading" class="hidden py-10 text-center bg-apple-bg rounded-xl border border-apple-border/60">
                     <i data-lucide="loader-2" class="w-8 h-8 text-apple-accent animate-spin mx-auto mb-2"></i>
                     <p class="text-xs font-bold text-apple-textPrimary">מפענח את תשובות הספר מהתמונה...</p>
@@ -280,12 +284,10 @@
                         </div>
                     </div>
 
-                    <!-- Question Inputs Grid -->
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5" id="grader-grid">
                         <!-- Dynamic Question Cards -->
                     </div>
 
-                    <!-- Final Export Action -->
                     <div class="flex justify-between items-center pt-3 border-t border-apple-border/60">
                         <div class="text-xs text-apple-textSecondary" id="grader-summary-text">
                             הזן את תשובותיך כדי לחלץ טעות מרוכזת
@@ -297,7 +299,7 @@
                     </div>
                 </div>
 
-                <!-- Step-by-Step Interactive Error Analysis Wizard -->
+                <!-- Interactive Error Analysis Wizard -->
                 <div id="wizard-container" class="hidden space-y-5 pt-2 border-t border-apple-border/60">
                     <div class="flex items-center justify-between bg-apple-accent/5 p-4 rounded-xl border border-apple-accent/20">
                         <div class="flex-1">
@@ -318,7 +320,6 @@
                         </div>
                     </div>
 
-                    <!-- Active Wizard Question Card -->
                     <div class="bg-apple-bg rounded-2xl p-5 border border-apple-border space-y-4">
                         <div class="flex flex-wrap justify-between items-center gap-2 pb-3 border-b border-apple-border/60">
                             <div>
@@ -357,9 +358,9 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </section>
 
+            <!-- VIEW: Review List -->
             <section id="view-review" class="hidden animate-fade-in">
                 <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-sm">
                     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-5 pb-4 border-b border-apple-border/60">
@@ -368,7 +369,7 @@
                                 <i data-lucide="rotate-ccw" class="w-4 h-4 text-apple-accent"></i>
                                 רשימת חזרה אקטיבית (סבב ב')
                             </h2>
-                            <p class="text-xs text-apple-textSecondary mt-0.5">פתור את השאלה מחדש בספר ללא ספוילרים. סימון V מסיר את השאלה, סימון X משאיר אותה לסבב נוסף.</p>
+                            <p class="text-xs text-apple-textSecondary mt-0.5">פתור את השאלה מחדש בספר ללא ספוילרים. סימון V מסיר את השאלה ומעביר אותה לסטטוס "הושלם".</p>
                         </div>
 
                         <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -387,7 +388,7 @@
                         <!-- Dynamic review items -->
                     </div>
 
-                    <!-- Review Wizard Mode (Hidden by default) -->
+                    <!-- Review Wizard Mode -->
                     <div id="review-wizard-mode" class="hidden space-y-4">
                         <div class="flex items-center justify-between bg-apple-grayBg p-4 rounded-xl border border-apple-border/80">
                             <div>
@@ -402,28 +403,42 @@
                             </button>
                         </div>
 
-                        <div class="bg-apple-bg rounded-2xl p-8 border border-apple-border text-center space-y-6 shadow-sm">
-                            <div>
+                        <div class="bg-apple-bg rounded-2xl p-6 border border-apple-border space-y-5 shadow-sm">
+                            <div class="text-center">
                                 <div class="text-xs font-bold text-apple-textSecondary uppercase tracking-wider mb-1" id="review-wizard-chapter">-</div>
                                 <div class="text-2xl font-black text-apple-textPrimary" id="review-wizard-question">שאלה #-</div>
                             </div>
                             
-                            <div class="text-sm text-apple-textPrimary font-medium">האם הצלחת לפתור את השאלה הפעם?</div>
+                            <!-- Optional Answer Checking Box -->
+                            <div class="bg-white p-4 rounded-xl border border-apple-border max-w-sm mx-auto space-y-2 text-right">
+                                <label class="block text-xs font-bold text-apple-textPrimary flex items-center gap-1.5">
+                                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-apple-accent"></i>
+                                    בדיקת תשובה אופציונלית (הזן 1-4):
+                                </label>
+                                <div class="flex items-center gap-3">
+                                    <input type="number" min="1" max="4" id="review-wizard-ans-input" placeholder="1-4" 
+                                        oninput="handleReviewAnswerCheck(this.value)"
+                                        class="w-20 text-center font-bold bg-apple-bg border border-apple-border rounded-lg py-1.5 text-sm text-apple-textPrimary focus:ring-2 focus:ring-apple-accent outline-none">
+                                    <div id="review-ans-feedback" class="text-xs font-medium"></div>
+                                </div>
+                            </div>
+
+                            <div class="text-center text-xs text-apple-textPrimary font-semibold">כיצד תרצה לעדכן את סטטוס השאלה?</div>
                             
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
-                                <button onclick="handleReviewWizardAction('remove')" class="p-3 bg-apple-success/10 hover:bg-apple-success hover:text-white text-apple-success border border-apple-success/20 rounded-xl transition flex flex-col items-center gap-1.5">
+                                <button id="rw-btn-remove" onclick="handleReviewWizardAction('remove')" class="p-3 bg-apple-success/10 hover:bg-apple-success hover:text-white text-apple-success border border-apple-success/20 rounded-xl transition flex flex-col items-center gap-1.5">
                                     <i data-lucide="check-circle-2" class="w-6 h-6"></i>
                                     <span class="text-xs font-bold">צדקתי ב-100%</span>
-                                    <span class="text-[10px] opacity-80">הסר מרשימת החזרה</span>
+                                    <span class="text-[10px] opacity-80">סמן כהושלם בהצלחה</span>
                                 </button>
                                 
-                                <button onclick="handleReviewWizardAction('keep_right')" class="p-3 bg-apple-warning/10 hover:bg-apple-warning hover:text-white text-apple-warning border border-apple-warning/20 rounded-xl transition flex flex-col items-center gap-1.5">
+                                <button id="rw-btn-keep-right" onclick="handleReviewWizardAction('keep_right')" class="p-3 bg-apple-warning/10 hover:bg-apple-warning hover:text-white text-apple-warning border border-apple-warning/20 rounded-xl transition flex flex-col items-center gap-1.5">
                                     <i data-lucide="rotate-cw" class="w-6 h-6"></i>
                                     <span class="text-xs font-bold">צדקתי, אבל...</span>
-                                    <span class="text-[10px] opacity-80">השאר לעוד סבב חזרה</span>
+                                    <span class="text-[10px] opacity-80">השאר ברשימה לעוד סבב</span>
                                 </button>
                                 
-                                <button onclick="handleReviewWizardAction('wrong')" class="p-3 bg-apple-danger/10 hover:bg-apple-danger hover:text-white text-apple-danger border border-apple-danger/20 rounded-xl transition flex flex-col items-center gap-1.5">
+                                <button id="rw-btn-wrong" onclick="handleReviewWizardAction('wrong')" class="p-3 bg-apple-danger/10 hover:bg-apple-danger hover:text-white text-apple-danger border border-apple-danger/20 rounded-xl transition flex flex-col items-center gap-1.5">
                                     <i data-lucide="x-circle" class="w-6 h-6"></i>
                                     <span class="text-xs font-bold">טעיתי שוב</span>
                                     <span class="text-[10px] opacity-80">השאר ברשימה ולמד</span>
@@ -434,23 +449,29 @@
                 </div>
             </section>
 
+            <!-- VIEW: Mistakes Master Database / Log -->
             <section id="view-log" class="hidden animate-fade-in w-full max-w-4xl mx-auto">
                 <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-apple-border/60">
                         <div>
                             <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
                                 <i data-lucide="list" class="w-5 h-5 text-apple-accent"></i>
-                                מאגר טעויות
+                                מאגר טעויות מלא והיסטוריית בלמידה
                             </h2>
-                            <p class="text-xs text-apple-textSecondary mt-1">צפה, חפש וערוך את כל הטעויות שהזנת.</p>
+                            <p class="text-xs text-apple-textSecondary mt-1">צפה, חפש, סנן וערוך את כל הטעויות שנרשמו (כולל אלו שפתרת והושלמו בהצלחה).</p>
                         </div>
                         
                         <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                            <div class="relative flex-1 md:w-48">
+                            <div class="relative flex-1 md:w-40">
                                 <i data-lucide="search" class="w-3.5 h-3.5 text-apple-textSecondary absolute right-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" id="log-search" oninput="renderLogList()" placeholder="חיפוש חופשי..." 
+                                <input type="text" id="log-search" oninput="renderLogList()" placeholder="חיפוש..." 
                                     class="w-full bg-apple-bg border border-apple-border rounded-lg pr-9 pl-3 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent">
                             </div>
+                            <select id="log-status-filter" onchange="renderLogList()" class="bg-apple-bg border border-apple-border rounded-lg px-3 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent">
+                                <option value="ALL">כל הסטטוסים</option>
+                                <option value="PENDING">ממתין לחזרה</option>
+                                <option value="COMPLETED">הושלם / פתור</option>
+                            </select>
                             <select id="log-category-filter" onchange="renderLogList()" class="bg-apple-bg border border-apple-border rounded-lg px-3 py-2 text-xs text-apple-textPrimary focus:outline-none focus:ring-1 focus:ring-apple-accent">
                                 <option value="ALL">כל הסיווגים</option>
                             </select>
@@ -466,15 +487,16 @@
                 </div>
             </section>
 
+            <!-- VIEW: AI Analytics Report -->
             <section id="view-ai" class="hidden animate-fade-in w-full max-w-4xl mx-auto">
                 <div class="bg-white rounded-2xl p-6 border border-apple-border shadow-apple-md">
                     <div class="mb-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4 pb-4 border-b border-apple-border/60">
                         <div>
                             <h2 class="text-lg font-bold text-apple-textPrimary flex items-center gap-2">
                                 <i data-lucide="sparkles" class="w-5 h-5 text-apple-accent"></i>
-                                דו"ח ניתוח AI וסיווג טעויות
+                                דו"ח ניתוח AI ומגמות למידה לאורך זמן
                             </h2>
-                            <p class="text-xs text-apple-textSecondary mt-1">ניתוח חכם ותמציתי של דפוסי הטעויות שלך מבוסס מודל Gemini.</p>
+                            <p class="text-xs text-apple-textSecondary mt-1">ניתוח חכם של כל הנתונים, כולל שאלות שפתרת והושלמו בהצלחה.</p>
                         </div>
                         <button id="btn-generate-ai" onclick="generateAIReport()" class="bg-apple-textPrimary hover:bg-black text-white px-5 py-2.5 rounded-xl text-xs font-medium transition shadow-apple-sm flex items-center justify-center gap-2 whitespace-nowrap active:scale-95">
                             <i data-lucide="brain-circuit" class="w-4 h-4"></i>
@@ -482,8 +504,31 @@
                         </button>
                     </div>
 
+                    <!-- Statistics Cards -->
                     <div id="ai-stats-overview" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                         <!-- Dynamic stats cards -->
+                    </div>
+
+                    <!-- Charts Container -->
+                    <div id="ai-charts-section" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-apple-bg p-4 rounded-xl border border-apple-border">
+                            <h4 class="text-xs font-bold text-apple-textPrimary mb-3 flex items-center gap-1.5">
+                                <i data-lucide="pie-chart" class="w-3.5 h-3.5 text-apple-accent"></i>
+                                התפלגות טעויות לפי סיווגים
+                            </h4>
+                            <div class="h-48 relative flex items-center justify-center">
+                                <canvas id="chart-categories"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-apple-bg p-4 rounded-xl border border-apple-border">
+                            <h4 class="text-xs font-bold text-apple-textPrimary mb-3 flex items-center gap-1.5">
+                                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-apple-success"></i>
+                                מדד שליטה והתקדמות
+                            </h4>
+                            <div class="h-48 relative flex items-center justify-center">
+                                <canvas id="chart-mastery"></canvas>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- AI Response Content -->
@@ -500,6 +545,7 @@
         </div>
     </main>
 
+    <!-- Edit Mistake Modal -->
     <div id="edit-modal" onclick="if(event.target === this) closeEditModal()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="bg-white rounded-2xl p-6 max-w-lg w-full shadow-apple-lg border border-apple-border animate-fade-in max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4 pb-3 border-b border-apple-border/60">
@@ -555,12 +601,13 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
     <div id="settings-modal" onclick="if(event.target === this) closeSettingsModal()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="bg-white rounded-2xl p-6 max-w-lg w-full shadow-apple-lg border border-apple-border animate-fade-in max-h-[90vh] overflow-y-auto space-y-5">
             <div class="flex justify-between items-center pb-3 border-b border-apple-border/60">
                 <h3 class="text-sm font-bold text-apple-textPrimary flex items-center gap-2">
                     <i data-lucide="settings" class="w-4.5 h-4.5 text-apple-accent"></i>
-                    הגדרות מתקדמות
+                    הגדרות מתקדמות וסנכרון
                 </h3>
                 <button onclick="closeSettingsModal()" class="text-apple-textSecondary hover:text-apple-textPrimary p-1.5 rounded-full hover:bg-apple-grayBg transition">
                     <i data-lucide="x" class="w-4 h-4"></i>
@@ -613,12 +660,19 @@
                     </div>
                 </div>
 
-                <!-- Data Management Section -->
+                <!-- Fix Deletion Bug & Data Recovery Section -->
                 <div class="pt-2">
-                    <h4 class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider mb-1.5 ml-1">גיבוי ונתונים</h4>
+                    <h4 class="text-[10px] font-bold text-apple-textSecondary uppercase tracking-wider mb-1.5 ml-1">תיקון באג המחיקה וסנכרון נתונים</h4>
                     <div class="ios-group">
+                        <div class="ios-item bg-white cursor-pointer hover:bg-apple-grayBg transition active:bg-apple-border/40" onclick="triggerBugFixImport()">
+                            <span class="text-[11px] font-semibold text-apple-accent flex items-center gap-2">
+                                <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                                תיקון באג המחיקה (טען קובץ גיבוי ישן)
+                            </span>
+                            <input type="file" id="bugfix-file-input" accept=".json" onchange="handleBugFixImport(event)" class="hidden">
+                        </div>
                         <div class="ios-item bg-white cursor-pointer hover:bg-apple-grayBg transition active:bg-apple-border/40" onclick="exportData()">
-                            <span class="text-[11px] font-semibold text-apple-textPrimary flex items-center gap-2"><i data-lucide="download" class="w-3.5 h-3.5 text-apple-accent"></i> ייצא גיבוי (JSON)</span>
+                            <span class="text-[11px] font-semibold text-apple-textPrimary flex items-center gap-2"><i data-lucide="download" class="w-3.5 h-3.5 text-apple-accent"></i> ייצא גיבוי עדכני (JSON)</span>
                         </div>
                         <div class="ios-item bg-white cursor-pointer hover:bg-apple-grayBg transition active:bg-apple-border/40" onclick="triggerImport()">
                             <span class="text-[11px] font-semibold text-apple-textPrimary flex items-center gap-2"><i data-lucide="upload" class="w-3.5 h-3.5 text-apple-accent"></i> שחזר מקובץ...</span>
@@ -650,7 +704,7 @@
         </div>
     </div>
 
-    <!-- Custom Category Input Prompt Modal -->
+    <!-- Category Modal -->
     <div id="category-modal" onclick="if(event.target === this) closeCategoryModal()" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="bg-white rounded-2xl p-5 max-w-xs w-full shadow-apple-lg border border-apple-border animate-fade-in space-y-3">
             <h3 class="text-xs font-bold text-apple-textPrimary">הוספת קטגוריה חדשה</h3>
@@ -705,6 +759,10 @@
         let mistakes = [];
         let activeTab = 'add';
         let pendingCategorySelectId = null;
+
+        // Chart instances
+        let categoryChartInstance = null;
+        let masteryChartInstance = null;
 
         // Scanner State Variables
         let scannedAnswersData = [];
@@ -827,7 +885,7 @@
             setupKeyboardShortcuts();
             renderAllCategoryDropdowns();
             updateChaptersDatalist();
-            updateGreeting(); // NEW: Update the greeting in the header
+            updateGreeting();
             lucide.createIcons();
             updateReviewBadge();
             renderQuickStats();
@@ -862,7 +920,6 @@
                 }
             });
 
-            // Update Log filter dropdown
             const logCatFilter = document.getElementById('log-category-filter');
             if (logCatFilter) {
                 const cur = logCatFilter.value || 'ALL';
@@ -970,10 +1027,9 @@
                     btn?.classList.add('text-apple-textPrimary');
                     view?.classList.remove('hidden');
                     
-                    // Retrigger animation smoothly
                     if (view) {
                         view.classList.remove('animate-fade-in');
-                        void view.offsetWidth; // trigger reflow
+                        void view.offsetWidth;
                         view.classList.add('animate-fade-in');
                     }
                 } else {
@@ -991,6 +1047,11 @@
 
         function setupKeyboardShortcuts() {
             document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSettingsModal();
+                    closeEditModal();
+                    closeCategoryModal();
+                }
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                     if (activeTab === 'add') {
                         const form = document.getElementById('add-form');
@@ -1058,7 +1119,7 @@
         }
 
         function closeEditModal() {
-            document.getElementById('edit-modal').classList.add('hidden');
+            closeModalWithAnim('edit-modal');
         }
 
         function saveEditedMistake(e) {
@@ -1376,6 +1437,8 @@
                         reason: item.reason,
                         needsReview: true,
                         reviewAttempts: 0,
+                        correct: item.correct,
+                        userAns: item.userAns,
                         createdAt: new Date().toISOString()
                     };
                     mistakes.unshift(newMistake);
@@ -1413,22 +1476,7 @@
         }
 
         function renderQuickStats() {
-            const container = document.getElementById('desktop-quick-stats');
-            if (!container) return;
-
-            const total = mistakes.length;
-            const pending = mistakes.filter(m => m.needsReview).length;
-
-            container.innerHTML = `
-                <div class="bg-apple-bg p-3 rounded-xl border border-apple-border/60">
-                    <div class="text-[10px] text-apple-textSecondary font-semibold">סה"כ טעויות</div>
-                    <div class="text-base font-bold text-apple-textPrimary mt-0.5">${total}</div>
-                </div>
-                <div class="bg-apple-bg p-3 rounded-xl border border-apple-border/60">
-                    <div class="text-[10px] text-apple-textSecondary font-semibold">לסבב חזרה</div>
-                    <div class="text-base font-bold text-apple-warning mt-0.5">${pending}</div>
-                </div>
-            `;
+            // Quick stats update logic if needed
         }
 
         function renderReviewList() {
@@ -1488,8 +1536,7 @@
             lucide.createIcons();
         }
 
-        // --- NEW: Review Wizard Logic ---
-        
+        // --- Review Wizard Logic with Optional Answer Checker ---
         function startReviewWizard() {
             const chapterFilter = document.getElementById('review-chapter-filter').value;
             reviewWizardItems = mistakes.filter(m => m.needsReview);
@@ -1530,6 +1577,47 @@
             document.getElementById('review-wizard-chapter').textContent = `פרק: ${item.chapter}`;
             document.getElementById('review-wizard-question').textContent = `שאלה #${item.question}`;
             
+            // Reset answer checking input
+            const inputEl = document.getElementById('review-wizard-ans-input');
+            if (inputEl) inputEl.value = '';
+            handleReviewAnswerCheck('');
+
+            lucide.createIcons();
+        }
+
+        function handleReviewAnswerCheck(val) {
+            const currentItem = reviewWizardItems[reviewWizardIndex];
+            const feedbackEl = document.getElementById('review-ans-feedback');
+            const btnRemove = document.getElementById('rw-btn-remove');
+            const btnKeepRight = document.getElementById('rw-btn-keep-right');
+            const btnWrong = document.getElementById('rw-btn-wrong');
+            
+            if (!val || val.trim() === '') {
+                if (feedbackEl) feedbackEl.innerHTML = '';
+                if (btnRemove) btnRemove.className = "p-3 bg-apple-success/10 hover:bg-apple-success hover:text-white text-apple-success border border-apple-success/20 rounded-xl transition flex flex-col items-center gap-1.5";
+                if (btnKeepRight) btnKeepRight.className = "p-3 bg-apple-warning/10 hover:bg-apple-warning hover:text-white text-apple-warning border border-apple-warning/20 rounded-xl transition flex flex-col items-center gap-1.5";
+                if (btnWrong) btnWrong.className = "p-3 bg-apple-danger/10 hover:bg-apple-danger hover:text-white text-apple-danger border border-apple-danger/20 rounded-xl transition flex flex-col items-center gap-1.5";
+                return;
+            }
+
+            const num = parseInt(val.trim());
+            if (isNaN(num)) return;
+
+            if (currentItem && currentItem.correct) {
+                if (num === parseInt(currentItem.correct)) {
+                    if (feedbackEl) feedbackEl.innerHTML = '<span class="text-apple-success flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4"></i> תשובה נכונה!</span>';
+                    if (btnRemove) btnRemove.className = "p-3 bg-apple-success text-white border border-apple-success rounded-xl transition flex flex-col items-center gap-1.5 shadow-md scale-105";
+                    if (btnKeepRight) btnKeepRight.className = "p-3 bg-apple-warning/10 opacity-70 hover:opacity-100 text-apple-warning border border-apple-warning/20 rounded-xl transition flex flex-col items-center gap-1.5";
+                    if (btnWrong) btnWrong.className = "p-3 bg-apple-danger/10 opacity-50 hover:opacity-100 text-apple-danger border border-apple-danger/20 rounded-xl transition flex flex-col items-center gap-1.5";
+                } else {
+                    if (feedbackEl) feedbackEl.innerHTML = `<span class="text-apple-danger flex items-center gap-1"><i data-lucide="x-circle" class="w-4 h-4"></i> תשובה שגויה! (תשובת הספר: ${currentItem.correct})</span>`;
+                    if (btnRemove) btnRemove.className = "p-3 bg-gray-100 text-gray-400 border border-gray-200 opacity-50 hover:opacity-100 rounded-xl transition flex flex-col items-center gap-1.5";
+                    if (btnKeepRight) btnKeepRight.className = "p-3 bg-gray-100 text-gray-400 border border-gray-200 opacity-50 hover:opacity-100 rounded-xl transition flex flex-col items-center gap-1.5";
+                    if (btnWrong) btnWrong.className = "p-3 bg-apple-danger text-white border border-apple-danger rounded-xl transition flex flex-col items-center gap-1.5 shadow-md scale-105 ring-2 ring-apple-danger/30";
+                }
+            } else {
+                if (feedbackEl) feedbackEl.innerHTML = `<span class="text-apple-textSecondary">הזנת ${num}. בחר סיווג למטה:</span>`;
+            }
             lucide.createIcons();
         }
 
@@ -1542,8 +1630,8 @@
                 
                 if (action === 'remove') {
                     mistakes[mistakeIndex].needsReview = false;
+                    mistakes[mistakeIndex].completedAt = new Date().toISOString();
                 } 
-                // if 'keep_right' or 'wrong', needsReview remains true.
                 
                 saveData();
             }
@@ -1560,9 +1648,10 @@
 
             if (isSuccess) {
                 mistakes[index].needsReview = false;
+                mistakes[index].completedAt = new Date().toISOString();
                 saveData();
                 renderReviewList();
-                showToast(`שאלה ${mistakes[index].question} עברה בהצלחה!`, 'success');
+                showToast(`שאלה ${mistakes[index].question} עברה לסטטוס "הושלם"!`, 'success');
 
                 if (mistakes.filter(m => m.needsReview).length === 0) {
                     confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
@@ -1577,6 +1666,7 @@
         function renderLogList() {
             const container = document.getElementById('log-list-container');
             const searchVal = document.getElementById('log-search').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('log-status-filter').value;
             const catFilter = document.getElementById('log-category-filter').value;
             const chFilter = document.getElementById('log-chapter-filter').value;
 
@@ -1584,9 +1674,15 @@
                 const matchesSearch = item.chapter.toLowerCase().includes(searchVal) || 
                                      item.question.toString().includes(searchVal) ||
                                      item.reason.toLowerCase().includes(searchVal);
+                
+                let matchesStatus = true;
+                if (statusFilter === 'PENDING') matchesStatus = item.needsReview === true;
+                if (statusFilter === 'COMPLETED') matchesStatus = item.needsReview === false;
+
                 const matchesCat = catFilter === 'ALL' || item.category === catFilter;
                 const matchesCh = chFilter === 'ALL' || item.chapter === chFilter;
-                return matchesSearch && matchesCat && matchesCh;
+
+                return matchesSearch && matchesStatus && matchesCat && matchesCh;
             });
 
             if (filtered.length === 0) {
@@ -1611,8 +1707,8 @@
                                 <div class="text-xs font-semibold text-apple-textPrimary flex items-center gap-1.5">
                                     ${escapeHtml(item.chapter)}
                                     ${item.needsReview ? 
-                                        '<span class="w-2 h-2 rounded-full bg-apple-warning" title="ממתין לחזרה"></span>' : 
-                                        '<span class="w-2 h-2 rounded-full bg-apple-success" title="נפתרה"></span>'}
+                                        '<span class="px-2 py-0.5 text-[9px] font-bold rounded-full bg-apple-warning/10 text-apple-warning border border-apple-warning/20">ממתין לחזרה</span>' : 
+                                        '<span class="px-2 py-0.5 text-[9px] font-bold rounded-full bg-apple-success/10 text-apple-success border border-apple-success/20">הושלם ✓</span>'}
                                 </div>
                                 <div class="text-[10px] text-apple-textSecondary mt-0.5">${escapeHtml(item.category)}</div>
                             </div>
@@ -1634,14 +1730,14 @@
 
                         <div class="flex justify-between items-center mt-3 pt-2 border-t border-apple-border/60">
                             <div class="text-[10px] text-apple-textSecondary">
-                                תועד ב-${new Date(item.createdAt).toLocaleDateString('he-IL')}
+                                תועד ב-${new Date(item.createdAt).toLocaleDateString('he-IL')} ${item.completedAt ? ' • הושלם ב-' + new Date(item.completedAt).toLocaleDateString('he-IL') : ''}
                             </div>
                             <div class="flex items-center gap-3">
                                 <button onclick="openEditModal('${item.id}')" class="text-xs text-apple-accent hover:underline font-medium flex items-center gap-0.5">
                                     <i data-lucide="edit-2" class="w-3 h-3"></i> עריכה
                                 </button>
                                 <button onclick="toggleNeedsReview('${item.id}')" class="text-xs text-apple-accent hover:underline font-medium">
-                                    ${item.needsReview ? 'הסר מחזרה' : 'החזר לחזרה'}
+                                    ${item.needsReview ? 'סמן כהושלם' : 'החזר לחזרה'}
                                 </button>
                                 <button onclick="confirmDelete('${item.id}')" class="text-xs text-apple-danger hover:underline font-medium">
                                     מחק
@@ -1671,9 +1767,10 @@
             const item = mistakes.find(m => m.id === id);
             if (item) {
                 item.needsReview = !item.needsReview;
+                if (!item.needsReview) item.completedAt = new Date().toISOString();
                 saveData();
                 renderLogList();
-                showToast(item.needsReview ? 'הוחזר לרשימת החזרה' : 'הוסר מרשימת החזרה');
+                showToast(item.needsReview ? 'הוחזר לרשימת החזרה' : 'סומן כהושלם בהצלחה');
             }
         }
 
@@ -1692,6 +1789,8 @@
 
             const total = mistakes.length;
             const reviewPending = mistakes.filter(m => m.needsReview).length;
+            const completedCount = total - reviewPending;
+            const masteryRate = total > 0 ? Math.round((completedCount / total) * 100) : 0;
             
             const catCounts = {};
             mistakes.forEach(m => {
@@ -1709,7 +1808,7 @@
 
             container.innerHTML = `
                 <div class="bg-white p-3.5 rounded-xl border border-apple-border shadow-apple-sm">
-                    <div class="text-[11px] text-apple-textSecondary font-medium">סה"כ טעויות</div>
+                    <div class="text-[11px] text-apple-textSecondary font-medium">סה"כ טעויות תועדו</div>
                     <div class="text-xl font-bold text-apple-textPrimary mt-0.5">${total}</div>
                 </div>
                 <div class="bg-white p-3.5 rounded-xl border border-apple-border shadow-apple-sm">
@@ -1718,13 +1817,69 @@
                 </div>
                 <div class="bg-white p-3.5 rounded-xl border border-apple-border shadow-apple-sm">
                     <div class="text-[11px] text-apple-textSecondary font-medium">הושלמו בהצלחה</div>
-                    <div class="text-xl font-bold text-apple-success mt-0.5">${total - reviewPending}</div>
+                    <div class="text-xl font-bold text-apple-success mt-0.5">${completedCount} (${masteryRate}%)</div>
                 </div>
                 <div class="bg-white p-3.5 rounded-xl border border-apple-border shadow-apple-sm">
                     <div class="text-[11px] text-apple-textSecondary font-medium">חולשה עיקרית</div>
                     <div class="text-xs font-bold text-apple-danger mt-1 truncate" title="${topCat}">${topCat}</div>
                 </div>
             `;
+
+            renderAnalyticsCharts(catCounts, completedCount, reviewPending);
+        }
+
+        function renderAnalyticsCharts(catCounts, completed, pending) {
+            // Render Category Doughnut Chart
+            const ctxCat = document.getElementById('chart-categories')?.getContext('2d');
+            if (ctxCat) {
+                if (categoryChartInstance) categoryChartInstance.destroy();
+
+                const labels = Object.keys(catCounts);
+                const data = Object.values(catCounts);
+
+                categoryChartInstance = new Chart(ctxCat, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels.length > 0 ? labels : ['אין נתונים'],
+                        datasets: [{
+                            data: data.length > 0 ? data : [1],
+                            backgroundColor: ['#0071e3', '#ff9500', '#ff3b30', '#34c759', '#af52de', '#5856d6', '#5ac8fa', '#ff2d55']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { font: { size: 10 } } }
+                        }
+                    }
+                });
+            }
+
+            // Render Mastery Bar Chart
+            const ctxMastery = document.getElementById('chart-mastery')?.getContext('2d');
+            if (ctxMastery) {
+                if (masteryChartInstance) masteryChartInstance.destroy();
+
+                masteryChartInstance = new Chart(ctxMastery, {
+                    type: 'bar',
+                    data: {
+                        labels: ['הושלמו בהצלחה (Mastered)', 'ממתינים לחזרה (Pending)'],
+                        datasets: [{
+                            label: 'מספר שאלות',
+                            data: [completed, pending],
+                            backgroundColor: ['#34c759', '#ff9500'],
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+                    }
+                });
+            }
         }
 
         async function generateAIReport() {
@@ -1743,7 +1898,7 @@
             reportContainer.innerHTML = `
                 <div class="text-center py-8">
                     <i data-lucide="sparkles" class="w-7 h-7 text-apple-accent animate-pulse mx-auto mb-2"></i>
-                    <p class="font-semibold text-xs text-apple-textPrimary">מנתח לעומק את כל הפירוט והסיבות של ${mistakes.length} הטעויות שלך...</p>
+                    <p class="font-semibold text-xs text-apple-textPrimary">מנתח לעומק את כל ${mistakes.length} הטעויות שלך (כולל היסטוריית שאלות שהושלמו ומגמות שיפור)...</p>
                 </div>
             `;
             lucide.createIcons();
@@ -1751,20 +1906,20 @@
             const userApiKey = localStorage.getItem('my800_api_key') || '';
             const selectedModel = localStorage.getItem('my800_ai_model') || 'gemini-3-flash-preview';
 
-            // Enrich prompt with ALL user notes, categories, chapters, and question details
-            const errorsDetailedList = mistakes.slice(0, 35).map((m) => 
-                `• פרק: "${m.chapter}" | שאלה #${m.question} | סיווג: [${m.category}] | פירוט הסיבה וההערה: "${m.reason}"`
+            const errorsDetailedList = mistakes.slice(0, 45).map((m) => 
+                `• פרק: "${m.chapter}" | שאלה #${m.question} | סיווג: [${m.category}] | סטטוס: [${m.needsReview ? 'ממתין לחזרה' : 'הושלם בהצלחה'}] | ניסיונות: ${m.reviewAttempts || 0} | פירוט הסיבה וההערה: "${m.reason}"`
             ).join('\n');
 
-            const systemPrompt = `אתה מדריך פסיכומטרי בכיר, חד ומנוסה. תפקידך לתת אבחון ממוקד, מדויק ואיכותי (עד 180 מילים בלבד) בעברית בפורמט Markdown קריא ונקי. עיין בכל הפירוטים והסיבות שהתלמיד רשם.`;
+            const systemPrompt = `אתה מדריך פסיכומטרי בכיר, חד ומנוסה מאוד. תפקידך לתת אבחון ממוקד, מדויק ואיכותי בעברית בפורמט Markdown קריא ונקי. עיין בכל הפירוטים והסיבות שהתלמיד רשם, כולל שאלות שכבר נפתרו והושלמו בהצלחה, כדי לזהות מגמות שיפור, דפוסי כשל חוזרים ומלכודות.`;
             const userPrompt = `להלן הפירוט המלא של ${mistakes.length} הטעויות המתועדות שלי בפסיכומטרי:
 
 ${errorsDetailedList}
 
-אנא הפק דו"ח אבחון מרוכז ב-3 חלקים חדים:
-1. **אבחון דפוסי חולשה מרכזיים** (קרא את הסיבות והערות התלמיד וסכם את הכשל הנפוץ)
-2. **הטעות הקריטית ביותר לתקן מיד**
-3. **3 המלצות זהב מעשיות לשיפור**`;
+אנא הפק דו"ח אבחון מרוכז ומרהיב ב-4 חלקים חדים:
+1. **תקציר מנהלים ומגמות בלמידה** (סכם את קצב ההתקדמות ומדד השליטה)
+2. **אבחון דפוסי חולשה ומלכודות שחוזרות על עצמן** (מה הכשל הנפוץ ביותר מתוך הפירוטים?)
+3. **הטעות הקריטית ביותר לתקן מיד**
+4. **3 המלצות זהב מעשיות לשיפור והאצת זמנים**`;
 
             try {
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${userApiKey}`;
@@ -1836,6 +1991,70 @@ ${errorsDetailedList}
             document.getElementById('import-file-input').click();
         }
 
+        function triggerBugFixImport() {
+            document.getElementById('bugfix-file-input').click();
+        }
+
+        function handleBugFixImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    let importedList = [];
+                    if (Array.isArray(imported)) {
+                        importedList = imported;
+                    } else if (imported && Array.isArray(imported.mistakes)) {
+                        importedList = imported.mistakes;
+                    }
+
+                    if (importedList.length === 0) {
+                        showToast('לא נמצאו נתונים בקובץ הגיבוי', 'warning');
+                        return;
+                    }
+
+                    let recoveredCount = 0;
+                    let updatedCount = 0;
+
+                    importedList.forEach(imp => {
+                        const existing = mistakes.find(m => m.id === imp.id || (m.chapter === imp.chapter && m.question === imp.question));
+                        
+                        if (!existing) {
+                            const recoveredItem = {
+                                ...imp,
+                                id: imp.id || ('m_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
+                                needsReview: false,
+                                completedAt: imp.completedAt || new Date().toISOString()
+                            };
+                            mistakes.push(recoveredItem);
+                            recoveredCount++;
+                        } else {
+                            if (imp.correct && !existing.correct) existing.correct = imp.correct;
+                            if (imp.userAns && !existing.userAns) existing.userAns = imp.userAns;
+                            if (imp.reason && (!existing.reason || existing.reason.length < imp.reason.length)) {
+                                existing.reason = imp.reason;
+                            }
+                            updatedCount++;
+                        }
+                    });
+
+                    saveData();
+                    renderReviewList();
+                    renderLogList();
+                    renderAIOverviewStats();
+                    
+                    showToast(`סנכרון הושלם: שוחזרו ${recoveredCount} שאלות ועודכנו ${updatedCount} שאלות!`, 'success');
+                    closeSettingsModal();
+                } catch(err) {
+                    console.error('Bug fix import error:', err);
+                    showToast('שגיאה בפענוח קובץ הגיבוי', 'danger');
+                }
+            };
+            reader.readAsText(file);
+        }
+
         function handleFileImport(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1873,20 +2092,16 @@ ${errorsDetailedList}
             loadSettingsToUI();
             renderCategoryManageChips();
             document.getElementById('settings-modal').classList.remove('hidden');
-            
-            // UX: Auto-focus the new category input to save clicks
             setTimeout(() => document.getElementById('setting-new-category').focus(), 50);
         }
 
         function closeModalWithAnim(modalId) {
             const modal = document.getElementById(modalId);
             if (!modal) return;
-            // הוספת קלאס שקיפות לאנימציית יציאה
             modal.classList.add('opacity-0');
-            // המתנה לסיום האנימציה לפני ההעלמה המוחלטת
             setTimeout(() => {
                 modal.classList.add('hidden');
-                modal.classList.remove('opacity-0'); // איפוס לפעם הבאה
+                modal.classList.remove('opacity-0');
             }, 300);
         }
 
